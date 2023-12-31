@@ -1,6 +1,7 @@
-﻿namespace Stage0
+﻿
+namespace Stage0
 {
-    partial class Program
+    public partial class Program
     {
         static void Main(string[] args)
         {
@@ -17,3 +18,4 @@
         }
     }
 }
+

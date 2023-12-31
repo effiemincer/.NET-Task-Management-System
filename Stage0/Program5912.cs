@@ -8,7 +8,7 @@ namespace Stage0
 {
     partial class Program
     {
-        static partial void Welcome5912()
+        private static void Welcome5912()
         {
             Console.WriteLine("I am also here!");
         }
