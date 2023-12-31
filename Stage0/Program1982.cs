@@ -9,8 +9,6 @@
             Console.ReadKey();
         }
 
-        static partial void Welcome5912();
-
         private static void Welcome1982()
         {
             Console.Write("Enter your name: ");
