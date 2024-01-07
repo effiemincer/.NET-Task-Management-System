@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 namespace DO;
 
 
-/*
-Engineer:
-ID - A unique identifier
-Full name
-Email address
-Experience level
-Cost per hour
- */
+//<param name="Id">A unique identifier (created automatically)</param>
+//<param name="Full name"></param>
+//<param name="Email address"></param>
+//<param name="Experience level"></param>
+//<param name="Cost per hour"></param>
 public record Engineer
 (
     int ID,
