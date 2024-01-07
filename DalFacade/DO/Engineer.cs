@@ -19,6 +19,7 @@ public record Engineer
     int ID,
     string FullName,
     string EmailAddress,
+    //enum
     string? ExperienceLevel = null,
     double? CostPerHour = null
 )

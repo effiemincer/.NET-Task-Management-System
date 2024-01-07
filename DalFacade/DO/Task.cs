@@ -36,6 +36,7 @@ public record Task
 
     DateTime ProjectedStartDate,
 
+    //enum
     int DegreeOfDifficulty,
 
     //should be initialized --> is this required?
