@@ -6,12 +6,14 @@
 
 namespace DO;
 
-
-//<param name="Id">A unique identifier (created automatically)</param>
-//<param name="Full name"></param>
-//<param name="Email address"></param>
-//<param name="Experience level"></param>
-//<param name="Cost per hour"></param>
+/// <summary> 
+/// Engineer 
+///</summary>
+/// <param name="Id">A unique identifier (created automatically)</param>
+/// <param name="Full name"></param>
+/// <param name="Email address"></param>
+/// <param name="Experience level"></param>
+/// <param name="Cost per hour"></param>
 public record Engineer
 (
     int ID,
