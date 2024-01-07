@@ -25,8 +25,37 @@ namespace DO;
 //<param name = "Degree of difficulty"></param>
 public record Task
 (
-    int ID
+    int Id,
+
+    string Nickname,
+
+    string Description,
+
+    int Duration,
+
+    DateTime Deadline,
+
+    DateTime ProjectedStartDate,
+
+    int DegreeOfDifficulty,
+
+    //should be initialized --> is this required?
+    int AssignedEngineerId,
+
+    DateTime? ActualEndDate = null,
+
+    DateTime DateCreated = new DateTime(),
+
+    bool IsMilestone = false,
+
+    DateTime? ActualStartDate = null,
+
+    string Deliverable = "",
+
+    string Notes = ""
+
 )
 {
-
+    //empty ctor
+    public Task() : this(0, "", "", 0, new DateTime(), new DateTime(), 0, 0) {}
 }
