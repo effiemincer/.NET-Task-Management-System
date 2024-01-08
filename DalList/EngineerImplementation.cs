@@ -13,7 +13,13 @@ public class EngineerImplementation : IEngineer
         {
             throw new Exception("object with that id already exists!");
         }
-        Engineer engineerCopy = new Engineer(Id, engineer.FullName, engineer.EmailAddress);
+        Engineer engineerCopy = new Engineer(
+            Id, 
+            engineer.FullName, 
+            engineer.EmailAddress,
+            engineer?.ExperienceLevel,
+            engineer?.CostPerHour
+        );
         DataSource.Engineers.Add(engineerCopy);
         return Id;
     }

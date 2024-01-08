@@ -15,15 +15,22 @@ public class TaskImplementation : ITask
         }
         // just doing non-preset feilds here not sure if were supposed to do that
         // until we have more constructors
+
         Task taskCopy = new Task(
-            Id, 
-            task.Nickname //, 
-            //task.Description, 
-            //task.Duration, 
-            //task.Deadline, 
-            //task.ProjectedStartDate, 
-            //task.DegreeOfDifficulty, 
-            //task.AssignedEngineerId
+            Id,
+            task.Nickname,
+            task.DateCreated,
+            task?.Description ?? "",
+            task?.Duration ?? 0,
+            task?.Deadline,
+            task?.ProjectedStartDate,
+            task?.DegreeOfDifficulty ?? Enums.Difficulty.DefaultValue,
+            task?.AssignedEngineerId ?? 0,
+            task?.ActualEndDate ?? DateTime.MinValue,
+            task.IsMilestone,
+            task?.ActualStartDate ?? DateTime.MinValue,
+            task?.Deliverable ?? "",
+            task?.Notes ?? ""
         );
         DataSource.Tasks.Add( taskCopy );
         return Id;

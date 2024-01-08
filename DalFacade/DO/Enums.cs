@@ -5,6 +5,6 @@ public record Enums
 {
     public enum Difficulty
     {
-        Novice, Intermediate, Advanced, Expert
+        DefaultValue, Novice, Intermediate, Advanced, Expert
     }
 }

@@ -13,7 +13,16 @@ public class DependencyImplementation : IDependency
         {
             throw new Exception("object with that id already exists!");
         }
-        Dependency dependencyCopy = new Dependency(Id);
+        Dependency dependencyCopy = new Dependency(
+            Id,
+            dependency?.DependentTaskId,
+            dependency?.RequisiteID,
+            dependency?.CustomerEmail,
+            dependency?.ShippingAddress,
+            dependency.OrderCreationDate,
+            dependency?.ShippingDate,
+            dependency?.DeliveryDate
+            );
         DataSource.Dependencies.Add(dependencyCopy);
         return Id;
     }

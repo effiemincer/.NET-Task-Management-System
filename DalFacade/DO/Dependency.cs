@@ -34,5 +34,5 @@ public record Dependency
     )
 {
     //empty ctor
-    public Dependency() : this(0) { }
+    //public Dependency() : this(0) { }
 }
