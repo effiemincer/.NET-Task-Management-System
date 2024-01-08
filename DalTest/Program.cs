@@ -14,8 +14,7 @@ internal class Program
     {
         DalTest.Initialization.Do(s_dalTask, s_dalEngineer, s_dalDependency);
 
-        int? userInput = null, ignoreKey;
-
+        string? userInput = null;
 
         while (true)
         {
@@ -26,16 +25,14 @@ internal class Program
             "2. Engineer\n" +
             "3. Dependency");
 
-            //take in user input with 2 ignore keys for empty values
-            userInput = Console.Read();
-            ignoreKey = Console.Read();
-            ignoreKey = Console.Read();
+            //take in user input
+            userInput = Console.ReadLine();
 
             //exit main menu
-            if (userInput == '0') { return; }
+            if (userInput == "0") { return; }
 
             //Task Menu
-            else if (userInput == '1')
+            else if (userInput == "1")
             {
                 Console.WriteLine("\nEnter a character for which action to do in Task:\n" +
                     "a. Go back\n" +
@@ -45,16 +42,15 @@ internal class Program
                     "e. Update an object - Update()\n" +
                     "f. Delete an object from the object list – Delete()");
 
-                //take in user input with 2 ignore keys for empty values
-                userInput = Console.Read();
-                ignoreKey = Console.Read();
-                ignoreKey = Console.Read();
+                //take in user input
+                userInput = Console.ReadLine();
 
                 switch (userInput)
                 {
-                    case 'a': break; //go back to main menu
+                    case "a": break; //go back to main menu
 
-                    case 'b': //create
+            //------------------ Create Task ----------------------------
+                    case "b": 
                         Console.WriteLine("Enter name of task: ");
                         string name = Console.ReadLine() ?? "";
                         name = name=="" ? "Empty Name" : name; 
@@ -68,7 +64,11 @@ internal class Program
                         string? description = Console.ReadLine();
 
                         Console.WriteLine("Enter duration of task (hours): ");
-                        int? duration = Convert.ToInt32(Console.ReadLine());
+                        input = Console.ReadLine();
+                        int? duration;
+
+                        if (input == "") duration = null;
+                        else duration = Convert.ToInt32(Console.ReadLine());
 
                         Console.WriteLine("Enter deadline of task (mm/dd/yyyy): ");
                         input = Console.ReadLine();
@@ -127,9 +127,8 @@ internal class Program
                         string? notes = Console.ReadLine();
 
                         Console.WriteLine("Enter whether task is inactive (Y/N): ");
-                        string inactiveString = Console.ReadLine() ?? "N";
-                        bool inactive = false;
-                        if (inactiveString == "Y") inactive = true;
+                        input = Console.ReadLine();
+                        bool inactive = input! == "Y" ? true : false;
 
                         try
                         {
@@ -143,7 +142,8 @@ internal class Program
                         break;
 
 
-                    case 'c': //read
+            //---------------- Read Task ---------------------------
+                    case "c": //read
                         Console.WriteLine("Enter object ID: ");
                         string? stringId = Console.ReadLine();
                         if (stringId != "")
@@ -151,7 +151,12 @@ internal class Program
                             int intId = Convert.ToInt32(stringId);
                             try
                             {
-                                Console.WriteLine(s_dalTask!.Read(intId));
+                                DO.Task task1 = s_dalTask!.Read(intId);
+
+                                if (task1 is not null) Console.WriteLine(task1);    //if task is found
+
+                                else Console.WriteLine("Task not found.");
+
                             }
                             catch (Exception ex)
                             {
@@ -161,10 +166,16 @@ internal class Program
                         else Console.WriteLine("No ID entered.");
                         break;
 
-                    case 'd': //readAll
+             //------------------- Read All tasks -------------------------
+                    case "d": //readAll
                         try
                         {
-                            Console.WriteLine(s_dalTask!.ReadAll());
+                            //for loop to print them all
+                            foreach(DO.Task var_task in s_dalTask!.ReadAll())
+                            {
+                                Console.WriteLine(var_task);
+                                Console.WriteLine();
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -173,7 +184,8 @@ internal class Program
 
                         break;
 
-                    case 'e':  //update
+        //------------------ Update task ----------------------
+                    case "e":  //update
                         Console.WriteLine("Enter task ID to update: "); 
                         stringId = Console.ReadLine();
                         DO.Task? t;
@@ -197,7 +209,7 @@ internal class Program
 
                         break;
 
-                    case 'f':   //delete
+                    case "f":   //delete
                         Console.WriteLine("Enter object ID you want to delete: ");
                         stringId = Console.ReadLine();
                         if (stringId != "")
@@ -220,7 +232,7 @@ internal class Program
             }
 
             //Engineer Menu
-            else if (userInput == '2')
+            else if (userInput == "2")
             {
                 Console.WriteLine("\nEnter a character for which action to do in Engineer:\n" +
                     "a. Go back\n" +
@@ -230,38 +242,36 @@ internal class Program
                     "e. Update an object - Update()\n" +
                     "f. Delete an object from the object list – Delete()");
 
-                //take in user input with 2 ignore keys for empty values
-                userInput = Console.Read();
-                ignoreKey = Console.Read();
-                ignoreKey = Console.Read();
+                //take in user input
+                userInput = Console.ReadLine();
 
                 switch (userInput)
                 {
 
-                    case 'a': break; //go back to main menu
+                    case "a": break; //go back to main menu
 
-                    case 'b': //create
+                    case "b": //create
                         Console.WriteLine("Enter name of the engineer: ");
                         string? name = Console.ReadLine();
 
                         break;
 
-                    case 'c': //read
+                    case "c": //read
                         Console.WriteLine("Enter object ID: ");
                         string? stringId = Console.ReadLine();
                         int? intId = Convert.ToInt32(stringId);
 
                         break;
 
-                    case 'd': //readAll
+                    case "d": //readAll
                         Console.WriteLine();
                         break;
 
-                    case 'e':  //update
+                    case "e":  //update
                         Console.WriteLine();
                         break;
 
-                    case 'f':   //delete
+                    case "f":   //delete
                         Console.WriteLine("Enter object ID you want to delete: ");
                         stringId = Console.ReadLine();
                         intId = Convert.ToInt32(stringId);
@@ -270,7 +280,7 @@ internal class Program
 
             }
 
-            else if (userInput == '3')
+            else if (userInput == "3")
             {
                 Console.WriteLine("\nEnter a character for which action to do in Engineer:\n" +
                     "a. Go back\n" +
@@ -280,38 +290,36 @@ internal class Program
                     "e. Update an object - Update()\n" +
                     "f. Delete an object from the object list – Delete()");
 
-                //take in user input with 2 ignore keys for empty values
-                userInput = Console.Read();
-                ignoreKey = Console.Read();
-                ignoreKey = Console.Read();
+                //take in user input
+                userInput = Console.ReadLine();
 
                 switch (userInput)
                 {
-                    case 'a': break; //go back to main menu
 
-                    case 'b': //create
+                    case "a": break; //go back to main menu
+
+                    case "b": //create
                         Console.WriteLine("Enter name of the engineer: ");
                         string? name = Console.ReadLine();
 
                         break;
 
-
-                    case 'c': //read
+                    case "c": //read
                         Console.WriteLine("Enter object ID: ");
                         string? stringId = Console.ReadLine();
                         int? intId = Convert.ToInt32(stringId);
 
                         break;
 
-                    case 'd': //readAll
+                    case "d": //readAll
                         Console.WriteLine();
                         break;
 
-                    case 'e':  //update
+                    case "e":  //update
                         Console.WriteLine();
                         break;
 
-                    case 'f':   //delete
+                    case "f":   //delete
                         Console.WriteLine("Enter object ID you want to delete: ");
                         stringId = Console.ReadLine();
                         intId = Convert.ToInt32(stringId);
@@ -321,7 +329,7 @@ internal class Program
 
             else
             {
-                Console.WriteLine("Response not valid, try again.\n");
+                Console.WriteLine("Response not valid, try again.");
             }
         }
     }
