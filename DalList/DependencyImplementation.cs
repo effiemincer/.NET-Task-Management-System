@@ -19,7 +19,7 @@ public class DependencyImplementation : IDependency
             dependency?.RequisiteID ?? 0,
             dependency?.CustomerEmail ?? "",
             dependency?.ShippingAddress ?? "",
-            dependency.OrderCreationDate,
+            dependency?.OrderCreationDate ?? DateTime.Now,
             dependency?.ShippingDate,
             dependency?.DeliveryDate
             );
