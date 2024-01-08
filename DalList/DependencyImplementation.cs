@@ -15,10 +15,10 @@ public class DependencyImplementation : IDependency
         }
         Dependency dependencyCopy = new Dependency(
             Id,
-            dependency?.DependentTaskId,
-            dependency?.RequisiteID,
-            dependency?.CustomerEmail,
-            dependency?.ShippingAddress,
+            dependency?.DependentTaskId ?? 0,
+            dependency?.RequisiteID ?? 0,
+            dependency?.CustomerEmail ?? "",
+            dependency?.ShippingAddress ?? "",
             dependency.OrderCreationDate,
             dependency?.ShippingDate,
             dependency?.DeliveryDate

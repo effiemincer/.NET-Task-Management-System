@@ -40,10 +40,7 @@ static internal class DalTest
 
                 int _assignedEngId = s_random.Next(2000000, 4000000); //Teduat zehut
 
-                //how do I initialize this without an ID???
-                Task newTask = new Task(0, var_task, DateTime.Now, _description, _duration,_deadline, _startDate, _difficulty,_assignedEngId);
-
-                s_dalTask!.Create(newTask);
+                s_dalTask!.Create(new Task(0, var_task, DateTime.Now, _description, _duration, _deadline, _startDate, _difficulty, _assignedEngId));
 
             }
 
@@ -51,12 +48,80 @@ static internal class DalTest
 
         private static void createEngineers()
         {
+            string[] EngineerNames =
+            {
+                "John Smith", "Alice Johnson", "David Miller", "Emily White", "Michael Davis",
+                "Sophia Turner", "Brian Robinson", "Olivia Hall", "Daniel Carter", "Grace Taylor"
+            };
 
+            string[] EmailAddresses =
+            {
+                "john.smith@example.com",
+                "alice.johnson@example.com",
+                "david.miller@example.com",
+                "emily.white@example.com",
+                "michael.davis@example.com",
+                "sophia.turner@example.com",
+                "brian.robinson@example.com",
+                "olivia.hall@example.com",
+                "daniel.carter@example.com",
+                "grace.taylor@example.com"
+            };
+
+            for (int i = 0; i < EngineerNames.Length; ++i) {
+
+                double _cost  = s_random.Next(30, 60);
+                s_dalEngineer!.Create(new Engineer(0, EngineerNames[i], EmailAddresses[i], "default", _cost));
+            }
         }
 
         private static void createDependencies()
         {
+            string[] EmailAddresses =
+            {
+                "john.smith@example.com",
+                "alice.johnson@example.com",
+                "david.miller@example.com",
+                "emily.white@example.com",
+                "michael.davis@example.com",
+                "sophia.turner@example.com",
+                "brian.robinson@example.com",
+                "olivia.hall@example.com",
+                "daniel.carter@example.com",
+                "grace.taylor@example.com"
+            };
 
+            string[] ShippingAddresses =
+            {
+                "123 Main St, Apt 4, Cityville, State, 12345",
+                "456 Oak Ln, Unit 8, Townsville, State, 54321",
+                "789 Pine Rd, Suite 12, Villagetown, State, 67890",
+                "101 Elm St, Lot 3, Boroughville, State, 98765",
+                "202 Maple Ave, Building 6, Hamletsville, State, 24680",
+                "303 Cedar Blvd, Floor 2, Countryside, State, 13579",
+                "404 Birch Ct, Room 15, Ruralville, State, 86420",
+                "505 Redwood Dr, Box 7, Outskirts, State, 97531",
+                "606 Spruce Lane, Trailer 9, Farmland, State, 46852",
+                "707 Fir Street, Loft 21, Wilderness, State, 35714"
+            };
+
+
+            for (int i = 0; i < EmailAddresses.Length; ++i) {
+
+                DateTime _creation = DateTime.Now;
+                
+                DateTime _shipping = DateTime.Now;
+                int _shippingAddition = s_random.Next(2, 365);
+                _shipping.AddDays(_shippingAddition);
+
+                int _deliveryAddition = s_random.Next(1, 7);
+                DateTime _delivery = _shipping.AddDays(_deliveryAddition);
+
+                int taskID = s_random.Next(9000, 9999);
+                int reqID = s_random.Next(1000, 1999);
+
+                s_dalDependency!.Create(new Dependency(0, taskID, reqID, EmailAddresses[i], ShippingAddresses[i], _creation, _shipping, _delivery));
+            }
         }
     }
 }

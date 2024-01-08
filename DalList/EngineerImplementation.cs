@@ -17,8 +17,8 @@ public class EngineerImplementation : IEngineer
             Id, 
             engineer.FullName, 
             engineer.EmailAddress,
-            engineer?.ExperienceLevel,
-            engineer?.CostPerHour
+            engineer?.ExperienceLevel ?? "",
+            engineer?.CostPerHour ?? 0
         );
         DataSource.Engineers.Add(engineerCopy);
         return Id;
