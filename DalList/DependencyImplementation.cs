@@ -20,7 +20,7 @@ public class DependencyImplementation : IDependency
 
     public Dependency? Read(int id)
     {
-        Dependency? foundDependency = DataSource.Dependencies.FirstOrDefault(dependency => dependency.Id == id && dependency.inactive == false);
+        Dependency? foundDependency = DataSource.Dependencies.FirstOrDefault(dependency => dependency.Id == id && dependency.Inactive == false);
 
         // If an object with the specified Id exists, return a reference to the object; otherwise, return null
         return foundDependency;
@@ -33,7 +33,7 @@ public class DependencyImplementation : IDependency
 
     public void Update(Dependency dependency)
     {
-        int index = DataSource.Dependencies.FindIndex(d => d.Id == dependency.Id && d.inactive == false);
+        int index = DataSource.Dependencies.FindIndex(d => d.Id == dependency.Id && d.Inactive == false);
         if (index == -1)
         {
             throw new Exception($"object of type Dependency with identifier {dependency.Id} does not exist");
@@ -54,11 +54,11 @@ public class DependencyImplementation : IDependency
             throw new Exception($"object of type Dependency with identifier {id} does not exist");
         }
 
-        Dependency inactiveDependency= DataSource.Dependencies[index] with { inactive = true };
+        Dependency inactiveDependency= DataSource.Dependencies[index] with { Inactive = true };
 
         DataSource.Dependencies.RemoveAt(index);
 
-        // Add the inactive engineer
+        // Add the Inactive engineer
         DataSource.Dependencies.Add(inactiveDependency);
     }   
     

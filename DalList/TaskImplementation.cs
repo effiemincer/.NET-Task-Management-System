@@ -33,7 +33,7 @@ public class TaskImplementation : ITask
 
     public Task? Read(int id)
     {
-        Task? foundTask= DataSource.Tasks.FirstOrDefault(task => task.Id == id && task.inactive == false);
+        Task? foundTask= DataSource.Tasks.FirstOrDefault(task => task.Id == id && task.Inactive == false);
 
         // If an object with the specified Id exists, return a reference to the object; otherwise, return null
         return foundTask;
@@ -46,7 +46,7 @@ public class TaskImplementation : ITask
 
     public void Update(Task task)
     {
-        int index = DataSource.Tasks.FindIndex(t => t.Id == task.Id && t.inactive == false);
+        int index = DataSource.Tasks.FindIndex(t => t.Id == task.Id && t.Inactive == false);
         if (index == -1)
         {
             throw new Exception($"object of type Task with identifier {task.Id} does not exist");
@@ -68,7 +68,7 @@ public class TaskImplementation : ITask
             throw new Exception($"object of type Task with identifier {id} does not exist");
         }
 
-        Task inactiveTask = DataSource.Tasks[index] with { inactive = true };
+        Task inactiveTask = DataSource.Tasks[index] with { Inactive = true };
 
         DataSource.Tasks.RemoveAt(index);
 

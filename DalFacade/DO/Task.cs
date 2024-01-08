@@ -7,6 +7,9 @@
 
 namespace DO;
 
+/// <summary>
+/// Tasks: a task assigned to an engineer to complete
+/// </summary>
 
 /// <param name = "Id" > unique ID(created automatically)</param>
 /// <param name = "Nickname"></param>
@@ -22,6 +25,7 @@ namespace DO;
 ///<param name = "Notes"></param>
 ///<param name = "Assigned engineer ID"></param>
 /// <param name = "Degree of difficulty"></param>
+/// <param name="Inactive"> (T/F) </param>
 public record Task
 (
     int Id,
@@ -40,7 +44,7 @@ public record Task
     DateTime? ActualStartDate = null,
     string Deliverable = "",
     string Notes = "",
-    bool? inactive = false
+    bool Inactive = false
 
 )
 {

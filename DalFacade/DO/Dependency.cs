@@ -8,29 +8,29 @@ using System.Threading.Tasks;
 namespace DO;
 
 /// <summary>
-/// Dependency
+/// Dependency: limits the completion of tasks to certain dependiencies
 /// </summary>
-/*
-ID - A unique identifier(automatic)
-Dependent task ID
-Requisite(DependsOn) ID
-Customer’s email
-Shipping address
-Order creation date
-Shipping date
-Delivery date
-*/
+
+/// <param name = "Id">A unique identifier(automatic)</param>
+/// <param name = "DependentTaskId"></param>
+/// <param name = "RequisiteID">(DependsOn) </param>
+/// <param name = "CustomerEmail"></param>
+/// <param name = "ShippingAddress"></param>
+/// <param name = "OrderCreationDate"></param>
+/// <param name = "ShippingDate"></param>
+/// <param name = "DeliveryDate"></param>
+/// <param name="Inactive"> (T/F) </param>
 public record Dependency
 (
     int Id,
-    int? DependentTaskID = null,
+    int? DependentTaskId = null,
     int? RequisiteID = null,
     string? CustomerEmail = null,
     string? ShippingAddress = null,
     DateTime OrderCreationDate = new DateTime(),
     DateTime? ShippingDate = null,
     DateTime? DeliveryDate = null,
-    bool? inactive = false
+    bool Inactive = false
     )
 {
     //empty ctor

@@ -20,7 +20,7 @@ public class EngineerImplementation : IEngineer
 
     public Engineer? Read(int id)
     {
-        Engineer? foundEngineer = DataSource.Engineers.FirstOrDefault(engineer => engineer.Id == id && engineer.inactive == false);
+        Engineer? foundEngineer = DataSource.Engineers.FirstOrDefault(engineer => engineer.Id == id && engineer.Inactive == false);
 
         // If an object with the specified Id exists, return a reference to the object; otherwise, return null
         return foundEngineer;
@@ -33,7 +33,7 @@ public class EngineerImplementation : IEngineer
 
     public void Update(Engineer engineer)
     {
-        int index = DataSource.Engineers.FindIndex(e => e.Id == engineer.Id && e.inactive == false);
+        int index = DataSource.Engineers.FindIndex(e => e.Id == engineer.Id && e.Inactive == false);
         if (index == -1)
         {
             throw new Exception($"object of type Engineer with identifier {engineer.Id} does not exist");
@@ -54,7 +54,7 @@ public class EngineerImplementation : IEngineer
             throw new Exception($"object of type Engineer with identifier {id} does not exist");
         }
 
-        Engineer inactiveEngineer = DataSource.Engineers[index] with { inactive = true };
+        Engineer inactiveEngineer = DataSource.Engineers[index] with { Inactive = true };
 
         DataSource.Engineers.RemoveAt(index);
 
