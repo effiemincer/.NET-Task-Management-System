@@ -123,5 +123,16 @@ static internal class DalTest
                 s_dalDependency!.Create(new Dependency(0, taskID, reqID, EmailAddresses[i], ShippingAddresses[i], _creation, _shipping, _delivery));
             }
         }
+
+        public static void Do (ITask? dalTask, IEngineer? dalEngineer, IDependency? dalDependency)
+        {
+            s_dalTask = dalTask ?? throw new NullReferenceException("DAL cannot be null!");
+            s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL cannot be null!");
+            s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL cannot be null!");
+
+            createTasks();
+            createEngineers();
+            createDependencies();
+        }
     }
 }
