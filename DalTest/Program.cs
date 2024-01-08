@@ -125,13 +125,28 @@ internal class Program
                         if (stringId != "")
                         {
                             int intId = Convert.ToInt32(stringId);
-                            Console.WriteLine(s_dalTask!.Read(intId));
+                            try
+                            {
+                                Console.WriteLine(s_dalTask!.Read(intId));
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
                         }
                         else Console.WriteLine("No ID entered.");
                         break;
 
                     case 'd': //readAll
-                        Console.WriteLine(s_dalTask!.ReadAll());
+                        try
+                        {
+                            Console.WriteLine(s_dalTask!.ReadAll());
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+
                         break;
 
                     case 'e':  //update
@@ -143,8 +158,16 @@ internal class Program
                         if (stringId != "")
                         {
                             int intId = Convert.ToInt32(stringId);
-                            t = s_dalTask!.Read(intId);
-                            if (t is not null) s_dalTask.Update(t);
+                            try
+                            {
+                                t = s_dalTask!.Read(intId);
+                                if (t is not null) s_dalTask.Update(t);
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
                         }
                         else Console.WriteLine("No ID entered.");
 
@@ -156,8 +179,17 @@ internal class Program
                         if (stringId != "")
                         {
                             int intId = Convert.ToInt32(stringId);
-                            s_dalTask!.Delete(intId);
+                            try
+                            {
+                                s_dalTask!.Delete(intId);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
+
                         }
+                        else Console.WriteLine("No ID entered.");
                         break;
                 }
 
