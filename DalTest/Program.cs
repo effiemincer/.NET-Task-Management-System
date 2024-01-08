@@ -54,14 +54,15 @@ internal class Program
                 {
                     case 'a': break; //go back to main menu
 
- //might need to handle if an empty string is put in to just assing that as null
-
                     case 'b': //create
                         Console.WriteLine("Enter name of task: ");
-                        string name = Console.ReadLine() ?? "default name";
+                        string name = Console.ReadLine() ?? "";
+                        name = name=="" ? "Empty Name" : name; 
 
                         Console.WriteLine("Date Created (mm/dd/yyyy): ");
-                        DateTime dateCreated = DateTime.Parse(Console.ReadLine() ?? "01/01/2024");
+                        string? input = Console.ReadLine();
+                        DateTime dateCreated;
+                        dateCreated = input == "" ? DateTime.Now : DateTime.Parse(input!);
 
                         Console.WriteLine("Enter description of task: ");
                         string? description = Console.ReadLine();
@@ -70,22 +71,43 @@ internal class Program
                         int? duration = Convert.ToInt32(Console.ReadLine());
 
                         Console.WriteLine("Enter deadline of task (mm/dd/yyyy): ");
-                        DateTime? deadline = DateTime.Parse(Console.ReadLine() ?? "01/01/2024");
+                        input = Console.ReadLine();
+                        DateTime? deadline;
+                        deadline = (input == "" ? null : DateTime.Parse(input!));
 
                         Console.WriteLine("Enter projected start date of task (mm/dd/yyyy): ");
-                        DateTime? projectedStart = DateTime.Parse(Console.ReadLine() ?? "01/01/2024");
+                        input = Console.ReadLine();
+                        DateTime? projectedStart;
+                        projectedStart = (input == "" ? null : DateTime.Parse(input!));
 
                         Console.WriteLine("Enter difficulty of task (0-4): ");
+                        //list of enums and variables 
                         Enums.EngineerExperience[] _allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
-                        int difficultyIndex = Convert.ToInt32(Console.ReadLine());
-                        Enums.EngineerExperience difficulty = _allDifficulties[difficultyIndex];
+                        int difficultyIndex;
+                        Enums.EngineerExperience? difficulty;
+
+                        //user input
+                        input = Console.ReadLine();
+
+                        if (input == "") difficulty = null;
+                        else
+                        {
+                            difficultyIndex = Convert.ToInt32(Console.ReadLine());
+                            difficulty = _allDifficulties[difficultyIndex];
+                        }
 
                         //DO WE NEED TO check if the engineer is in our list of engineers?
                         Console.WriteLine("Enter ID of assigned Enginner of task: ");
-                        int? assignedEng = Convert.ToInt32(Console.ReadLine());
+                        input = Console.ReadLine();
+                        int? assignedEng;
+
+                        if (input == "") assignedEng = null;
+                        else assignedEng = Convert.ToInt32(Console.ReadLine());
 
                         Console.WriteLine("Enter actual end date of task (mm/dd/yyyy): ");
-                        DateTime? actualEnd = DateTime.Parse(Console.ReadLine() ?? "01/01/2024");
+                        input = Console.ReadLine();
+                        DateTime? actualEnd;
+                        actualEnd = (input == "" ? null : DateTime.Parse(input!));
 
                         Console.WriteLine("Enter whether task is a milestone (Y/N): ");
                         string isMilestoneString = Console.ReadLine() ?? "N";
@@ -94,7 +116,9 @@ internal class Program
 
 
                         Console.WriteLine("Enter actaul start date of task (mm/dd/yyyy): ");
-                        DateTime? actualStart = DateTime.Parse(Console.ReadLine() ?? "01/01/2024"); ;
+                        input = Console.ReadLine();
+                        DateTime? actualStart;
+                        actualStart = (input == "" ? null : DateTime.Parse(input!));
 
                         Console.WriteLine("Enter deliverable of task: ");
                         string? deliverable = Console.ReadLine();
