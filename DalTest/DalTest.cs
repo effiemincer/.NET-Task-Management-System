@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 
 static internal class DalTest
 {
+
     public static class Initialization
     {
         private static ITask? s_dalTask; //stage 1
@@ -36,11 +37,13 @@ static internal class DalTest
 
                 DateTime _startDate= DateTime.Now.AddDays(s_random.Next(2, _deadlineAddition));     //sets projected start date less than deadline
 
-                Enums.EngineerExperience _difficulty = Enums.EngineerExperience.Novice;
+                //picks a random difficulty level from the enum
+                Enums.EngineerExperience[] _allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
+                int _randIndex = s_random.Next(0, _allDifficulties.Length);
 
                 int _assignedEngId = s_random.Next(2000000, 4000000); //Teduat zehut
 
-                s_dalTask!.Create(new Task(0, var_task, DateTime.Now, _description, _duration, _deadline, _startDate, _difficulty, _assignedEngId));
+                s_dalTask!.Create(new Task(0, var_task, DateTime.Now, _description, _duration, _deadline, _startDate, _allDifficulties[_randIndex], _assignedEngId));
 
             }
 
@@ -71,7 +74,12 @@ static internal class DalTest
             for (int i = 0; i < EngineerNames.Length; ++i) {
 
                 double _cost  = s_random.Next(30, 60);
-                s_dalEngineer!.Create(new Engineer(0, EngineerNames[i], EmailAddresses[i], Enums.EngineerExperience.DefaultValue, _cost));
+
+                //picks a random difficulty level from the enum
+                Enums.EngineerExperience[] _allLevels = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
+                int _randIndex = s_random.Next(0, _allLevels.Length);
+
+                s_dalEngineer!.Create(new Engineer(0, EngineerNames[i], EmailAddresses[i], _allLevels[_randIndex], _cost));
             }
         }
 
