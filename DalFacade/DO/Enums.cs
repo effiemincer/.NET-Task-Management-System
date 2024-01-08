@@ -3,8 +3,12 @@ namespace DO;
 
 public record Enums
 {
-    public enum Difficulty
+    public enum EngineerExperience
     {
-        DefaultValue, Novice, Intermediate, Advanced, Expert
+        BEGINNER,
+        ADVANCED_BEGINNER,
+        INTERMEDIATE,
+        ADVANCED,
+        EXPERT
     }
 }

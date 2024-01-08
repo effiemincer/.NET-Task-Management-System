@@ -36,7 +36,7 @@ static internal class DalTest
 
                 DateTime _startDate= DateTime.Now.AddDays(s_random.Next(2, _deadlineAddition));     //sets projected start date less than deadline
 
-                Enums.Difficulty _difficulty = Enums.Difficulty.Novice;
+                Enums.EngineerExperience _difficulty = Enums.EngineerExperience.Novice;
 
                 int _assignedEngId = s_random.Next(2000000, 4000000); //Teduat zehut
 
@@ -71,7 +71,7 @@ static internal class DalTest
             for (int i = 0; i < EngineerNames.Length; ++i) {
 
                 double _cost  = s_random.Next(30, 60);
-                s_dalEngineer!.Create(new Engineer(0, EngineerNames[i], EmailAddresses[i], "default", _cost));
+                s_dalEngineer!.Create(new Engineer(0, EngineerNames[i], EmailAddresses[i], Enums.EngineerExperience.DefaultValue, _cost));
             }
         }
 

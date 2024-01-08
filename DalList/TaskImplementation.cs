@@ -24,10 +24,10 @@ public class TaskImplementation : ITask
             task?.Duration ?? 0,
             task?.Deadline,
             task?.ProjectedStartDate,
-            task?.DegreeOfDifficulty ?? Enums.Difficulty.DefaultValue,
+            task?.DegreeOfDifficulty,
             task?.AssignedEngineerId ?? 0,
             task?.ActualEndDate ?? DateTime.MinValue,
-            task.IsMilestone,
+            task?.IsMilestone ?? false,
             task?.ActualStartDate ?? DateTime.MinValue,
             task?.Deliverable ?? "",
             task?.Notes ?? ""

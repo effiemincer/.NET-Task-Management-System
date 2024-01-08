@@ -35,7 +35,7 @@ public record Task
     int? Duration = null,
     DateTime? Deadline = null,
     DateTime? ProjectedStartDate = null,
-    Enums.Difficulty? DegreeOfDifficulty = null,
+    Enums.EngineerExperience? DegreeOfDifficulty = null,
     //should be initialized --> is this required?
     int? AssignedEngineerId = null,
     DateTime? ActualEndDate = null,
