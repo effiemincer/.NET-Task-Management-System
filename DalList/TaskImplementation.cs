@@ -17,13 +17,13 @@ public class TaskImplementation : ITask
         // until we have more constructors
         Task taskCopy = new Task(
             Id, 
-            task.Nickname, 
-            task.Description, 
-            task.Duration, 
-            task.Deadline, 
-            task.ProjectedStartDate, 
-            task.DegreeOfDifficulty, 
-            task.AssignedEngineerId
+            task.Nickname //, 
+            //task.Description, 
+            //task.Duration, 
+            //task.Deadline, 
+            //task.ProjectedStartDate, 
+            //task.DegreeOfDifficulty, 
+            //task.AssignedEngineerId
         );
         DataSource.Tasks.Add( taskCopy );
         return Id;

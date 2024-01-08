@@ -30,16 +30,15 @@ public record Task
 (
     int Id,
     string Nickname,
-    string Description,
-    int Duration,
-    DateTime Deadline,
-    DateTime ProjectedStartDate,
-    //enum
-    int DegreeOfDifficulty,
-    //should be initialized --> is this required?
-    int AssignedEngineerId,
-    DateTime? ActualEndDate = null,
     DateTime DateCreated = new DateTime(),
+    string? Description = null,
+    int? Duration = null,
+    DateTime? Deadline = null,
+    DateTime? ProjectedStartDate = null,
+    Enums.Difficulty? DegreeOfDifficulty = null,
+    //should be initialized --> is this required?
+    int? AssignedEngineerId = null,
+    DateTime? ActualEndDate = null,
     bool IsMilestone = false,
     DateTime? ActualStartDate = null,
     string Deliverable = "",
@@ -49,5 +48,5 @@ public record Task
 )
 {
     //empty ctor
-    public Task() : this(0, "", "", 0, new DateTime(), new DateTime(), 0, 0) {}
+    public Task() : this(0, "") {}
 }
