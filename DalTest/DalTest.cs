@@ -126,12 +126,13 @@ static internal class DalTest
                 DateTime _delivery = _shipping.AddDays(_deliveryAddition);
 
                 int taskID = s_random.Next(9000, 9999);
-                int reqID = s_random.Next(1000, 1999);
+                int reqID = s_random.Next(9000, 9999);
 
                 s_dalDependency!.Create(new Dependency(0, taskID, reqID, EmailAddresses[i], ShippingAddresses[i], _creation, _shipping, _delivery));
             }
         }
 
+        //Definition and implementation of the Do driver method
         public static void Do (ITask? dalTask, IEngineer? dalEngineer, IDependency? dalDependency)
         {
             s_dalTask = dalTask ?? throw new NullReferenceException("DAL cannot be null!");

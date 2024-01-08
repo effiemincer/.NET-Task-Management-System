@@ -32,7 +32,7 @@ public record Task
     string Nickname,
     DateTime DateCreated = new DateTime(),
     string? Description = null,
-    int? Duration = null,
+    int? Duration = null,                                   //we want to change this to double I think?
     DateTime? Deadline = null,
     DateTime? ProjectedStartDate = null,
     Enums.EngineerExperience? DegreeOfDifficulty = null,
