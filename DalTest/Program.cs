@@ -31,7 +31,7 @@ internal class Program
             //exit main menu
             if (userInput == "0") { return; }
 
-            //Task Menu
+//=========================================== Task Menu ======================================================
             else if (userInput == "1")
             {
                 Console.WriteLine("\nEnter a character for which action to do in Task:\n" +
@@ -52,11 +52,11 @@ internal class Program
             //------------------ Create Task ----------------------------
                     case "b": 
                         Console.WriteLine("Enter name of task: ");
-                        string name = Console.ReadLine() ?? "";
-                        name = name=="" ? "Empty Name" : name; 
+                        string? input = Console.ReadLine();
+                        string name = (input == "" || input is null) ? "Placeholder Name" : input ;
 
                         Console.WriteLine("Date Created (mm/dd/yyyy): ");
-                        string? input = Console.ReadLine();
+                        input = Console.ReadLine();
                         DateTime dateCreated;
                         dateCreated = input == "" ? DateTime.Now : DateTime.Parse(input!);
 
@@ -82,7 +82,7 @@ internal class Program
 
                         Console.WriteLine("Enter difficulty of task (0-4): ");
                         //list of enums and variables 
-                        Enums.EngineerExperience[] _allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
+                        Enums.EngineerExperience[] allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
                         int difficultyIndex;
                         Enums.EngineerExperience? difficulty;
 
@@ -92,8 +92,8 @@ internal class Program
                         if (input == "") difficulty = null;
                         else
                         {
-                            difficultyIndex = Convert.ToInt32(Console.ReadLine());
-                            difficulty = _allDifficulties[difficultyIndex];
+                            difficultyIndex = Convert.ToInt32(input);
+                            difficulty = allDifficulties[difficultyIndex];
                         }
 
                         //DO WE NEED TO check if the engineer is in our list of engineers?
@@ -144,14 +144,14 @@ internal class Program
 
             //---------------- Read Task ---------------------------
                     case "c": //read
-                        Console.WriteLine("Enter object ID: ");
+                        Console.WriteLine("Enter task ID: ");
                         string? stringId = Console.ReadLine();
                         if (stringId != "")
                         {
                             int intId = Convert.ToInt32(stringId);
                             try
                             {
-                                DO.Task task1 = s_dalTask!.Read(intId);
+                                DO.Task? task1 = s_dalTask!.Read(intId);
 
                                 if (task1 is not null) Console.WriteLine(task1);    //if task is found
 
@@ -209,8 +209,9 @@ internal class Program
 
                         break;
 
+        //--------------------- Delete Task ---------------------
                     case "f":   //delete
-                        Console.WriteLine("Enter object ID you want to delete: ");
+                        Console.WriteLine("Enter task ID you want to delete: ");
                         stringId = Console.ReadLine();
                         if (stringId != "")
                         {
@@ -223,7 +224,6 @@ internal class Program
                             {
                                 Console.WriteLine(ex);
                             }
-
                         }
                         else Console.WriteLine("No ID entered.");
                         break;
@@ -231,7 +231,7 @@ internal class Program
 
             }
 
-            //Engineer Menu
+//=============================================== Engineer Menu ==========================================================
             else if (userInput == "2")
             {
                 Console.WriteLine("\nEnter a character for which action to do in Engineer:\n" +
@@ -250,36 +250,144 @@ internal class Program
 
                     case "a": break; //go back to main menu
 
+                    //--------------------- Create Engineer -----------------------------
                     case "b": //create
+                        Console.WriteLine("Enter Teudat Zehut of the engineer: ");
+                        string? input = Console.ReadLine();
+                        int tz = (input == "" || input is null) ? 346291982 : Convert.ToInt32(input);
+
                         Console.WriteLine("Enter name of the engineer: ");
-                        string? name = Console.ReadLine();
+                        input = Console.ReadLine();
+                        string name = (input == "" || input is null) ? "FirstName LastName" : input;
+
+                        Console.WriteLine("Enter email address of the engineer: ");
+                        input = Console.ReadLine();
+                        string email = (input == "" || input is null) ? "FirstName LastName" : input;
+
+                        Console.WriteLine("Enter experience level of the engineer (0-4): ");
+                        //list of enums and variables 
+                        Enums.EngineerExperience[] allExperiences = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
+                        int experienceIndex;
+                        Enums.EngineerExperience? experience;
+
+                        input = Console.ReadLine();
+
+                        if (input == "") experience = null;
+                        else
+                        {
+                            experienceIndex = Convert.ToInt32(input);
+                            experience = allExperiences[experienceIndex];
+                        }
+
+                        Console.WriteLine("Enter cost per hour of the engineer (XX.XX): ");
+                        input = Console.ReadLine();
+                        double? costPerHour = (input == "") ? null : Convert.ToDouble(input);
+
+                        Console.WriteLine("Enter whether engineer is inactive (Y/N): ");
+                        input = Console.ReadLine();
+                        bool inactive = input! == "Y" ? true : false;
+
+                        try
+                        {
+                            s_dalEngineer!.Create(new Engineer(tz, name, email, experience, costPerHour, inactive));
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
 
                         break;
 
+                    //--------------------- Read Engineer -----------------------------
                     case "c": //read
-                        Console.WriteLine("Enter object ID: ");
+                        Console.WriteLine("Enter engineer ID: ");
                         string? stringId = Console.ReadLine();
-                        int? intId = Convert.ToInt32(stringId);
+                        if (stringId != "")
+                        {
+                            int intId = Convert.ToInt32(stringId);
+                            try
+                            {
+                                Engineer? eng = s_dalEngineer!.Read(intId);
 
+                                if (eng is not null) Console.WriteLine(eng);    //if eng is found
+
+                                else Console.WriteLine("Engineer not found.");
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
+                        }
+                        else Console.WriteLine("No ID entered.");
                         break;
 
+                    //--------------------- Read All Engineers -----------------------------
                     case "d": //readAll
-                        Console.WriteLine();
+                        try
+                        {
+                            //for loop to print them all
+                            foreach (Engineer var_eng in s_dalEngineer!.ReadAll())
+                            {
+                                Console.WriteLine(var_eng);
+                                Console.WriteLine();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+
                         break;
 
+                    //--------------------- Update Engineer -----------------------------
                     case "e":  //update
-                        Console.WriteLine();
+                        Console.WriteLine("Enter engineer ID to update: ");
+                        stringId = Console.ReadLine();
+                        Engineer? engineer;
+
+                        //checks not empty string
+                        if (stringId != "")
+                        {
+                            int intId = Convert.ToInt32(stringId);
+                            try
+                            {
+                                engineer = s_dalEngineer!.Read(intId);
+                                if (engineer is not null) s_dalEngineer.Update(engineer);
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
+                        }
+                        else Console.WriteLine("No ID entered.");
+
                         break;
 
+                    //--------------------- Delete Engineer -----------------------------
                     case "f":   //delete
-                        Console.WriteLine("Enter object ID you want to delete: ");
+                        Console.WriteLine("Enter Engineer ID you want to delete: ");
                         stringId = Console.ReadLine();
-                        intId = Convert.ToInt32(stringId);
+                        if (stringId != "")
+                        {
+                            int intId = Convert.ToInt32(stringId);
+                            try
+                            {
+                                s_dalEngineer!.Delete(intId);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
+                        }
+                        else Console.WriteLine("No ID entered.");
                         break;
                 }
 
             }
 
+//======================================= Dependency Menu ==============================================
             else if (userInput == "3")
             {
                 Console.WriteLine("\nEnter a character for which action to do in Engineer:\n" +
@@ -298,12 +406,14 @@ internal class Program
 
                     case "a": break; //go back to main menu
 
+                    //--------------------- Create Dependency -----------------------------
                     case "b": //create
-                        Console.WriteLine("Enter name of the engineer: ");
+                        Console.WriteLine("Enter name of the Dependency: ");
                         string? name = Console.ReadLine();
 
                         break;
 
+                    //--------------------- Read Dependency -----------------------------
                     case "c": //read
                         Console.WriteLine("Enter object ID: ");
                         string? stringId = Console.ReadLine();
@@ -311,18 +421,21 @@ internal class Program
 
                         break;
 
+                    //--------------------- Read all Dependencies -----------------------------
                     case "d": //readAll
                         Console.WriteLine();
                         break;
 
+                    //--------------------- Update Dependency -----------------------------
                     case "e":  //update
                         Console.WriteLine();
                         break;
 
+                    //--------------------- Delete Dependency -----------------------------
                     case "f":   //delete
                         Console.WriteLine("Enter object ID you want to delete: ");
                         stringId = Console.ReadLine();
-                        intId = Convert.ToInt32(stringId);
+                        //intId = Convert.ToInt32(stringId);
                         break;
                 }
             }
