@@ -8,31 +8,73 @@ public class TaskImplementation : ITask
 {
     public int Create(Task task)
     {
-        throw new NotImplementedException();
-    }
+        int Id = DataSource.Config.NextITaskId;
+        if(DataSource.Tasks.Any(taskItem => taskItem.Id == Id))
+        {
+            throw new Exception("object with that id already exists!");
+        }
+        // just doing non-preset feilds here not sure if were supposed to do that
+        // until we have more constructors
+        Task taskCopy = new Task(
+            Id, 
+            task.Nickname, 
+            task.Description, 
+            task.Duration, 
+            task.Deadline, 
+            task.ProjectedStartDate, 
+            task.DegreeOfDifficulty, 
+            task.AssignedEngineerId
+        );
+        DataSource.Tasks.Add( taskCopy );
+        return Id;
 
-    public void Delete(Task task)
-    {
-        throw new NotImplementedException();
+        // throw new NotImplementedException();
     }
 
     public Task? Read(int id)
     {
-        throw new NotImplementedException();
+        Task? foundTask= DataSource.Tasks.FirstOrDefault(task => task.Id == id && task.inactive == false);
+
+        // If an object with the specified Id exists, return a reference to the object; otherwise, return null
+        return foundTask;
     }
 
     public List<Task> ReadAll()
     {
-        throw new NotImplementedException();
-    }
-
-    public void Reset()
-    {
-        throw new NotImplementedException();
+        return new List<Task>(DataSource.Tasks);
     }
 
     public void Update(Task task)
     {
-        throw new NotImplementedException();
+        int index = DataSource.Tasks.FindIndex(t => t.Id == task.Id && t.inactive == false);
+        if (index == -1)
+        {
+            throw new Exception($"object of type Task with identifier {task.Id} does not exist");
+        }
+
+        // Remove the old task
+        DataSource.Tasks.RemoveAt(index);
+
+        // Add the updated task
+        DataSource.Tasks.Add(task);
+
     }
+
+    public void Delete(int id)
+    {
+        int index = DataSource.Tasks.FindIndex(t => t.Id == id);
+        if (index == -1)
+        {
+            throw new Exception($"object of type Task with identifier {id} does not exist");
+        }
+
+        Task inactiveTask = DataSource.Tasks[index] with { inactive = true };
+
+        DataSource.Tasks.RemoveAt(index);
+
+        // Add the inactive task
+        DataSource.Tasks.Add(inactiveTask);
+
+    }
+    
 }

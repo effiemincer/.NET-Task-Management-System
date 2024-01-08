@@ -22,14 +22,15 @@ Delivery date
 */
 public record Dependency
 (
-    int ID,
+    int Id,
     int? DependentTaskID = null,
     int? RequisiteID = null,
     string? CustomerEmail = null,
     string? ShippingAddress = null,
     DateTime OrderCreationDate = new DateTime(),
     DateTime? ShippingDate = null,
-    DateTime? DeliveryDate = null
+    DateTime? DeliveryDate = null,
+    bool? inactive = false
     )
 {
     //empty ctor

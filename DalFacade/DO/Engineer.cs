@@ -16,12 +16,13 @@ namespace DO;
 /// <param name="Cost per hour"></param>
 public record Engineer
 (
-    int ID,
+    int Id,
     string FullName,
     string EmailAddress,
     //enum
     string? ExperienceLevel = null,
-    double? CostPerHour = null
+    double? CostPerHour = null,
+    bool? inactive = false
 )
 {
     public Engineer() : this (0, "", ""){ } //empty ctor for stage 3

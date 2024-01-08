@@ -25,34 +25,22 @@ namespace DO;
 public record Task
 (
     int Id,
-
     string Nickname,
-
     string Description,
-
     int Duration,
-
     DateTime Deadline,
-
     DateTime ProjectedStartDate,
-
     //enum
     int DegreeOfDifficulty,
-
     //should be initialized --> is this required?
     int AssignedEngineerId,
-
     DateTime? ActualEndDate = null,
-
     DateTime DateCreated = new DateTime(),
-
     bool IsMilestone = false,
-
     DateTime? ActualStartDate = null,
-
     string Deliverable = "",
-
-    string Notes = ""
+    string Notes = "",
+    bool? inactive = false
 
 )
 {

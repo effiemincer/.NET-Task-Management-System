@@ -2,37 +2,64 @@
 namespace Dal;
 using DO;
 using DalApi;
-using System.Collections.Generic;
 
 public class EngineerImplementation : IEngineer
 {
     public int Create(Engineer engineer)
     {
-        throw new NotImplementedException();
-    }
-
-    public void Delete(Engineer engineer)
-    {
-        throw new NotImplementedException();
+        // what to do with id's here??
+        int Id = DataSource.Config.NextEngineerId;
+        if (DataSource.Engineers.Any(engineerItem => engineerItem.Id == Id))
+        {
+            throw new Exception("object with that id already exists!");
+        }
+        Engineer engineerCopy = new Engineer(Id, engineer.FullName, engineer.EmailAddress);
+        DataSource.Engineers.Add(engineerCopy);
+        return Id;
     }
 
     public Engineer? Read(int id)
     {
-        throw new NotImplementedException();
+        Engineer? foundEngineer = DataSource.Engineers.FirstOrDefault(engineer => engineer.Id == id && engineer.inactive == false);
+
+        // If an object with the specified Id exists, return a reference to the object; otherwise, return null
+        return foundEngineer;
     }
 
     public List<Engineer> ReadAll()
     {
-        throw new NotImplementedException();
-    }
-
-    public void Reset()
-    {
-        throw new NotImplementedException();
+        return new List<Engineer>(DataSource.Engineers);
     }
 
     public void Update(Engineer engineer)
     {
-        throw new NotImplementedException();
+        int index = DataSource.Engineers.FindIndex(e => e.Id == engineer.Id && e.inactive == false);
+        if (index == -1)
+        {
+            throw new Exception($"object of type Engineer with identifier {engineer.Id} does not exist");
+        }
+
+        // Remove the old engineer
+        DataSource.Engineers.RemoveAt(index);
+
+        // Add the updated engineer
+        DataSource.Engineers.Add(engineer);
     }
+
+    public void Delete(int id)
+    {
+        int index = DataSource.Engineers.FindIndex(e => e.Id == id );
+        if (index == -1)
+        {
+            throw new Exception($"object of type Engineer with identifier {id} does not exist");
+        }
+
+        Engineer inactiveEngineer = DataSource.Engineers[index] with { inactive = true };
+
+        DataSource.Engineers.RemoveAt(index);
+
+        // Add the inactive engineer
+        DataSource.Engineers.Add(inactiveEngineer);
+    }
+
 }
