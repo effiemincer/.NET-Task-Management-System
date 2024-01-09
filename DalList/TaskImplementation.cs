@@ -98,12 +98,11 @@ public class TaskImplementation : ITask
         
         //variable just for easy name
         List<DO.Task> listOfTasks = DataSource.Tasks;
+        Task l = listOfTasks[index];
 
         //creating new task with only dateStart changed
-        Task updatedTask = new Task(listOfTasks[index].Id, listOfTasks[index].Nickname, listOfTasks[index].DateCreated, listOfTasks[index].Description,
-            listOfTasks[index].Duration, listOfTasks[index].Deadline, kickStartDate, listOfTasks[index].DegreeOfDifficulty, listOfTasks[index].AssignedEngineerId,
-            listOfTasks[index].ActualEndDate, listOfTasks[index].IsMilestone, listOfTasks[index].ActualStartDate, listOfTasks[index].Deliverable,
-            listOfTasks[index].Notes, listOfTasks[index].Inactive);
+        Task updatedTask = new Task(l.Id, l.Nickname, l.DateCreated, l.Description, l.Duration, l.Deadline, kickStartDate, l.DegreeOfDifficulty, l.AssignedEngineerId,
+            l.ActualEndDate, l.IsMilestone, l.ActualStartDate, l.Deliverable, l.Notes, l.Inactive); ;
 
         //remove old dated task
         DataSource.Tasks.RemoveAt(index);
@@ -123,12 +122,11 @@ public class TaskImplementation : ITask
 
         //variable just for easy name
         List<DO.Task> listOfTasks = DataSource.Tasks;
+        Task l = listOfTasks[index];
 
         //creating new task with only dateStart changed
-        Task updatedTask = new Task(listOfTasks[index].Id, listOfTasks[index].Nickname, listOfTasks[index].DateCreated, listOfTasks[index].Description,
-            listOfTasks[index].Duration, listOfTasks[index].Deadline, listOfTasks[index].ProjectedStartDate, listOfTasks[index].DegreeOfDifficulty, listOfTasks[index].AssignedEngineerId,
-            endDate, listOfTasks[index].IsMilestone, listOfTasks[index].ActualStartDate, listOfTasks[index].Deliverable,
-            listOfTasks[index].Notes, listOfTasks[index].Inactive);
+        Task updatedTask = new Task(l.Id, l.Nickname, l.DateCreated, l.Description,l.Duration, l.Deadline, l.ProjectedStartDate, 
+            l.DegreeOfDifficulty, l.AssignedEngineerId, endDate, l.IsMilestone, l.ActualStartDate, l.Deliverable,l.Notes, l.Inactive);
 
         //remove old dated task
         DataSource.Tasks.RemoveAt(index);
