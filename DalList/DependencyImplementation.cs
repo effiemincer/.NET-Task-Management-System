@@ -67,7 +67,7 @@ public class DependencyImplementation : IDependency
 
         DataSource.Dependencies.RemoveAt(index);
 
-        // Add the Inactive engineer
+        // Add the Inactive dependency
         DataSource.Dependencies.Add(inactiveDependency);
     }   
     

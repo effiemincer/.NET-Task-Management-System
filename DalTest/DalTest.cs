@@ -125,8 +125,8 @@ static internal class DalTest
                 int _deliveryAddition = s_random.Next(1, 7);
                 DateTime _delivery = _shipping.AddDays(_deliveryAddition);
 
-                int taskID = s_random.Next(9000, 9999);
-                int reqID = s_random.Next(9000, 9999);
+                int taskID = s_random.Next(8000, 8999);
+                int reqID = s_random.Next(8000, 8999);
 
                 s_dalDependency!.Create(new Dependency(0, taskID, reqID, EmailAddresses[i], ShippingAddresses[i], _creation, _shipping, _delivery));
             }

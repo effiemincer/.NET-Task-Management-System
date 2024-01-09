@@ -19,7 +19,7 @@ internal class Program
         while (true)
         {
             //Main Menu
-            Console.WriteLine("\nEnter a number:\n" +
+            Console.WriteLine("\nEnter a number of the entity you want to test:\n" +
             "0. Exit Main Menu\n" +
             "1. Task\n" +
             "2. Engineer\n" +
@@ -34,7 +34,7 @@ internal class Program
 //=========================================== Task Menu ======================================================
             else if (userInput == "1")
             {
-                Console.WriteLine("\nEnter a character for which action to do in Task:\n" +
+                Console.WriteLine("\nEnter a character for which action to test in Task:\n" +
                     "a. Go back\n" +
                     "b. Add an Object to the entity list - Create()\n" +
                     "c. Display and object using an object’s identifier - Read()\n" +
@@ -49,16 +49,15 @@ internal class Program
                 {
                     case "a": break; //go back to main menu
 
-            //------------------ Create Task ----------------------------
-                    case "b": 
+                    //------------------ Create Task ----------------------------
+                    case "b":
                         Console.WriteLine("Enter name of task: ");
                         string? input = Console.ReadLine();
-                        string name = (input == "" || input is null) ? "Placeholder Name" : input ;
+                        string name = (input == "" || input is null) ? "Placeholder Name" : input;
 
                         Console.WriteLine("Date Created (mm/dd/yyyy): ");
                         input = Console.ReadLine();
-                        DateTime dateCreated;
-                        dateCreated = input == "" ? DateTime.Now : DateTime.Parse(input!);
+                        DateTime dateCreated = input == "" ? DateTime.Now : DateTime.Parse(input!);
 
                         Console.WriteLine("Enter description of task: ");
                         string? description = Console.ReadLine();
@@ -72,53 +71,44 @@ internal class Program
 
                         Console.WriteLine("Enter deadline of task (mm/dd/yyyy): ");
                         input = Console.ReadLine();
-                        DateTime? deadline;
-                        deadline = (input == "" ? null : DateTime.Parse(input!));
+                        DateTime? deadline = (input == "" ? null : DateTime.Parse(input!));
 
                         Console.WriteLine("Enter projected start date of task (mm/dd/yyyy): ");
                         input = Console.ReadLine();
-                        DateTime? projectedStart;
-                        projectedStart = (input == "" ? null : DateTime.Parse(input!));
+                        DateTime? projectedStart = (input == "" ? null : DateTime.Parse(input!));
 
                         Console.WriteLine("Enter difficulty of task (0-4): ");
                         //list of enums and variables 
                         Enums.EngineerExperience[] allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
-                        int difficultyIndex;
                         Enums.EngineerExperience? difficulty;
 
                         //user input
                         input = Console.ReadLine();
 
                         if (input == "") difficulty = null;
-                        else
-                        {
-                            difficultyIndex = Convert.ToInt32(input);
-                            difficulty = allDifficulties[difficultyIndex];
-                        }
+                        else difficulty = allDifficulties[Convert.ToInt32(input)];
 
+              
                         //DO WE NEED TO check if the engineer is in our list of engineers?
                         Console.WriteLine("Enter ID of assigned Enginner of task: ");
                         input = Console.ReadLine();
                         int? assignedEng;
 
                         if (input == "") assignedEng = null;
-                        else assignedEng = Convert.ToInt32(Console.ReadLine());
+                        else assignedEng = Convert.ToInt32(input);
 
                         Console.WriteLine("Enter actual end date of task (mm/dd/yyyy): ");
                         input = Console.ReadLine();
-                        DateTime? actualEnd;
-                        actualEnd = (input == "" ? null : DateTime.Parse(input!));
+                        DateTime? actualEnd = (input == "" ? null : DateTime.Parse(input!));
 
                         Console.WriteLine("Enter whether task is a milestone (Y/N): ");
-                        string isMilestoneString = Console.ReadLine() ?? "N";
-                        bool isMilestone = false;
-                        if (isMilestoneString == "Y") isMilestone = true;
+                        input = Console.ReadLine();
+                        bool isMilestone = (input! == "Y");
 
 
                         Console.WriteLine("Enter actaul start date of task (mm/dd/yyyy): ");
                         input = Console.ReadLine();
-                        DateTime? actualStart;
-                        actualStart = (input == "" ? null : DateTime.Parse(input!));
+                        DateTime? actualStart = (input == "" ? null : DateTime.Parse(input!));
 
                         Console.WriteLine("Enter deliverable of task: ");
                         string? deliverable = Console.ReadLine();
@@ -128,13 +118,14 @@ internal class Program
 
                         Console.WriteLine("Enter whether task is inactive (Y/N): ");
                         input = Console.ReadLine();
-                        bool inactive = input! == "Y" ? true : false;
+                        bool inactive = (input! == "Y");
 
                         try
                         {
-                            s_dalTask!.Create(new DO.Task(0, name, dateCreated, description, duration, deadline, 
+                            DO.Task task = new DO.Task(0, name, dateCreated, description, duration, deadline,
                                 projectedStart, difficulty, assignedEng, actualEnd,
-                                isMilestone, actualStart, deliverable!, notes!, inactive));
+                                isMilestone, actualStart, deliverable!, notes!, inactive);
+                            s_dalTask!.Create(task);
                         }
                         catch   (Exception ex) { 
                             Console.WriteLine(ex);
@@ -234,7 +225,7 @@ internal class Program
 //=============================================== Engineer Menu ==========================================================
             else if (userInput == "2")
             {
-                Console.WriteLine("\nEnter a character for which action to do in Engineer:\n" +
+                Console.WriteLine("\nEnter a character for which action to test in Engineer:\n" +
                     "a. Go back\n" +
                     "b. Add an Object to the entity list - Create()\n" +
                     "c. Display and object using an object’s identifier - Read()\n" +
@@ -289,7 +280,8 @@ internal class Program
 
                         try
                         {
-                            s_dalEngineer!.Create(new Engineer(tz, name, email, experience, costPerHour, inactive));
+                            Engineer eng = new Engineer(tz, name, email, experience, costPerHour, inactive);
+                            s_dalEngineer!.Create(eng);
                         }
                         catch (Exception ex)
                         {
@@ -387,10 +379,10 @@ internal class Program
 
             }
 
-//======================================= Dependency Menu ==============================================
+//================================================= Dependency Menu ===========================================================
             else if (userInput == "3")
             {
-                Console.WriteLine("\nEnter a character for which action to do in Engineer:\n" +
+                Console.WriteLine("\nEnter a character for which action to test in Dependency:\n" +
                     "a. Go back\n" +
                     "b. Add an Object to the entity list - Create()\n" +
                     "c. Display and object using an object’s identifier - Read()\n" +
@@ -408,34 +400,132 @@ internal class Program
 
                     //--------------------- Create Dependency -----------------------------
                     case "b": //create
-                        Console.WriteLine("Enter name of the Dependency: ");
-                        string? name = Console.ReadLine();
+                        Console.WriteLine("Enter dependent task ID of the Dependency: ");
+                        string? input = Console.ReadLine();
+                        int? depTaskID = (input == "" || input is null) ? null : Convert.ToInt32(input);
 
+                        Console.WriteLine("Enter requisite task ID of the Dependency: ");
+                        input = Console.ReadLine();
+                        int? reqID = (input == "" || input is null) ? null : Convert.ToInt32(input);
+
+                        Console.WriteLine("Enter customer email of the Dependency: ");
+                        input = Console.ReadLine();
+                        string? customerEmail = (input == "") ? null : input;
+
+                        Console.WriteLine("Enter shipping address of the Dependency: ");
+                        input = Console.ReadLine();
+                        string? shipAddress = (input == "") ? null : input;
+
+                        Console.WriteLine("Enter order creation date of the Dependency: ");
+                        input = Console.ReadLine();
+                        DateTime dateCreated = (input == "") ? DateTime.Now : DateTime.Parse(input!);
+
+                        Console.WriteLine("Enter shipping date of the Dependency: ");
+                        input = Console.ReadLine();
+                        DateTime? shipDate = (input == "" ? null : DateTime.Parse(input!));
+
+                        Console.WriteLine("Enter delivery date date of the Dependency: ");
+                        input = Console.ReadLine();
+                        DateTime? deliveryDate = (input == "" ? null : DateTime.Parse(input!));
+
+                        Console.WriteLine("Enter whether dependency is inactive (Y/N): ");
+                        input = Console.ReadLine();
+                        bool inactive = input! == "Y" ? true : false;
+
+                        try
+                        {
+                            Dependency dep = new Dependency(0, depTaskID, reqID, customerEmail, shipAddress,
+                                dateCreated, shipDate, deliveryDate, inactive);
+                            s_dalDependency!.Create(dep);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
                         break;
 
                     //--------------------- Read Dependency -----------------------------
                     case "c": //read
-                        Console.WriteLine("Enter object ID: ");
+                        Console.WriteLine("Enter dependency ID: ");
                         string? stringId = Console.ReadLine();
-                        int? intId = Convert.ToInt32(stringId);
+                        if (stringId != "")
+                        {
+                            int intId = Convert.ToInt32(stringId);
+                            try
+                            {
+                                Dependency? dep = s_dalDependency!.Read(intId);
 
+                                if (dep is not null) Console.WriteLine(dep);    //if eng is found
+
+                                else Console.WriteLine("Dependency not found.");
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
+                        }
+                        else Console.WriteLine("No ID entered.");
                         break;
 
                     //--------------------- Read all Dependencies -----------------------------
                     case "d": //readAll
-                        Console.WriteLine();
+                        try
+                        {
+                            //for loop to print them all
+                            foreach (Dependency var_dep in s_dalDependency!.ReadAll())
+                            {
+                                Console.WriteLine(var_dep);
+                                Console.WriteLine();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
                         break;
 
                     //--------------------- Update Dependency -----------------------------
                     case "e":  //update
-                        Console.WriteLine();
+                        Console.WriteLine("Enter dependency ID to update: ");
+                        stringId = Console.ReadLine();
+                        Dependency? dependency;
+
+                        //checks not empty string
+                        if (stringId != "")
+                        {
+                            int intId = Convert.ToInt32(stringId);
+                            try
+                            {
+                                dependency = s_dalDependency!.Read(intId);
+                                if (dependency is not null) s_dalDependency.Update(dependency);
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
+                        }
+                        else Console.WriteLine("No ID entered.");
                         break;
 
                     //--------------------- Delete Dependency -----------------------------
                     case "f":   //delete
-                        Console.WriteLine("Enter object ID you want to delete: ");
+                        Console.WriteLine("Enter dependency ID you want to delete: ");
                         stringId = Console.ReadLine();
-                        //intId = Convert.ToInt32(stringId);
+                        if (stringId != "")
+                        {
+                            int intId = Convert.ToInt32(stringId);
+                            try
+                            {
+                                s_dalDependency!.Delete(intId);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
+                        }
+                        else Console.WriteLine("No ID entered.");
                         break;
                 }
             }
