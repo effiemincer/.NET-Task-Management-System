@@ -2,6 +2,7 @@
 namespace Dal;
 using DO;
 using DalApi;
+using System.Xml.Linq;
 
 public class TaskImplementation : ITask
 {
@@ -162,5 +163,58 @@ public class TaskImplementation : ITask
         DataSource.Tasks.Add(inactiveTask);
 
     }
-    
+
+    public void Reset()
+    {
+        DataSource.Tasks.Clear();
+    }
+
+    public void ProjectKickStartDate(int id, DateTime? kickStartDate)
+    {
+        int index = DataSource.Tasks.FindIndex(t => t.Id == id);
+        if (index == -1)
+        {
+            throw new Exception($"object of type Task with identifier {id} does not exist");
+        }
+        
+        //variable just for easy name
+        List<DO.Task> listOfTasks = DataSource.Tasks;
+
+        //creating new task with only dateStart changed
+        Task updatedTask = new Task(listOfTasks[index].Id, listOfTasks[index].Nickname, listOfTasks[index].DateCreated, listOfTasks[index].Description,
+            listOfTasks[index].Duration, listOfTasks[index].Deadline, kickStartDate, listOfTasks[index].DegreeOfDifficulty, listOfTasks[index].AssignedEngineerId,
+            listOfTasks[index].ActualEndDate, listOfTasks[index].IsMilestone, listOfTasks[index].ActualStartDate, listOfTasks[index].Deliverable,
+            listOfTasks[index].Notes, listOfTasks[index].Inactive);
+
+        //remove old dated task
+        DataSource.Tasks.RemoveAt(index);
+
+        // Add the updated task
+        DataSource.Tasks.Insert(index, updatedTask);
+
+    }
+
+    public void ProjectEndDate(int id, DateTime? endDate)
+    {
+        int index = DataSource.Tasks.FindIndex(t => t.Id == id);
+        if (index == -1)
+        {
+            throw new Exception($"object of type Task with identifier {id} does not exist");
+        }
+
+        //variable just for easy name
+        List<DO.Task> listOfTasks = DataSource.Tasks;
+
+        //creating new task with only dateStart changed
+        Task updatedTask = new Task(listOfTasks[index].Id, listOfTasks[index].Nickname, listOfTasks[index].DateCreated, listOfTasks[index].Description,
+            listOfTasks[index].Duration, listOfTasks[index].Deadline, listOfTasks[index].ProjectedStartDate, listOfTasks[index].DegreeOfDifficulty, listOfTasks[index].AssignedEngineerId,
+            endDate, listOfTasks[index].IsMilestone, listOfTasks[index].ActualStartDate, listOfTasks[index].Deliverable,
+            listOfTasks[index].Notes, listOfTasks[index].Inactive);
+
+        //remove old dated task
+        DataSource.Tasks.RemoveAt(index);
+
+        // Add the updated task
+        DataSource.Tasks.Insert(index, updatedTask);
+    }
 }

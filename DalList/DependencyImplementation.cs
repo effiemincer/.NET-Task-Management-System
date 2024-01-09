@@ -110,5 +110,11 @@ public class DependencyImplementation : IDependency
         // Add the Inactive dependency
         DataSource.Dependencies.Add(inactiveDependency);
     }   
-    
+
+
+    public void Reset()
+    {
+        DataSource.Dependencies.Clear();
+    }
 }
+

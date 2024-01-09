@@ -40,7 +40,10 @@ internal class Program
                     "c. Display and object using an object’s identifier - Read()\n" +
                     "d. Display the object list - ReadAll()\n" +
                     "e. Update an object - Update()\n" +
-                    "f. Delete an object from the object list – Delete()");
+                    "f. Delete an object from the object list – Delete()\n"+
+                    "g. Erase all data values (in memory)\n" +
+                    "h. Change Kickstart/Projected Start date of task\n" +
+                    "i. Change end date of task");
 
                 //take in user input
                 userInput = Console.ReadLine();
@@ -218,6 +221,57 @@ internal class Program
                         }
                         else Console.WriteLine("No ID entered.");
                         break;
+
+                    //---------------------- Reset -----------------------------------
+                    case "g":
+                        Console.WriteLine("Erasing all tasks...");
+                        try
+                        {
+                            s_dalTask?.Reset();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+
+                        break;
+
+                    case "h":
+                        Console.WriteLine("What is the ID of the task you want to change the projected start date of?");
+                        input = Console.ReadLine();
+                        int idOfTask = (input is null ) ? -1 : Convert.ToInt32(input);
+
+                        Console.WriteLine("What is the new date to kickstart this task? (mm/dd/yyyy)");
+                        input = Console.ReadLine();
+                        DateTime? kickStartDate = (input == "" ? null : DateTime.Parse(input!));
+                        try
+                        {
+                            s_dalTask!.ProjectKickStartDate(idOfTask, kickStartDate);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                        break;
+
+                    case "i":
+                        Console.WriteLine("What is the ID of the task for which you want to set the end date?");
+                        input = Console.ReadLine();
+                        idOfTask = (input is null) ? -1 : Convert.ToInt32(input);
+
+                        Console.WriteLine("What is the new end date to this task? (mm/dd/yyyy)");
+                        input = Console.ReadLine();
+                        DateTime? newEndDate = (input == "" ? null : DateTime.Parse(input!));
+
+                        try
+                        {
+                            s_dalTask!.ProjectEndDate(idOfTask, newEndDate);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                        break;
                 }
 
             }
@@ -225,13 +279,14 @@ internal class Program
 //=============================================== Engineer Menu ==========================================================
             else if (userInput == "2")
             {
-                Console.WriteLine("\nEnter a character for which action to test in Engineer:\n" +
+                Console.WriteLine("\nEnter a character for which action to test in Task:\n" +
                     "a. Go back\n" +
                     "b. Add an Object to the entity list - Create()\n" +
                     "c. Display and object using an object’s identifier - Read()\n" +
                     "d. Display the object list - ReadAll()\n" +
                     "e. Update an object - Update()\n" +
-                    "f. Delete an object from the object list – Delete()");
+                    "f. Delete an object from the object list – Delete()\n" +
+                    "g. Erase all data values (in memory)");
 
                 //take in user input
                 userInput = Console.ReadLine();
@@ -370,6 +425,19 @@ internal class Program
                         }
                         else Console.WriteLine("No ID entered.");
                         break;
+
+                    //---------------------- Reset -----------------------------------
+                    case "g":
+                        Console.WriteLine("Erasing all engineers...");
+                        try
+                        {
+                            s_dalEngineer?.Reset();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                        break;
                 }
 
             }
@@ -377,13 +445,14 @@ internal class Program
 //================================================= Dependency Menu ===========================================================
             else if (userInput == "3")
             {
-                Console.WriteLine("\nEnter a character for which action to test in Dependency:\n" +
+                Console.WriteLine("\nEnter a character for which action to test in Task:\n" +
                     "a. Go back\n" +
                     "b. Add an Object to the entity list - Create()\n" +
                     "c. Display and object using an object’s identifier - Read()\n" +
                     "d. Display the object list - ReadAll()\n" +
                     "e. Update an object - Update()\n" +
-                    "f. Delete an object from the object list – Delete()");
+                    "f. Delete an object from the object list – Delete()\n" +
+                    "g. Erase all data values (in memory)");
 
                 //take in user input
                 userInput = Console.ReadLine();
@@ -521,6 +590,19 @@ internal class Program
                             }
                         }
                         else Console.WriteLine("No ID entered.");
+                        break;
+
+                    //---------------------- Reset -----------------------------------
+                    case "g":
+                        Console.WriteLine("Erasing all dependencies...");
+                        try
+                        {
+                            s_dalDependency?.Reset();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
                         break;
                 }
             }

@@ -2,6 +2,7 @@
 namespace DalApi;
 
 using DO;
+using System.ComponentModel.DataAnnotations;
 
 public interface IDependency
 {
@@ -10,4 +11,7 @@ public interface IDependency
     void Update(Dependency dependency);
     Dependency? Read(int id);
     List<Dependency> ReadAll();
+
+    void Reset(); //erase all data values (in memory) and erase all data files (in xml) [xml not implemented yet]
+
 }

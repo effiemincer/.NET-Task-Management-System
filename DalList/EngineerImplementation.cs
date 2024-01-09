@@ -105,5 +105,9 @@ public class EngineerImplementation : IEngineer
         // Add the inactive engineer
         DataSource.Engineers.Add(inactiveEngineer);
     }
-
+    public void Reset()
+    {
+        DataSource.Engineers.Clear();
+    }
 }
+

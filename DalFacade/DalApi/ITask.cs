@@ -11,4 +11,8 @@ public interface ITask
     Task? Read(int id);
     List<Task> ReadAll();
 
+    void Reset(); //erase all data values (in memory) and erase all data files (in xml) [xml not implemented yet]
+
+    void ProjectKickStartDate(int Id, DateTime? kickStartDate);
+    void ProjectEndDate(int Id, DateTime? endDate);
 }
