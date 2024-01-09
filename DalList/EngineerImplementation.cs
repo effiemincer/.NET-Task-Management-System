@@ -45,8 +45,6 @@ public class EngineerImplementation : IEngineer
             throw new Exception($"object of type Engineer with identifier {engineer.Id} does not exist");
         }
 
-       
-
         // Remove the old engineer
         DataSource.Engineers.RemoveAt(index);
 
