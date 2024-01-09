@@ -50,6 +50,7 @@ public class DependencyImplementation : IDependency
 
         //print out object
         Console.WriteLine(dependency);
+        Console.WriteLine("\nEnter updated information below:\n");
 
         //Collects Updated information from User - if input is blank then do not change
         Console.WriteLine("Enter dependent task ID of the Dependency: ");

@@ -60,6 +60,7 @@ public class TaskImplementation : ITask
 
         //print out object
         Console.WriteLine(task);
+        Console.WriteLine("\nEnter updated information below:\n");
 
         //Collects Updated information from User - if input is blank then do not change
         Console.WriteLine("Enter name of task: ");

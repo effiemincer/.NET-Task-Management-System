@@ -9,20 +9,20 @@ public class EngineerImplementation : IEngineer
     public int Create(Engineer engineer)
     {
         // what to do with id's here??
-        int Id = DataSource.Config.NextEngineerId;
-        if (DataSource.Engineers.Any(engineerItem => engineerItem.Id == Id))
+        //int Id = DataSource.Config.NextEngineerId;
+        if (DataSource.Engineers.Any(engineerItem => engineerItem.Id == engineer.Id))
         {
             throw new Exception("object with that id already exists!");
         }
         Engineer engineerCopy = new Engineer(
-            Id, 
+            engineer.Id, 
             engineer.FullName, 
             engineer.EmailAddress,
             engineer?.ExperienceLevel,
-            engineer?.CostPerHour ?? 0
+            engineer?.CostPerHour ?? null
         );
         DataSource.Engineers.Add(engineerCopy);
-        return Id;
+        return engineer!.Id;
     }
 
     public Engineer? Read(int id)
@@ -48,6 +48,7 @@ public class EngineerImplementation : IEngineer
 
         //print out object
         Console.WriteLine(engineer);
+        Console.WriteLine("\nEnter updated information below:\n");
 
         //Collects Updated information from User - if input is blank then do not change
         Console.WriteLine("Enter Teudat Zehut of the engineer: ");
