@@ -189,85 +189,88 @@ internal class Program
                         if (stringId != "")
                         {
                             int intId = Convert.ToInt32(stringId);
-                            //print out object
-                            DO.Task? task = s_dalTask!.Read(intId);
-                            Console.WriteLine(task);
-                            Console.WriteLine("\nEnter updated information below:\n");
-
-                            //Collects Updated information from User - if input is blank then do not change
-                            Console.WriteLine("Enter name of task: ");
-                            input = Console.ReadLine();
-                            name = (input == "" || input is null) ? task!.Nickname : input;
-
-                            Console.WriteLine("Date Created (mm/dd/yyyy): ");
-                            input = Console.ReadLine();
-                            dateCreated = input == "" ? task!.DateCreated : DateTime.Parse(input!);
-
-                            Console.WriteLine("Enter description of task: ");
-                            input = Console.ReadLine();
-                            description = (input == "" || input is null) ? task!.Description : input;
-
-                            Console.WriteLine("Enter duration of task (hours): ");
-                            input = Console.ReadLine();
-
-                            if (input == "") duration = task!.Duration;
-                            else duration = Convert.ToInt32(input);
-
-                            Console.WriteLine("Enter deadline of task (mm/dd/yyyy): ");
-                            input = Console.ReadLine();
-                            deadline = (input == "" ? task!.Deadline : DateTime.Parse(input!));
-
-                            Console.WriteLine("Enter projected start date of task (mm/dd/yyyy): ");
-                            input = Console.ReadLine();
-                            projectedStart = (input == "" ? task!.ProjectedStartDate : DateTime.Parse(input!));
-
-                            Console.WriteLine("Enter difficulty of task (0-4): ");
-                            //list of enums and variables 
-                            allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
-
-                            //user input
-                            input = Console.ReadLine();
-
-                            if (input == "") difficulty = task!.DegreeOfDifficulty;
-                            else difficulty = allDifficulties[Convert.ToInt32(input)];
-
-                            //DO WE NEED TO check if the engineer is in our list of engineers?
-                            Console.WriteLine("Enter ID of assigned Enginner of task: ");
-                            input = Console.ReadLine();
-
-                            if (input == "") assignedEng = task!.AssignedEngineerId;
-                            else assignedEng = Convert.ToInt32(input);
-
-                            Console.WriteLine("Enter actual end date of task (mm/dd/yyyy): ");
-                            input = Console.ReadLine();
-                            actualEnd = (input == "" ? task!.ActualEndDate : DateTime.Parse(input!));
-
-                            Console.WriteLine("Enter whether task is a milestone (Y/N): ");
-                            input = Console.ReadLine();
-                            isMilestone = ((input! == "") ? task!.IsMilestone : (input! == "Y"));   //if input is blank then leave as previous value otherwise based on new input
-
-
-                            Console.WriteLine("Enter actaul start date of task (mm/dd/yyyy): ");
-                            input = Console.ReadLine();
-                            actualStart = (input == "" ? task!.ActualStartDate : DateTime.Parse(input!));
-
-                            Console.WriteLine("Enter deliverable of task: ");
-                            input = Console.ReadLine();
-                            deliverable = (input == "" || input is null) ? task!.Deliverable : input;
-
-                            Console.WriteLine("Enter notes for the task: ");
-                            input = Console.ReadLine();
-                            notes = (input == "" || input is null) ? task!.Notes : input;
-
-                            Console.WriteLine("Enter whether task is inactive (Y/N): ");
-                            input = Console.ReadLine();
-                            inactive = ((input! == "") ? task!.Inactive : (input! == "Y"));
-
-                            DO.Task updatedTask = new DO.Task(task!.Id, name, dateCreated, description, duration, deadline,
-                                                    projectedStart, difficulty, assignedEng, actualEnd,
-                                                    isMilestone, actualStart, deliverable!, notes!, inactive);
+                            
                             try
                             {
+                                DO.Task? task = s_dalTask!.Read(intId) ?? null;
+
+                                //print out object
+                                Console.WriteLine(task);
+                                Console.WriteLine("\nEnter updated information below:\n");
+
+                                //Collects Updated information from User - if input is blank then do not change
+                                Console.WriteLine("Enter name of task: ");
+                                input = Console.ReadLine();
+                                name = (input == "" || input is null) ? task!.Nickname : input;
+
+                                Console.WriteLine("Date Created (mm/dd/yyyy): ");
+                                input = Console.ReadLine();
+                                dateCreated = input == "" ? task!.DateCreated : DateTime.Parse(input!);
+
+                                Console.WriteLine("Enter description of task: ");
+                                input = Console.ReadLine();
+                                description = (input == "" || input is null) ? task!.Description : input;
+
+                                Console.WriteLine("Enter duration of task (hours): ");
+                                input = Console.ReadLine();
+
+                                if (input == "") duration = task!.Duration;
+                                else duration = Convert.ToInt32(input);
+
+                                Console.WriteLine("Enter deadline of task (mm/dd/yyyy): ");
+                                input = Console.ReadLine();
+                                deadline = (input == "" ? task!.Deadline : DateTime.Parse(input!));
+
+                                Console.WriteLine("Enter projected start date of task (mm/dd/yyyy): ");
+                                input = Console.ReadLine();
+                                projectedStart = (input == "" ? task!.ProjectedStartDate : DateTime.Parse(input!));
+
+                                Console.WriteLine("Enter difficulty of task (0-4): ");
+                                //list of enums and variables 
+                                allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
+
+                                //user input
+                                input = Console.ReadLine();
+
+                                if (input == "") difficulty = task!.DegreeOfDifficulty;
+                                else difficulty = allDifficulties[Convert.ToInt32(input)];
+
+                                //DO WE NEED TO check if the engineer is in our list of engineers?
+                                Console.WriteLine("Enter ID of assigned Enginner of task: ");
+                                input = Console.ReadLine();
+
+                                if (input == "") assignedEng = task!.AssignedEngineerId;
+                                else assignedEng = Convert.ToInt32(input);
+
+                                Console.WriteLine("Enter actual end date of task (mm/dd/yyyy): ");
+                                input = Console.ReadLine();
+                                actualEnd = (input == "" ? task!.ActualEndDate : DateTime.Parse(input!));
+
+                                Console.WriteLine("Enter whether task is a milestone (Y/N): ");
+                                input = Console.ReadLine();
+                                isMilestone = ((input! == "") ? task!.IsMilestone : (input! == "Y"));   //if input is blank then leave as previous value otherwise based on new input
+
+
+                                Console.WriteLine("Enter actaul start date of task (mm/dd/yyyy): ");
+                                input = Console.ReadLine();
+                                actualStart = (input == "" ? task!.ActualStartDate : DateTime.Parse(input!));
+
+                                Console.WriteLine("Enter deliverable of task: ");
+                                input = Console.ReadLine();
+                                deliverable = (input == "" || input is null) ? task!.Deliverable : input;
+
+                                Console.WriteLine("Enter notes for the task: ");
+                                input = Console.ReadLine();
+                                notes = (input == "" || input is null) ? task!.Notes : input;
+
+                                Console.WriteLine("Enter whether task is inactive (Y/N): ");
+                                input = Console.ReadLine();
+                                inactive = ((input! == "") ? task!.Inactive : (input! == "Y"));
+
+                                DO.Task updatedTask = new DO.Task(task!.Id, name, dateCreated, description, duration, deadline,
+                                                        projectedStart, difficulty, assignedEng, actualEnd,
+                                                        isMilestone, actualStart, deliverable!, notes!, inactive);
+                            
                                 s_dalTask.Update(updatedTask);
 
                             }
@@ -321,6 +324,7 @@ internal class Program
                         Console.WriteLine("What is the new date to kickstart this task? (mm/dd/yyyy)");
                         input = Console.ReadLine();
                         DateTime? kickStartDate = (input == "" ? null : DateTime.Parse(input!));
+
                         try
                         {
                             s_dalTask!.ProjectKickStartDate(idOfTask, kickStartDate);
@@ -469,44 +473,42 @@ internal class Program
                         if (stringId != "")
                         {
                             int intId = Convert.ToInt32(stringId);
-                            engineer = s_dalEngineer!.Read(intId);
 
-                            //print out object
-                            Console.WriteLine(engineer);
-                            Console.WriteLine("\nEnter updated information below:\n");
-
-                            //Collects Updated information from User - if input is blank then do not change
-                            Console.WriteLine("Enter Teudat Zehut of the engineer: ");
-                            input = Console.ReadLine();
-                            tz = (input == "" || input is null) ? engineer!.Id : Convert.ToInt32(input);
-
-                            Console.WriteLine("Enter name of the engineer: ");
-                            input = Console.ReadLine();
-                            name = (input == "" || input is null) ? engineer!.FullName : input;
-
-                            Console.WriteLine("Enter email address of the engineer: ");
-                            input = Console.ReadLine();
-                            email = (input == "" || input is null) ? engineer!.EmailAddress : input;
-
-                            Console.WriteLine("Enter experience level of the engineer (0-4): ");
-                            //list of enums and variables 
-                            allExperiences = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
-
-                            input = Console.ReadLine();
-
-                            if (input == "") experience = engineer!.ExperienceLevel;
-                            else experience = allExperiences[Convert.ToInt32(input)];
-
-                            Console.WriteLine("Enter cost per hour of the engineer (XX.XX): ");
-                            input = Console.ReadLine();
-                            costPerHour = (input == "") ? engineer!.CostPerHour : Convert.ToDouble(input);
-
-                            Console.WriteLine("Enter whether engineer is inactive (Y/N): ");
-                            input = Console.ReadLine();
-                            inactive = ((input! == "") ? engineer!.Inactive : (input! == "Y"));
-
-                            Engineer updatedEng = new Engineer(tz, name, email, experience, costPerHour, inactive);
                             try { 
+                                engineer = s_dalEngineer!.Read(intId);
+
+                                //print out object
+                                Console.WriteLine(engineer);
+                                Console.WriteLine("\nEnter updated information below:\n");
+
+
+                                Console.WriteLine("Enter name of the engineer: ");
+                                input = Console.ReadLine();
+                                name = (input == "" || input is null) ? engineer!.FullName : input;
+
+                                Console.WriteLine("Enter email address of the engineer: ");
+                                input = Console.ReadLine();
+                                email = (input == "" || input is null) ? engineer!.EmailAddress : input;
+
+                                Console.WriteLine("Enter experience level of the engineer (0-4): ");
+                                //list of enums and variables 
+                                allExperiences = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
+
+                                input = Console.ReadLine();
+
+                                if (input == "") experience = engineer!.ExperienceLevel;
+                                else experience = allExperiences[Convert.ToInt32(input)];
+
+                                Console.WriteLine("Enter cost per hour of the engineer (XX.XX): ");
+                                input = Console.ReadLine();
+                                costPerHour = (input == "") ? engineer!.CostPerHour : Convert.ToDouble(input);
+
+                                Console.WriteLine("Enter whether engineer is inactive (Y/N): ");
+                                input = Console.ReadLine();
+                                inactive = ((input! == "") ? engineer!.Inactive : (input! == "Y"));
+
+                                Engineer updatedEng = new Engineer(engineer!.Id, name, email, experience, costPerHour, inactive);
+                            
                                 if (engineer is not null) s_dalEngineer.Update(updatedEng);
 
                             }
@@ -671,50 +673,49 @@ internal class Program
                         if (stringId != "")
                         {
                             int intId = Convert.ToInt32(stringId);
-                            dependency = s_dalDependency!.Read(intId);
+                            try { 
+                                dependency = s_dalDependency!.Read(intId);
 
-                            //print out object
-                            Console.WriteLine(dependency);
-                            Console.WriteLine("\nEnter updated information below:\n");
+                                //print out object
+                                Console.WriteLine(dependency);
+                                Console.WriteLine("\nEnter updated information below:\n");
 
-                            //Collects Updated information from User - if input is blank then do not change
-                            Console.WriteLine("Enter dependent task ID of the Dependency: ");
-                            input = Console.ReadLine();
-                            depTaskID = (input == "" || input is null) ? dependency!.DependentTaskId : Convert.ToInt32(input);
+                                //Collects Updated information from User - if input is blank then do not change
+                                Console.WriteLine("Enter dependent task ID of the Dependency: ");
+                                input = Console.ReadLine();
+                                depTaskID = (input == "" || input is null) ? dependency!.DependentTaskId : Convert.ToInt32(input);
 
-                            Console.WriteLine("Enter requisite task ID of the Dependency: ");
-                            input = Console.ReadLine();
-                            reqID = (input == "" || input is null) ? dependency!.RequisiteID : Convert.ToInt32(input);
+                                Console.WriteLine("Enter requisite task ID of the Dependency: ");
+                                input = Console.ReadLine();
+                                reqID = (input == "" || input is null) ? dependency!.RequisiteID : Convert.ToInt32(input);
 
-                            Console.WriteLine("Enter customer email of the Dependency: ");
-                            input = Console.ReadLine();
-                            customerEmail = (input == "") ? dependency!.CustomerEmail : input;
+                                Console.WriteLine("Enter customer email of the Dependency: ");
+                                input = Console.ReadLine();
+                                customerEmail = (input == "") ? dependency!.CustomerEmail : input;
 
-                            Console.WriteLine("Enter shipping address of the Dependency: ");
-                            input = Console.ReadLine();
-                            shipAddress = (input == "") ? dependency!.ShippingAddress : input;
+                                Console.WriteLine("Enter shipping address of the Dependency: ");
+                                input = Console.ReadLine();
+                                shipAddress = (input == "") ? dependency!.ShippingAddress : input;
 
-                            Console.WriteLine("Enter order creation date of the Dependency: ");
-                            input = Console.ReadLine();
-                            dateCreated = (input == "") ? dependency!.OrderCreationDate : DateTime.Parse(input!);
+                                Console.WriteLine("Enter order creation date of the Dependency: ");
+                                input = Console.ReadLine();
+                                dateCreated = (input == "") ? dependency!.OrderCreationDate : DateTime.Parse(input!);
 
-                            Console.WriteLine("Enter shipping date of the Dependency: ");
-                            input = Console.ReadLine();
-                            shipDate = (input == "" ? dependency!.ShippingDate : DateTime.Parse(input!));
+                                Console.WriteLine("Enter shipping date of the Dependency: ");
+                                input = Console.ReadLine();
+                                shipDate = (input == "" ? dependency!.ShippingDate : DateTime.Parse(input!));
 
-                            Console.WriteLine("Enter delivery date date of the Dependency: ");
-                            input = Console.ReadLine();
-                            deliveryDate = (input == "" ? dependency!.DeliveryDate : DateTime.Parse(input!));
+                                Console.WriteLine("Enter delivery date date of the Dependency: ");
+                                input = Console.ReadLine();
+                                deliveryDate = (input == "" ? dependency!.DeliveryDate : DateTime.Parse(input!));
 
-                            Console.WriteLine("Enter whether dependency is inactive (Y/N): ");
-                            input = Console.ReadLine();
-                            inactive = ((input! == "") ? dependency!.Inactive : (input! == "Y"));
+                                Console.WriteLine("Enter whether dependency is inactive (Y/N): ");
+                                input = Console.ReadLine();
+                                inactive = ((input! == "") ? dependency!.Inactive : (input! == "Y"));
 
-                            Dependency updatedDependency = new Dependency(dependency!.Id, depTaskID, reqID, customerEmail, 
-                                shipAddress, dateCreated, shipDate, deliveryDate, inactive);
+                                Dependency updatedDependency = new Dependency(dependency!.Id, depTaskID, reqID, customerEmail, 
+                                    shipAddress, dateCreated, shipDate, deliveryDate, inactive);
 
-                            try
-                            {
                                 s_dalDependency.Update(updatedDependency);
 
                             }
