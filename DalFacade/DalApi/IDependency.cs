@@ -2,7 +2,7 @@
 namespace DalApi;
 
 using DO;
-using System.ComponentModel.DataAnnotations;
+
 
 public interface IDependency
 {

@@ -15,11 +15,6 @@ static internal class DataSource
         private static int nextTaskId = startTaskId;
         internal static int NextITaskId { get => nextTaskId++; }
 
-        // Engineer
-        // uncommented until we have a teudat zehut id
-        //internal const int startEngineerId = 7000;
-        //private static int nextEngineerId = startEngineerId;
-        //internal static int NextEngineerId { get => nextEngineerId++; }
     }
 
     readonly static Random R = new Random();
