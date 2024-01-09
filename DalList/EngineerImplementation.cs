@@ -45,48 +45,13 @@ public class EngineerImplementation : IEngineer
             throw new Exception($"object of type Engineer with identifier {engineer.Id} does not exist");
         }
 
-        //print out object
-        Console.WriteLine(engineer);
-        Console.WriteLine("\nEnter updated information below:\n");
-
-        //Collects Updated information from User - if input is blank then do not change
-        Console.WriteLine("Enter Teudat Zehut of the engineer: ");
-        string? input = Console.ReadLine();
-        int tz = (input == "" || input is null) ? engineer.Id : Convert.ToInt32(input);
-
-        Console.WriteLine("Enter name of the engineer: ");
-        input = Console.ReadLine();
-        string name = (input == "" || input is null) ? engineer.FullName : input;
-
-        Console.WriteLine("Enter email address of the engineer: ");
-        input = Console.ReadLine();
-        string email = (input == "" || input is null) ? engineer.EmailAddress : input;
-
-        Console.WriteLine("Enter experience level of the engineer (0-4): ");
-        //list of enums and variables 
-        Enums.EngineerExperience[] allExperiences = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
-        Enums.EngineerExperience? experience;
-
-        input = Console.ReadLine();
-
-        if (input == "") experience = engineer.ExperienceLevel;
-        else experience = allExperiences[Convert.ToInt32(input)];
-
-        Console.WriteLine("Enter cost per hour of the engineer (XX.XX): ");
-        input = Console.ReadLine();
-        double? costPerHour = (input == "") ? engineer.CostPerHour : Convert.ToDouble(input);
-
-        Console.WriteLine("Enter whether engineer is inactive (Y/N): ");
-        input = Console.ReadLine();
-        bool inactive = ((input! == "") ? engineer.Inactive : (input! == "Y"));
-
-        Engineer updatedEng = new Engineer(tz, name, email, experience, costPerHour, inactive);
+       
 
         // Remove the old engineer
         DataSource.Engineers.RemoveAt(index);
 
         // Add the updated engineer
-        DataSource.Engineers.Insert(index, updatedEng);
+        DataSource.Engineers.Insert(index, engineer);
     }
 
     public void Delete(int id)

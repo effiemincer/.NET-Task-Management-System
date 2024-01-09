@@ -469,10 +469,45 @@ internal class Program
                         if (stringId != "")
                         {
                             int intId = Convert.ToInt32(stringId);
-                            try
-                            {
-                                engineer = s_dalEngineer!.Read(intId);
-                                if (engineer is not null) s_dalEngineer.Update(engineer);
+                            engineer = s_dalEngineer!.Read(intId);
+
+                            //print out object
+                            Console.WriteLine(engineer);
+                            Console.WriteLine("\nEnter updated information below:\n");
+
+                            //Collects Updated information from User - if input is blank then do not change
+                            Console.WriteLine("Enter Teudat Zehut of the engineer: ");
+                            input = Console.ReadLine();
+                            tz = (input == "" || input is null) ? engineer!.Id : Convert.ToInt32(input);
+
+                            Console.WriteLine("Enter name of the engineer: ");
+                            input = Console.ReadLine();
+                            name = (input == "" || input is null) ? engineer!.FullName : input;
+
+                            Console.WriteLine("Enter email address of the engineer: ");
+                            input = Console.ReadLine();
+                            email = (input == "" || input is null) ? engineer!.EmailAddress : input;
+
+                            Console.WriteLine("Enter experience level of the engineer (0-4): ");
+                            //list of enums and variables 
+                            allExperiences = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
+
+                            input = Console.ReadLine();
+
+                            if (input == "") experience = engineer!.ExperienceLevel;
+                            else experience = allExperiences[Convert.ToInt32(input)];
+
+                            Console.WriteLine("Enter cost per hour of the engineer (XX.XX): ");
+                            input = Console.ReadLine();
+                            costPerHour = (input == "") ? engineer!.CostPerHour : Convert.ToDouble(input);
+
+                            Console.WriteLine("Enter whether engineer is inactive (Y/N): ");
+                            input = Console.ReadLine();
+                            inactive = ((input! == "") ? engineer!.Inactive : (input! == "Y"));
+
+                            Engineer updatedEng = new Engineer(tz, name, email, experience, costPerHour, inactive);
+                            try { 
+                                if (engineer is not null) s_dalEngineer.Update(updatedEng);
 
                             }
                             catch (Exception ex)
@@ -636,10 +671,51 @@ internal class Program
                         if (stringId != "")
                         {
                             int intId = Convert.ToInt32(stringId);
+                            dependency = s_dalDependency!.Read(intId);
+
+                            //print out object
+                            Console.WriteLine(dependency);
+                            Console.WriteLine("\nEnter updated information below:\n");
+
+                            //Collects Updated information from User - if input is blank then do not change
+                            Console.WriteLine("Enter dependent task ID of the Dependency: ");
+                            input = Console.ReadLine();
+                            depTaskID = (input == "" || input is null) ? dependency!.DependentTaskId : Convert.ToInt32(input);
+
+                            Console.WriteLine("Enter requisite task ID of the Dependency: ");
+                            input = Console.ReadLine();
+                            reqID = (input == "" || input is null) ? dependency!.RequisiteID : Convert.ToInt32(input);
+
+                            Console.WriteLine("Enter customer email of the Dependency: ");
+                            input = Console.ReadLine();
+                            customerEmail = (input == "") ? dependency!.CustomerEmail : input;
+
+                            Console.WriteLine("Enter shipping address of the Dependency: ");
+                            input = Console.ReadLine();
+                            shipAddress = (input == "") ? dependency!.ShippingAddress : input;
+
+                            Console.WriteLine("Enter order creation date of the Dependency: ");
+                            input = Console.ReadLine();
+                            dateCreated = (input == "") ? dependency!.OrderCreationDate : DateTime.Parse(input!);
+
+                            Console.WriteLine("Enter shipping date of the Dependency: ");
+                            input = Console.ReadLine();
+                            shipDate = (input == "" ? dependency!.ShippingDate : DateTime.Parse(input!));
+
+                            Console.WriteLine("Enter delivery date date of the Dependency: ");
+                            input = Console.ReadLine();
+                            deliveryDate = (input == "" ? dependency!.DeliveryDate : DateTime.Parse(input!));
+
+                            Console.WriteLine("Enter whether dependency is inactive (Y/N): ");
+                            input = Console.ReadLine();
+                            inactive = ((input! == "") ? dependency!.Inactive : (input! == "Y"));
+
+                            Dependency updatedDependency = new Dependency(dependency!.Id, depTaskID, reqID, customerEmail, 
+                                shipAddress, dateCreated, shipDate, deliveryDate, inactive);
+
                             try
                             {
-                                dependency = s_dalDependency!.Read(intId);
-                                if (dependency is not null) s_dalDependency.Update(dependency);
+                                s_dalDependency.Update(updatedDependency);
 
                             }
                             catch (Exception ex)

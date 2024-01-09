@@ -47,51 +47,11 @@ public class DependencyImplementation : IDependency
             throw new Exception($"object of type Dependency with identifier {dependency.Id} does not exist");
         }
 
-        //print out object
-        Console.WriteLine(dependency);
-        Console.WriteLine("\nEnter updated information below:\n");
-
-        //Collects Updated information from User - if input is blank then do not change
-        Console.WriteLine("Enter dependent task ID of the Dependency: ");
-        string? input = Console.ReadLine();
-        int? depTaskID = (input == "" || input is null) ? dependency.DependentTaskId : Convert.ToInt32(input);
-
-        Console.WriteLine("Enter requisite task ID of the Dependency: ");
-        input = Console.ReadLine();
-        int? reqID = (input == "" || input is null) ? dependency.RequisiteID : Convert.ToInt32(input);
-
-        Console.WriteLine("Enter customer email of the Dependency: ");
-        input = Console.ReadLine();
-        string? customerEmail = (input == "") ? dependency.CustomerEmail : input;
-
-        Console.WriteLine("Enter shipping address of the Dependency: ");
-        input = Console.ReadLine();
-        string? shipAddress = (input == "") ? dependency.ShippingAddress : input;
-
-        Console.WriteLine("Enter order creation date of the Dependency: ");
-        input = Console.ReadLine();
-        DateTime dateCreated = (input == "") ? dependency.OrderCreationDate : DateTime.Parse(input!);
-
-        Console.WriteLine("Enter shipping date of the Dependency: ");
-        input = Console.ReadLine();
-        DateTime? shipDate = (input == "" ? dependency.ShippingDate : DateTime.Parse(input!));
-
-        Console.WriteLine("Enter delivery date date of the Dependency: ");
-        input = Console.ReadLine();
-        DateTime? deliveryDate = (input == "" ? dependency.DeliveryDate : DateTime.Parse(input!));
-
-        Console.WriteLine("Enter whether dependency is inactive (Y/N): ");
-        input = Console.ReadLine();
-        bool inactive = ((input! == "") ? dependency.Inactive : (input! == "Y"));
-
         // Remove the old dependency
         DataSource.Dependencies.RemoveAt(index);
 
-
-        Dependency updatedDependency = new Dependency(dependency.Id, depTaskID, reqID, customerEmail, shipAddress, dateCreated, shipDate, deliveryDate, inactive);
-
         // Add the updated dependency
-        DataSource.Dependencies.Insert(index, updatedDependency);
+        DataSource.Dependencies.Insert(index, dependency);
     }
 
     public void Delete(int id)
