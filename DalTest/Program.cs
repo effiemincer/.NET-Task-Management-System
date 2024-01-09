@@ -1,6 +1,7 @@
 ﻿using Dal;
 using DalApi;
 using DO;
+using System.Threading.Tasks;
 
 namespace DalTest;
 
@@ -188,10 +189,86 @@ internal class Program
                         if (stringId != "")
                         {
                             int intId = Convert.ToInt32(stringId);
+                            //print out object
+                            DO.Task? task = s_dalTask!.Read(intId);
+                            Console.WriteLine(task);
+                            Console.WriteLine("\nEnter updated information below:\n");
+
+                            //Collects Updated information from User - if input is blank then do not change
+                            Console.WriteLine("Enter name of task: ");
+                            input = Console.ReadLine();
+                            name = (input == "" || input is null) ? task!.Nickname : input;
+
+                            Console.WriteLine("Date Created (mm/dd/yyyy): ");
+                            input = Console.ReadLine();
+                            dateCreated = input == "" ? task!.DateCreated : DateTime.Parse(input!);
+
+                            Console.WriteLine("Enter description of task: ");
+                            input = Console.ReadLine();
+                            description = (input == "" || input is null) ? task!.Description : input;
+
+                            Console.WriteLine("Enter duration of task (hours): ");
+                            input = Console.ReadLine();
+
+                            if (input == "") duration = task!.Duration;
+                            else duration = Convert.ToInt32(input);
+
+                            Console.WriteLine("Enter deadline of task (mm/dd/yyyy): ");
+                            input = Console.ReadLine();
+                            deadline = (input == "" ? task!.Deadline : DateTime.Parse(input!));
+
+                            Console.WriteLine("Enter projected start date of task (mm/dd/yyyy): ");
+                            input = Console.ReadLine();
+                            projectedStart = (input == "" ? task!.ProjectedStartDate : DateTime.Parse(input!));
+
+                            Console.WriteLine("Enter difficulty of task (0-4): ");
+                            //list of enums and variables 
+                            allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
+
+                            //user input
+                            input = Console.ReadLine();
+
+                            if (input == "") difficulty = task!.DegreeOfDifficulty;
+                            else difficulty = allDifficulties[Convert.ToInt32(input)];
+
+                            //DO WE NEED TO check if the engineer is in our list of engineers?
+                            Console.WriteLine("Enter ID of assigned Enginner of task: ");
+                            input = Console.ReadLine();
+
+                            if (input == "") assignedEng = task!.AssignedEngineerId;
+                            else assignedEng = Convert.ToInt32(input);
+
+                            Console.WriteLine("Enter actual end date of task (mm/dd/yyyy): ");
+                            input = Console.ReadLine();
+                            actualEnd = (input == "" ? task!.ActualEndDate : DateTime.Parse(input!));
+
+                            Console.WriteLine("Enter whether task is a milestone (Y/N): ");
+                            input = Console.ReadLine();
+                            isMilestone = ((input! == "") ? task!.IsMilestone : (input! == "Y"));   //if input is blank then leave as previous value otherwise based on new input
+
+
+                            Console.WriteLine("Enter actaul start date of task (mm/dd/yyyy): ");
+                            input = Console.ReadLine();
+                            actualStart = (input == "" ? task!.ActualStartDate : DateTime.Parse(input!));
+
+                            Console.WriteLine("Enter deliverable of task: ");
+                            input = Console.ReadLine();
+                            deliverable = (input == "" || input is null) ? task!.Deliverable : input;
+
+                            Console.WriteLine("Enter notes for the task: ");
+                            input = Console.ReadLine();
+                            notes = (input == "" || input is null) ? task!.Notes : input;
+
+                            Console.WriteLine("Enter whether task is inactive (Y/N): ");
+                            input = Console.ReadLine();
+                            inactive = ((input! == "") ? task!.Inactive : (input! == "Y"));
+
+                            DO.Task updatedTask = new DO.Task(task!.Id, name, dateCreated, description, duration, deadline,
+                                                    projectedStart, difficulty, assignedEng, actualEnd,
+                                                    isMilestone, actualStart, deliverable!, notes!, inactive);
                             try
                             {
-                                t = s_dalTask!.Read(intId);
-                                if (t is not null) s_dalTask.Update(t);
+                                s_dalTask.Update(updatedTask);
 
                             }
                             catch (Exception ex)
