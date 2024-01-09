@@ -2,7 +2,6 @@
 namespace Dal;
 using  DO;
 using DalApi;
-using System.Threading.Tasks;
 
 public class DependencyImplementation : IDependency
 {

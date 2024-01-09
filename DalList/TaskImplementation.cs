@@ -2,7 +2,6 @@
 namespace Dal;
 using DO;
 using DalApi;
-using System.Xml.Linq;
 
 public class TaskImplementation : ITask
 {
