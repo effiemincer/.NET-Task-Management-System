@@ -67,7 +67,7 @@ internal class Program
                         int? duration;
 
                         if (input == "") duration = null;
-                        else duration = Convert.ToInt32(Console.ReadLine());
+                        else duration = Convert.ToInt32(input);
 
                         Console.WriteLine("Enter deadline of task (mm/dd/yyyy): ");
                         input = Console.ReadLine();
@@ -253,22 +253,17 @@ internal class Program
 
                         Console.WriteLine("Enter email address of the engineer: ");
                         input = Console.ReadLine();
-                        string email = (input == "" || input is null) ? "FirstName LastName" : input;
+                        string email = (input == "" || input is null) ? "firstLast@gmail.com" : input;
 
                         Console.WriteLine("Enter experience level of the engineer (0-4): ");
                         //list of enums and variables 
                         Enums.EngineerExperience[] allExperiences = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
-                        int experienceIndex;
                         Enums.EngineerExperience? experience;
 
                         input = Console.ReadLine();
 
                         if (input == "") experience = null;
-                        else
-                        {
-                            experienceIndex = Convert.ToInt32(input);
-                            experience = allExperiences[experienceIndex];
-                        }
+                        else experience = allExperiences[Convert.ToInt32(input)];
 
                         Console.WriteLine("Enter cost per hour of the engineer (XX.XX): ");
                         input = Console.ReadLine();

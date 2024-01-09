@@ -58,11 +58,90 @@ public class TaskImplementation : ITask
             throw new Exception($"object of type Task with identifier {task.Id} does not exist");
         }
 
+        //print out object
+        Console.WriteLine(task);
+
+        //Collects Updated information from User - if input is blank then do not change
+        Console.WriteLine("Enter name of task: ");
+        string? input = Console.ReadLine();
+        string name = (input == "" || input is null) ? task.Nickname : input;
+
+        Console.WriteLine("Date Created (mm/dd/yyyy): ");
+        input = Console.ReadLine();
+        DateTime dateCreated = input == "" ? task.DateCreated : DateTime.Parse(input!);
+
+        Console.WriteLine("Enter description of task: ");
+        input = Console.ReadLine();
+        string? description = (input == "" || input is null) ? task.Description : input;
+
+        Console.WriteLine("Enter duration of task (hours): ");
+        input = Console.ReadLine();
+        int? duration;
+
+        if (input == "") duration = task.Duration;
+        else duration = Convert.ToInt32(input);
+
+        Console.WriteLine("Enter deadline of task (mm/dd/yyyy): ");
+        input = Console.ReadLine();
+        DateTime? deadline = (input == "" ? task.Deadline : DateTime.Parse(input!));
+
+        Console.WriteLine("Enter projected start date of task (mm/dd/yyyy): ");
+        input = Console.ReadLine();
+        DateTime? projectedStart = (input == "" ? task.ProjectedStartDate : DateTime.Parse(input!));
+
+        Console.WriteLine("Enter difficulty of task (0-4): ");
+        //list of enums and variables 
+        Enums.EngineerExperience[] allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
+        Enums.EngineerExperience? difficulty;
+
+        //user input
+        input = Console.ReadLine();
+
+        if (input == "") difficulty = task.DegreeOfDifficulty;
+        else difficulty = allDifficulties[Convert.ToInt32(input)];
+
+        //DO WE NEED TO check if the engineer is in our list of engineers?
+        Console.WriteLine("Enter ID of assigned Enginner of task: ");
+        input = Console.ReadLine();
+        int? assignedEng;
+
+        if (input == "") assignedEng = task.AssignedEngineerId;
+        else assignedEng = Convert.ToInt32(input);
+
+        Console.WriteLine("Enter actual end date of task (mm/dd/yyyy): ");
+        input = Console.ReadLine();
+        DateTime? actualEnd = (input == "" ? task.ActualEndDate : DateTime.Parse(input!));
+
+        Console.WriteLine("Enter whether task is a milestone (Y/N): ");
+        input = Console.ReadLine();
+        bool isMilestone = ((input! == "") ? task.IsMilestone : (input! == "Y"));   //if input is blank then leave as previous value otherwise based on new input
+
+
+        Console.WriteLine("Enter actaul start date of task (mm/dd/yyyy): ");
+        input = Console.ReadLine();
+        DateTime? actualStart = (input == "" ? task.ActualStartDate : DateTime.Parse(input!));
+
+        Console.WriteLine("Enter deliverable of task: ");
+        input = Console.ReadLine();
+        string? deliverable = (input == "" || input is null) ? task.Deliverable : input;
+
+        Console.WriteLine("Enter notes for the task: ");
+        input = Console.ReadLine();
+        string? notes = (input == "" || input is null) ? task.Notes : input;
+
+        Console.WriteLine("Enter whether task is inactive (Y/N): ");
+        input = Console.ReadLine();
+        bool inactive = ((input! == "") ? task.Inactive : (input! == "Y"));
+
+        Task updatedTask = new Task(task.Id, name, dateCreated, description, duration, deadline,
+                                projectedStart, difficulty, assignedEng, actualEnd,
+                                isMilestone, actualStart, deliverable!, notes!, inactive);
+
         // Remove the old task
         DataSource.Tasks.RemoveAt(index);
 
         // Add the updated task
-        DataSource.Tasks.Add(task);
+        DataSource.Tasks.Insert(index, updatedTask);
 
     }
 
