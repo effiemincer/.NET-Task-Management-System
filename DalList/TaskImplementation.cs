@@ -46,7 +46,7 @@ public class TaskImplementation : ITask
 
     public List<Task> ReadAll()
     {
-        return new List<Task>(DataSource.Tasks);
+        return new List<Task>(DataSource.Tasks.FindAll(i => i.Inactive is not true));
     }
 
     public void Update(Task task)

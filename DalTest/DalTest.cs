@@ -10,6 +10,7 @@ static internal class DalTest
 
     public static class Initialization
     {
+        private static IConfig? s_dalConfig;    //stage 1
         private static ITask? s_dalTask; //stage 1
         private static IEngineer? s_dalEngineer; //stage 1
         private static IDependency? s_dalDependency; //stage 1
@@ -203,11 +204,12 @@ static internal class DalTest
         }
 
         //Definition and implementation of the Do driver method
-        public static void Do (ITask? dalTask, IEngineer? dalEngineer, IDependency? dalDependency)
+        public static void Do (ITask? dalTask, IEngineer? dalEngineer, IDependency? dalDependency, IConfig? dalConfig)
         {
             s_dalTask = dalTask ?? throw new NullReferenceException("DAL cannot be null!");
             s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL cannot be null!");
             s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL cannot be null!");
+            s_dalConfig = dalConfig ?? throw new NullReferenceException("DAL cannot be null!");
 
             createTasks();
             createEngineers();

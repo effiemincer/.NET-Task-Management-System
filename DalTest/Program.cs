@@ -6,13 +6,14 @@ namespace DalTest;
 
 internal class Program
 {
+    private static IConfig? s_dalConfig = new ConfigImplementation();    //stage 1
     private static ITask? s_dalTask = new TaskImplementation(); //stage 1
     private static IEngineer? s_dalEngineer = new EngineerImplementation(); //stage 1
     private static IDependency? s_dalDependency = new DependencyImplementation(); //stage 1
 
     static void Main(string[] args)
     {
-        DalTest.Initialization.Do(s_dalTask, s_dalEngineer, s_dalDependency);
+        DalTest.Initialization.Do(s_dalTask, s_dalEngineer, s_dalDependency, s_dalConfig);
 
         string? userInput = null;
 
@@ -23,7 +24,8 @@ internal class Program
             "0. Exit Main Menu\n" +
             "1. Task\n" +
             "2. Engineer\n" +
-            "3. Dependency");
+            "3. Dependency\n" +
+            "4. Delete all data - Reset()");
 
             //take in user input
             userInput = Console.ReadLine();
@@ -167,8 +169,10 @@ internal class Program
                             //for loop to print them all
                             foreach(DO.Task var_task in s_dalTask!.ReadAll())
                             {
+                                
                                 Console.WriteLine(var_task);
                                 Console.WriteLine();
+                                
                             }
                         }
                         catch (Exception ex)
@@ -451,8 +455,10 @@ internal class Program
                             //for loop to print them all
                             foreach (Engineer var_eng in s_dalEngineer!.ReadAll())
                             {
+                                
                                 Console.WriteLine(var_eng);
                                 Console.WriteLine();
+                                
                             }
                         }
                         catch (Exception ex)
@@ -655,6 +661,7 @@ internal class Program
                                 Console.WriteLine(var_dep);
                                 Console.WriteLine();
                             }
+                        
                         }
                         catch (Exception ex)
                         {
@@ -760,8 +767,16 @@ internal class Program
                 }
             }
 
+//----------------------------------- REST ENTIRE PROJECT --------------------------------
+            else if (userInput == "4")
+            {
+                Console.WriteLine("\nResetting entire project you absolute savage...");
+                s_dalConfig!.Reset();
+            }
+
             else
             {
+                
                 Console.WriteLine("Response not valid, try again.");
             }
         }

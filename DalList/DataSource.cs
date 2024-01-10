@@ -8,8 +8,8 @@ static internal class DataSource
     internal static class Config
     {
         //Project start and end dates
-        internal static DateTime? _kickstartDate { get; set; } = null;
-        internal static DateTime? _endDate { get; set; } = null;
+        internal static DateTime? kickstartDate { get; set; } = null;
+        internal static DateTime? endDate { get; set; } = null;
 
         
         // Dependency

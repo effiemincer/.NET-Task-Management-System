@@ -34,7 +34,7 @@ public class EngineerImplementation : IEngineer
 
     public List<Engineer> ReadAll()
     {
-        return new List<Engineer>(DataSource.Engineers);
+        return new List<Engineer>(DataSource.Engineers.FindAll(i => i.Inactive is not true));
     }
 
     public void Update(Engineer engineer)
