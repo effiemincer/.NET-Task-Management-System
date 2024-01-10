@@ -1,7 +1,7 @@
 # dotNet5784_1982_5912
 
 Todo:
-- create logic for dependencies (group the tasks in groups of 4 and set dependencies on them in chronological order
+- create logic for dependencies (group the tasks in groups of 4 and set dependencies on them in chronological order)
 - maybe get rid of not needed data in dependencies
 - add comments to everything
 - fix the dates for some stuff (every date has to be after the project start date)
