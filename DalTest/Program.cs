@@ -1,12 +1,13 @@
 ﻿using Dal;
 using DalApi;
 using DO;
+using System.Data.Common;
 
 namespace DalTest;
 
 internal class Program
 {
-    private static IConfig? s_dalConfig = new ConfigImplementation();    //stage 1
+    private static IProject? s_dalConfig = new ProjectImplementation();    //stage 1
     private static ITask? s_dalTask = new TaskImplementation(); //stage 1
     private static IEngineer? s_dalEngineer = new EngineerImplementation(); //stage 1
     private static IDependency? s_dalDependency = new DependencyImplementation(); //stage 1
@@ -25,7 +26,7 @@ internal class Program
             "1. Task\n" +
             "2. Engineer\n" +
             "3. Dependency\n" +
-            "4. Delete all data - Reset()");
+            "4. Project Data");
 
             //take in user input
             userInput = Console.ReadLine();
@@ -43,9 +44,9 @@ internal class Program
                     "d. Display the object list - ReadAll()\n" +
                     "e. Update an object - Update()\n" +
                     "f. Delete an object from the object list – Delete()\n"+
-                    "g. Erase all data values (in memory)\n" +
-                    "h. Change Kickstart/Projected Start date of task\n" +
-                    "i. Change end date of task");
+                    "g. Erase all data values (in memory)\n" //+ "h. Change Kickstart/Projected Start date of task\n" +
+                   // "i. Change end date of task"
+                     );
 
                 //take in user input
                 userInput = Console.ReadLine();
@@ -319,43 +320,43 @@ internal class Program
 
                         break;
 
-                    case "h":
-                        Console.WriteLine("What is the ID of the task you want to change the projected start date of?");
-                        input = Console.ReadLine();
-                        int idOfTask = (input is null ) ? -1 : Convert.ToInt32(input);
+                    //case "h":
+                    //    Console.WriteLine("What is the ID of the task you want to change the projected start date of?");
+                    //    input = Console.ReadLine();
+                    //    int idOfTask = (input is null ) ? -1 : Convert.ToInt32(input);
 
-                        Console.WriteLine("What is the new date to kickstart this task? (mm/dd/yyyy)");
-                        input = Console.ReadLine();
-                        DateTime? kickStartDate = (input == "" ? null : DateTime.Parse(input!));
+                    //    Console.WriteLine("What is the new date to kickstart this task? (mm/dd/yyyy)");
+                    //    input = Console.ReadLine();
+                    //    DateTime? kickStartDate = (input == "" ? null : DateTime.Parse(input!));
 
-                        try
-                        {
-                            s_dalTask!.ProjectKickStartDate(idOfTask, kickStartDate);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex);
-                        }
-                        break;
+                    //    try
+                    //    {
+                    //        s_dalTask!.ProjectKickStartDate(idOfTask, kickStartDate);
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        Console.WriteLine(ex);
+                    //    }
+                    //    break;
 
-                    case "i":
-                        Console.WriteLine("What is the ID of the task for which you want to set the end date?");
-                        input = Console.ReadLine();
-                        idOfTask = (input is null) ? -1 : Convert.ToInt32(input);
+                    //case "i":
+                    //    Console.WriteLine("What is the ID of the task for which you want to set the end date?");
+                    //    input = Console.ReadLine();
+                    //    idOfTask = (input is null) ? -1 : Convert.ToInt32(input);
 
-                        Console.WriteLine("What is the new end date to this task? (mm/dd/yyyy)");
-                        input = Console.ReadLine();
-                        DateTime? newEndDate = (input == "" ? null : DateTime.Parse(input!));
+                    //    Console.WriteLine("What is the new end date to this task? (mm/dd/yyyy)");
+                    //    input = Console.ReadLine();
+                    //    DateTime? newEndDate = (input == "" ? null : DateTime.Parse(input!));
 
-                        try
-                        {
-                            s_dalTask!.ProjectEndDate(idOfTask, newEndDate);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex);
-                        }
-                        break;
+                    //    try
+                    //    {
+                    //        s_dalConfig!.ProjectEndDate(idOfTask, newEndDate);
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        Console.WriteLine(ex);
+                    //    }
+                    //    break;
                 }
 
             }
@@ -564,7 +565,7 @@ internal class Program
 //================================================= Dependency Menu ===========================================================
             else if (userInput == "3")
             {
-                Console.WriteLine("\nEnter a character for which action to test in Task:\n" +
+                Console.WriteLine("\nEnter a character for which action to test in Dependency:\n" +
                     "a. Go back\n" +
                     "b. Add an Object to the entity list - Create()\n" +
                     "c. Display and object using an object’s identifier - Read()\n" +
@@ -767,11 +768,69 @@ internal class Program
                 }
             }
 
-//----------------------------------- REST ENTIRE PROJECT --------------------------------
+//----------------------------------- Entire Project Maniuplation Menu --------------------------------
             else if (userInput == "4")
             {
-                Console.WriteLine("\nResetting entire project you absolute savage...");
-                s_dalConfig!.Reset();
+                Console.WriteLine("\nEnter a character for which action to test:\n" +
+                    "a. Go back\n" +
+                    "b. Reset everything - Reset()\n" +
+                    "c. Set new Project Start Date\n" +
+                    "d. Set new Project End Date");
+
+                //take in user input
+                userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case "a": break;
+
+                    //Reset Everything
+                    case "b":
+                        try
+                        {
+                            Console.WriteLine("\nResetting entire project you absolute savage...");
+                            s_dalConfig!.Reset();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                        break;    
+
+                    //------------------- Set Project Kickstart Date ------------------
+                    case "c":
+                        try
+                        {
+                            Console.WriteLine("\nEnter new Project Kickstart date:");
+                            string? input = Console.ReadLine();
+                            DateTime? newDate = (input == "") ? null : DateTime.Parse(input!);
+
+                            s_dalConfig!.SetProjectStartDate(newDate);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                        
+                        break;
+
+                    //------------ set Prject End date ----------------
+                    case "d":
+                        try
+                        {
+                            Console.WriteLine("\nEnter new Project End date:");
+                            string? input = Console.ReadLine();
+                            DateTime? newDate = (input == "") ? null : DateTime.Parse(input!);
+
+                            s_dalConfig!.SetProjectEndDate(newDate);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                        break;
+                }
+                
             }
 
             else

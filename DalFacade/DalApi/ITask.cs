@@ -14,7 +14,9 @@ public interface ITask
     void Reset(); //erase all data values (in memory) and erase all data files (in xml) [xml not implemented yet]
 
 
+    /*
     //WE SHOULD PROBABLY DELETE THESE
     void ProjectKickStartDate(int Id, DateTime? kickStartDate);
     void ProjectEndDate(int Id, DateTime? endDate);
+    */
 }

@@ -4,13 +4,15 @@ namespace DalTest;
 
 using DO;
 using DalApi;
+using System.Runtime.CompilerServices;
+using Dal;
 
 static internal class DalTest
 {
 
     public static class Initialization
     {
-        private static IConfig? s_dalConfig;    //stage 1
+        private static IProject? s_dalConfig;    //stage 1
         private static ITask? s_dalTask; //stage 1
         private static IEngineer? s_dalEngineer; //stage 1
         private static IDependency? s_dalDependency; //stage 1
@@ -201,16 +203,31 @@ static internal class DalTest
 
                 s_dalDependency!.Create(new Dependency(0, taskID, reqID, EmailAddresses[i], ShippingAddresses[i], _creation, _shipping, _delivery));
             }
+
+        }
+
+        private static void createStartAndEndDateForProject()
+        {
+            int startDateAdd = s_random.Next(1, 365);
+            int endDateAdd = s_random.Next(1460, 1785); //4 to 5 years after today
+
+            DateTime startDate = DateTime.Now.AddDays(startDateAdd);  
+            DateTime endDate = DateTime.Now.AddDays(endDateAdd);
+
+            s_dalConfig!.SetProjectStartDate(startDate);
+            s_dalConfig!.SetProjectEndDate(endDate);
+
         }
 
         //Definition and implementation of the Do driver method
-        public static void Do (ITask? dalTask, IEngineer? dalEngineer, IDependency? dalDependency, IConfig? dalConfig)
+        public static void Do (ITask? dalTask, IEngineer? dalEngineer, IDependency? dalDependency, IProject? dalConfig)
         {
             s_dalTask = dalTask ?? throw new NullReferenceException("DAL cannot be null!");
             s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL cannot be null!");
             s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL cannot be null!");
             s_dalConfig = dalConfig ?? throw new NullReferenceException("DAL cannot be null!");
 
+            createStartAndEndDateForProject();
             createTasks();
             createEngineers();
             createDependencies();

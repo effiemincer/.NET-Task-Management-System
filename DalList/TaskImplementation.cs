@@ -87,6 +87,7 @@ public class TaskImplementation : ITask
         DataSource.Tasks.Clear();
     }
 
+    /*
     public void ProjectKickStartDate(int id, DateTime? kickStartDate)
     {
         int index = DataSource.Tasks.FindIndex(t => t.Id == id);
@@ -133,4 +134,5 @@ public class TaskImplementation : ITask
         // Add the updated task
         DataSource.Tasks.Insert(index, updatedTask);
     }
+    */
 }
