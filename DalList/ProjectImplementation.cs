@@ -26,6 +26,17 @@ public class ProjectImplementation : IProject
         DataSource.Config.endDate = newEndDate;
     }
 
+    //getters
+    DateTime? GetProjectStartDate()
+    {
+        return DataSource.Config.kickstartDate;
+    }
+
+    DateTime? GetProjectEndDate()
+    {
+        return DataSource.Config.endDate;
+    }
+
     /// <summary>
     /// Resets all data
     /// </summary>

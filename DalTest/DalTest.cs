@@ -1,11 +1,9 @@
 ﻿
-
 namespace DalTest;
 
 using DO;
 using DalApi;
-using System.Runtime.CompilerServices;
-using Dal;
+
 
 static internal class DalTest
 {
@@ -37,13 +35,17 @@ static internal class DalTest
 
                 string _description = "This is the description for task " + var_task;
 
-                int _duration = s_random.Next(5, 40);
+
+                int hours = s_random.Next(0, 24);
+                int mins = s_random.Next(0, 60);
+                int secs = s_random.Next(0, 60);
+                TimeSpan _duration = new TimeSpan(hours, mins, secs);
 
                 DateTime _deadline = DateTime.Now;
-                int _deadlineAddition = s_random.Next(2, 365);
-                _deadline.AddDays(_deadlineAddition);               //sets deadline in the future
+                int _deadlineAddition = s_random.Next(366, 1459);
+               _deadline.AddDays(_deadlineAddition);               //sets deadline in the future
 
-                DateTime _startDate= DateTime.Now.AddDays(s_random.Next(2, _deadlineAddition));     //sets projected start date less than deadline
+                DateTime _startDate= DateTime.Now.AddDays(s_random.Next(365, _deadlineAddition));     //sets projected start date less than deadline
 
                 //picks a random difficulty level from the enum
                 Enums.EngineerExperience[] _allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
@@ -187,10 +189,12 @@ static internal class DalTest
             for (int i = 0; i < EmailAddresses.Length; ++i) {
 
                 DateTime _creation = DateTime.Now;
+                int _creationAddition = s_random.Next(365, 1400);
+                _creation.AddDays(_creationAddition);
+
                 
-                DateTime _shipping = DateTime.Now;
-                int _shippingAddition = s_random.Next(2, 365);
-                _shipping.AddDays(_shippingAddition);
+                int _shippingAddition = s_random.Next(1 , 365);
+                DateTime _shipping = _creation.AddDays(_shippingAddition);
 
                 int _deliveryAddition = s_random.Next(1, 7);
                 DateTime _delivery = _shipping.AddDays(_deliveryAddition);

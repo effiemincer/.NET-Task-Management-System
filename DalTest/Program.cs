@@ -1,7 +1,6 @@
 ﻿using Dal;
 using DalApi;
 using DO;
-using System.Data.Common;
 
 namespace DalTest;
 
@@ -14,6 +13,7 @@ internal class Program
 
     static void Main(string[] args)
     {
+
         DalTest.Initialization.Do(s_dalTask, s_dalEngineer, s_dalDependency, s_dalConfig);
 
         string? userInput = null;
@@ -66,14 +66,26 @@ internal class Program
                         DateTime dateCreated = input == "" ? DateTime.Now : DateTime.Parse(input!);
 
                         Console.WriteLine("Enter description of task: ");
-                        string? description = Console.ReadLine();
-
-                        Console.WriteLine("Enter duration of task (hours): ");
                         input = Console.ReadLine();
-                        int? duration;
+                        string description = input ?? "";
+                            
 
-                        if (input == "") duration = null;
-                        else duration = Convert.ToInt32(input);
+                        Console.WriteLine("Enter duration of task (hours, hit enter then put minutes and press enter): ");
+                        input = Console.ReadLine();
+                        TimeSpan? duration = null;
+                        int hours, mins;
+
+                        if (input != "" || input is not null)
+                        {
+                            hours = Convert.ToInt32(input);
+
+                            input = Console.ReadLine();
+                            if (input != "" || input is not null)
+                            {
+                                mins = Convert.ToInt32(input);
+                                duration = new TimeSpan(hours, mins, 0);
+                            }
+                        }
 
                         Console.WriteLine("Enter deadline of task (mm/dd/yyyy): ");
                         input = Console.ReadLine();
@@ -217,9 +229,19 @@ internal class Program
 
                                 Console.WriteLine("Enter duration of task (hours): ");
                                 input = Console.ReadLine();
+                                duration = task!.Duration;
 
-                                if (input == "") duration = task!.Duration;
-                                else duration = Convert.ToInt32(input);
+                                if (input != "" || input is not null)
+                                {
+                                    hours = Convert.ToInt32(input);
+
+                                    input = Console.ReadLine();
+                                    if (input != "" || input is not null)
+                                    {
+                                        mins = Convert.ToInt32(input);
+                                        duration = new TimeSpan(hours, mins, 0);
+                                    }
+                                }
 
                                 Console.WriteLine("Enter deadline of task (mm/dd/yyyy): ");
                                 input = Console.ReadLine();

@@ -18,17 +18,17 @@ public class TaskImplementation : ITask
             Id,
             task.Nickname,
             task.DateCreated,
-            task?.Description ?? "",
-            task?.Duration ?? 0,
+            task.Description,
+            task?.Duration,
             task?.Deadline,
             task?.ProjectedStartDate,
             task?.DegreeOfDifficulty,
-            task?.AssignedEngineerId ?? 0,
-            task?.ActualEndDate ?? DateTime.MinValue,
+            task?.AssignedEngineerId,
+            task?.ActualEndDate,
             task?.IsMilestone ?? false,
-            task?.ActualStartDate ?? DateTime.MinValue,
-            task?.Deliverable ?? "",
-            task?.Notes ?? ""
+            task?.ActualStartDate,
+            task?.Deliverable,
+            task?.Notes
         );
         DataSource.Tasks.Add( taskCopy );
         return Id;

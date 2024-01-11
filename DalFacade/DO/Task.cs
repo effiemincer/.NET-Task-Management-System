@@ -25,8 +25,8 @@ public record Task
     int Id,
     string Nickname,
     DateTime DateCreated = new DateTime(),
-    string? Description = null,
-    int? Duration = null,                                   //we want to change this to double I think?
+    string Description = "",
+    TimeSpan? Duration = null,                                   //we want to change this to double I think?
     DateTime? Deadline = null,
     DateTime? ProjectedStartDate = null,
     Enums.EngineerExperience? DegreeOfDifficulty = null,
@@ -35,8 +35,8 @@ public record Task
     DateTime? ActualEndDate = null,
     bool IsMilestone = false,
     DateTime? ActualStartDate = null,
-    string Deliverable = "",
-    string Notes = "",
+    string? Deliverable = null,
+    string? Notes = null,
     bool Inactive = false
 
 )

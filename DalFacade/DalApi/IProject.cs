@@ -10,6 +10,11 @@ public interface IProject
     //set end date of project
     void SetProjectEndDate(DateTime? newEndDate);
 
+    //getters
+    DateTime? GetProjectStartDate();
+
+    DateTime? GetProjectEndDate();
+
     //reset everything
     void Reset();
 
