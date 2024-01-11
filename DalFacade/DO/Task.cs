@@ -26,11 +26,10 @@ public record Task
     string Nickname,
     DateTime DateCreated = new DateTime(),
     string Description = "",
-    TimeSpan? Duration = null,                                   //we want to change this to double I think?
+    TimeSpan? Duration = null,                                  
     DateTime? Deadline = null,
     DateTime? ProjectedStartDate = null,
     Enums.EngineerExperience? DegreeOfDifficulty = null,
-    //should be initialized --> is this required?
     int? AssignedEngineerId = null,
     DateTime? ActualEndDate = null,
     bool IsMilestone = false,

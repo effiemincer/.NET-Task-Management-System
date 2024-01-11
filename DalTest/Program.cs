@@ -342,43 +342,6 @@ internal class Program
 
                         break;
 
-                    //case "h":
-                    //    Console.WriteLine("What is the ID of the task you want to change the projected start date of?");
-                    //    input = Console.ReadLine();
-                    //    int idOfTask = (input is null ) ? -1 : Convert.ToInt32(input);
-
-                    //    Console.WriteLine("What is the new date to kickstart this task? (mm/dd/yyyy)");
-                    //    input = Console.ReadLine();
-                    //    DateTime? kickStartDate = (input == "" ? null : DateTime.Parse(input!));
-
-                    //    try
-                    //    {
-                    //        s_dalTask!.ProjectKickStartDate(idOfTask, kickStartDate);
-                    //    }
-                    //    catch (Exception ex)
-                    //    {
-                    //        Console.WriteLine(ex);
-                    //    }
-                    //    break;
-
-                    //case "i":
-                    //    Console.WriteLine("What is the ID of the task for which you want to set the end date?");
-                    //    input = Console.ReadLine();
-                    //    idOfTask = (input is null) ? -1 : Convert.ToInt32(input);
-
-                    //    Console.WriteLine("What is the new end date to this task? (mm/dd/yyyy)");
-                    //    input = Console.ReadLine();
-                    //    DateTime? newEndDate = (input == "" ? null : DateTime.Parse(input!));
-
-                    //    try
-                    //    {
-                    //        s_dalConfig!.ProjectEndDate(idOfTask, newEndDate);
-                    //    }
-                    //    catch (Exception ex)
-                    //    {
-                    //        Console.WriteLine(ex);
-                    //    }
-                    //    break;
                 }
 
             }

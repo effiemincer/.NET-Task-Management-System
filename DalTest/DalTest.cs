@@ -8,6 +8,9 @@ using DalApi;
 static internal class DalTest
 {
 
+    /// <summary>
+    /// Initializaton of all the lists with test information
+    /// </summary>
     public static class Initialization
     {
         private static IProject? s_dalConfig;    //stage 1
