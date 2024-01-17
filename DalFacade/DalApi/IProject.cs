@@ -1,4 +1,5 @@
 ﻿
+//for manipulating the project start 
 
 namespace DalApi;
 
@@ -11,9 +12,9 @@ public interface IProject
     void SetProjectEndDate(DateTime? newEndDate);
 
     //getters
-    DateTime? GetProjectStartDate();
+    public DateTime? GetProjectStartDate();
 
-    DateTime? GetProjectEndDate();
+    public DateTime? GetProjectEndDate();
 
     //reset everything
     void Reset();

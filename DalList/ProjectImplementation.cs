@@ -27,12 +27,12 @@ public class ProjectImplementation : IProject
     }
 
     //getters
-    DateTime? GetProjectStartDate()
+    public DateTime? GetProjectStartDate()
     {
         return DataSource.Config.kickstartDate;
     }
 
-    DateTime? GetProjectEndDate()
+    public DateTime? GetProjectEndDate()
     {
         return DataSource.Config.endDate;
     }
