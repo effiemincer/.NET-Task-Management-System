@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
-namespace DalApi
+namespace DalApi;
+
+/// <summary>
+/// Crud interface
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public interface ICrud<T> where T : class
 {
-    public interface ICrud<T> where T : class
-    {
-        int Create(T entity);
+    int Create(T entity);
 
-        T? Read(int id);
+    T? Read(int id);
 
-        //List<T> ReadAll();
+    //List<T> ReadAll();
 
-        T? Read(Func<T, bool> filter); // stage 2
+    T? Read(Func<T, bool> filter); // stage 2
 
-        void Update(T entity);
+    void Update(T entity);
 
-        void Delete(int id);
+    void Delete(int id);
 
-        IEnumerable<T?> ReadAll(Func<T, bool>? filter = null); // stage 2
+    IEnumerable<T?> ReadAll(Func<T, bool>? filter = null); // stage 2
 
-    }
 }
