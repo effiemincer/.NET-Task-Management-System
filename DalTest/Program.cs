@@ -10,7 +10,7 @@ internal class Program
     //private static ITask? s_dalTask = new TaskImplementation(); //stage 1
     //private static IEngineer? s_dalEngineer = new EngineerImplementation(); //stage 1
     //private static IDependency? s_dalDependency = new DependencyImplementation(); //stage 1
-    private static IDal? s_dal;
+    private static IDal? s_dal = new DalList();
 
     static void Main(string[] args)
     {
@@ -181,7 +181,7 @@ internal class Program
                         try
                         {
                             //for loop to print them all
-                            foreach(DO.Task var_task in s_dalTask!.ReadAll())
+                            foreach(DO.Task var_task in s_dal!.Task.ReadAll())
                             {
                                 
                                 Console.WriteLine(var_task);
@@ -209,7 +209,7 @@ internal class Program
                             
                             try
                             {
-                                DO.Task? task = s_dalTask!.Read(intId) ?? null;
+                                DO.Task? task = s_dal!.Task.Read(intId) ?? null;
 
                                 //print out object
                                 Console.WriteLine(task);
@@ -298,7 +298,7 @@ internal class Program
                                                         projectedStart, difficulty, assignedEng, actualEnd,
                                                         isMilestone, actualStart, deliverable!, notes!, inactive);
                             
-                                s_dalTask.Update(updatedTask);
+                                s_dal!.Task.Update(updatedTask);
 
                             }
                             catch (Exception ex)
@@ -319,7 +319,7 @@ internal class Program
                             int intId = Convert.ToInt32(stringId);
                             try
                             {
-                                s_dalTask!.Delete(intId);
+                                s_dal!.Task.Delete(intId);
                             }
                             catch (Exception ex)
                             {
@@ -334,7 +334,7 @@ internal class Program
                         Console.WriteLine("Erasing all tasks...");
                         try
                         {
-                            s_dalTask?.Reset();
+                            s_dal!.Task.Reset();
                         }
                         catch (Exception ex)
                         {
@@ -402,7 +402,7 @@ internal class Program
                         try
                         {
                             Engineer eng = new Engineer(tz, name, email, experience, costPerHour, inactive);
-                            s_dalEngineer!.Create(eng);
+                            s_dal!.Engineer.Create(eng);
                         }
                         catch (Exception ex)
                         {
@@ -420,7 +420,7 @@ internal class Program
                             int intId = Convert.ToInt32(stringId);
                             try
                             {
-                                Engineer? eng = s_dalEngineer!.Read(intId);
+                                Engineer? eng = s_dal!.Engineer.Read(intId);
 
                                 if (eng is not null) Console.WriteLine(eng);    //if eng is found
 
@@ -440,7 +440,7 @@ internal class Program
                         try
                         {
                             //for loop to print them all
-                            foreach (Engineer var_eng in s_dalEngineer!.ReadAll())
+                            foreach (Engineer var_eng in s_dal!.Engineer.ReadAll())
                             {
                                 
                                 Console.WriteLine(var_eng);
@@ -467,7 +467,7 @@ internal class Program
                             int intId = Convert.ToInt32(stringId);
 
                             try { 
-                                engineer = s_dalEngineer!.Read(intId);
+                                engineer = s_dal!.Engineer.Read(intId);
 
                                 //print out object
                                 Console.WriteLine(engineer);
@@ -501,7 +501,7 @@ internal class Program
 
                                 Engineer updatedEng = new Engineer(engineer!.Id, name, email, experience, costPerHour, inactive);
                             
-                                if (engineer is not null) s_dalEngineer.Update(updatedEng);
+                                if (engineer is not null) s_dal!.Engineer.Update(updatedEng);
 
                             }
                             catch (Exception ex)
@@ -522,7 +522,7 @@ internal class Program
                             int intId = Convert.ToInt32(stringId);
                             try
                             {
-                                s_dalEngineer!.Delete(intId);
+                                s_dal!.Engineer.Delete(intId);
                             }
                             catch (Exception ex)
                             {
@@ -537,7 +537,7 @@ internal class Program
                         Console.WriteLine("Erasing all engineers...");
                         try
                         {
-                            s_dalEngineer?.Reset();
+                            s_dal!.Engineer.Reset();
                         }
                         catch (Exception ex)
                         {
@@ -606,7 +606,7 @@ internal class Program
                         {
                             Dependency dep = new Dependency(0, depTaskID, reqID, customerEmail, shipAddress,
                                 dateCreated, shipDate, deliveryDate, inactive);
-                            s_dalDependency!.Create(dep);
+                            s_dal!.Dependency.Create(dep);
                         }
                         catch (Exception ex)
                         {
@@ -623,7 +623,7 @@ internal class Program
                             int intId = Convert.ToInt32(stringId);
                             try
                             {
-                                Dependency? dep = s_dalDependency!.Read(intId);
+                                Dependency? dep = s_dal!.Dependency.Read(intId);
 
                                 if (dep is not null) Console.WriteLine(dep);    //if eng is found
 
@@ -643,7 +643,7 @@ internal class Program
                         try
                         {
                             //for loop to print them all
-                            foreach (Dependency var_dep in s_dalDependency!.ReadAll())
+                            foreach (Dependency var_dep in s_dal!.Dependency.ReadAll())
                             {
                                 Console.WriteLine(var_dep);
                                 Console.WriteLine();
@@ -667,7 +667,7 @@ internal class Program
                         {
                             int intId = Convert.ToInt32(stringId);
                             try { 
-                                dependency = s_dalDependency!.Read(intId);
+                                dependency = s_dal!.Dependency.Read(intId);
 
                                 //print out object
                                 Console.WriteLine(dependency);
@@ -709,7 +709,7 @@ internal class Program
                                 Dependency updatedDependency = new Dependency(dependency!.Id, depTaskID, reqID, customerEmail, 
                                     shipAddress, dateCreated, shipDate, deliveryDate, inactive);
 
-                                s_dalDependency.Update(updatedDependency);
+                                s_dal!.Dependency.Update(updatedDependency);
 
                             }
                             catch (Exception ex)
@@ -729,7 +729,7 @@ internal class Program
                             int intId = Convert.ToInt32(stringId);
                             try
                             {
-                                s_dalDependency!.Delete(intId);
+                                s_dal!.Dependency.Delete(intId);
                             }
                             catch (Exception ex)
                             {
@@ -744,7 +744,7 @@ internal class Program
                         Console.WriteLine("Erasing all dependencies...");
                         try
                         {
-                            s_dalDependency?.Reset();
+                            s_dal!.Dependency.Reset();
                         }
                         catch (Exception ex)
                         {
