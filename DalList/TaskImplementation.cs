@@ -31,6 +31,7 @@ internal class TaskImplementation : ITask
             task?.Notes
         );
         DataSource.Tasks.Add( taskCopy );
+
         return Id;
 
         // throw new NotImplementedException();

@@ -18,3 +18,8 @@ public class DalNoAccessRightsException : Exception
 {
     public DalNoAccessRightsException(string? message) : base(message) { }
 }
+
+public class DalXMLFileLoadCreateException : Exception
+{
+    public DalXMLFileLoadCreateException(string? message) : base(message) { }
+}
