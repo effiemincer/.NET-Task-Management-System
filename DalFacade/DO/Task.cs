@@ -19,7 +19,7 @@ namespace DO;
 ///<param name = "Notes"></param>
 ///<param name = "Assigned engineer ID"></param>
 /// <param name = "Degree of difficulty"></param>
-/// <param name="Inactive"> (T/F) </param>
+/// <param name= "Inactive"> (T/F) </param>
 public record Task
 (
     int Id,
