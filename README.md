@@ -4,7 +4,10 @@ Todo:
 - create logic for dependencies (group the tasks in groups of 4 and set dependencies on them in chronological order) - WERE NOT DOING THIS
 - - fix the dates for some stuff (every date has to be after the project start date) -- WERE NOT GONNA DO THIS
 - maybe get rid of not needed data in dependencies
-- add comments to everything
+- add comments to everything (chatGPT)
+- implement the project stuff (maybe in the config xml) the the project has a start and end date (or implement in both task and dependency, but that's dumb)
+- add engineer xml stuff (stage 3 part 5) add as XElement
+- 
 
 
 
