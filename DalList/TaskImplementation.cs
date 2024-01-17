@@ -2,7 +2,7 @@
 using DO;
 using DalApi;
 
-public class TaskImplementation : ITask
+internal class TaskImplementation : ITask
 {
     public int Create(Task task)
     {

@@ -14,9 +14,10 @@ static internal class DalTest
     public static class Initialization
     {
         private static IProject? s_dalConfig;    //stage 1
-        private static ITask? s_dalTask; //stage 1
-        private static IEngineer? s_dalEngineer; //stage 1
-        private static IDependency? s_dalDependency; //stage 1
+        //private static ITask? s_dalTask; //stage 1
+        //private static IEngineer? s_dalEngineer; //stage 1
+        //private static IDependency? s_dalDependency; //stage 1
+        private static IDal? s_dal;
 
         private static readonly Random s_random = new Random();
 
@@ -56,7 +57,7 @@ static internal class DalTest
 
                 int _assignedEngId = s_random.Next(2000000, 4000000); //Teduat zehut
 
-                s_dalTask!.Create(new Task(0, var_task, _createdDate, _description, _duration, _deadline, _startDate, _allDifficulties[_randIndex], _assignedEngId));
+                s_dal!.Task.Create(new Task(0, var_task, _createdDate, _description, _duration, _deadline, _startDate, _allDifficulties[_randIndex], _assignedEngId));
 
             }
 
@@ -94,7 +95,7 @@ static internal class DalTest
                 Enums.EngineerExperience[] _allLevels = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
                 int _randIndex = s_random.Next(0, _allLevels.Length);
 
-                s_dalEngineer!.Create(new Engineer(Convert.ToInt32(IdentityNumbers[i]), EngineerNames[i], EmailAddresses[i], _allLevels[_randIndex], _cost));
+                s_dal!.Engineer.Create(new Engineer(Convert.ToInt32(IdentityNumbers[i]), EngineerNames[i], EmailAddresses[i], _allLevels[_randIndex], _cost));
             }
         }
 
@@ -208,7 +209,7 @@ static internal class DalTest
 
                 while (reqID == taskID) reqID = s_random.Next(8000, 8020); // to avoid circular dependency
 
-                s_dalDependency!.Create(new Dependency(0, taskID, reqID, EmailAddresses[i], ShippingAddresses[i], _creation, _shipping, _delivery));
+                s_dal!.Dependency.Create(new Dependency(0, taskID, reqID, EmailAddresses[i], ShippingAddresses[i], _creation, _shipping, _delivery));
             }
 
         }
@@ -227,11 +228,22 @@ static internal class DalTest
         }
 
         //Definition and implementation of the Do driver method
-        public static void Do (ITask? dalTask, IEngineer? dalEngineer, IDependency? dalDependency, IProject? dalConfig)
+        //public static void Do (ITask? dalTask, IEngineer? dalEngineer, IDependency? dalDependency, IProject? dalConfig)
+        //{
+        //    s_dalTask = dalTask ?? throw new NullReferenceException("DAL cannot be null!");
+        //    s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL cannot be null!");
+        //    s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL cannot be null!");
+        //    s_dalConfig = dalConfig ?? throw new NullReferenceException("DAL cannot be null!");
+
+        //    createStartAndEndDateForProject();
+        //    createTasks();
+        //    createEngineers();
+        //    createDependencies();
+        //}
+
+        public static void Do(IDal? Dal, IProject? dalConfig)
         {
-            s_dalTask = dalTask ?? throw new NullReferenceException("DAL cannot be null!");
-            s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL cannot be null!");
-            s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL cannot be null!");
+            s_dal = Dal ?? throw new NullReferenceException("DAL obj can't be null");
             s_dalConfig = dalConfig ?? throw new NullReferenceException("DAL cannot be null!");
 
             createStartAndEndDateForProject();

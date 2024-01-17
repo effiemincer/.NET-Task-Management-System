@@ -3,7 +3,7 @@ namespace Dal;
 using  DO;
 using DalApi;
 
-public class DependencyImplementation : IDependency
+internal class DependencyImplementation : IDependency
 {
     /// <summary>
     /// Dependency Create

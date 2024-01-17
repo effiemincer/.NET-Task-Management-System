@@ -7,14 +7,15 @@ namespace DalTest;
 internal class Program
 {
     private static IProject? s_dalConfig = new ProjectImplementation();    //stage 1
-    private static ITask? s_dalTask = new TaskImplementation(); //stage 1
-    private static IEngineer? s_dalEngineer = new EngineerImplementation(); //stage 1
-    private static IDependency? s_dalDependency = new DependencyImplementation(); //stage 1
+    //private static ITask? s_dalTask = new TaskImplementation(); //stage 1
+    //private static IEngineer? s_dalEngineer = new EngineerImplementation(); //stage 1
+    //private static IDependency? s_dalDependency = new DependencyImplementation(); //stage 1
+    private static IDal? s_dal;
 
     static void Main(string[] args)
     {
 
-        DalTest.Initialization.Do(s_dalTask, s_dalEngineer, s_dalDependency, s_dalConfig);
+        DalTest.Initialization.Do(s_dal, s_dalConfig);
 
         string? userInput = null;
 
@@ -143,7 +144,7 @@ internal class Program
                             DO.Task task = new DO.Task(0, name, dateCreated, description, duration, deadline,
                                 projectedStart, difficulty, assignedEng, actualEnd,
                                 isMilestone, actualStart, deliverable!, notes!, inactive);
-                            s_dalTask!.Create(task);
+                            s_dal!.Task.Create(task);
                         }
                         catch   (Exception ex) { 
                             Console.WriteLine(ex);
@@ -160,7 +161,7 @@ internal class Program
                             int intId = Convert.ToInt32(stringId);
                             try
                             {
-                                DO.Task? task1 = s_dalTask!.Read(intId);
+                                DO.Task? task1 = s_dal!.Task.Read(intId);
 
                                 if (task1 is not null) Console.WriteLine(task1);    //if task is found
 

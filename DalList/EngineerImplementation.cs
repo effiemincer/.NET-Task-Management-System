@@ -3,7 +3,7 @@ namespace Dal;
 using DO;
 using DalApi;
 
-public class EngineerImplementation : IEngineer
+internal class EngineerImplementation : IEngineer
 {
     public int Create(Engineer engineer)
     {
