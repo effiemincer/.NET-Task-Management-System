@@ -2,9 +2,10 @@
 
 Todo:
 - create logic for dependencies (group the tasks in groups of 4 and set dependencies on them in chronological order) - WERE NOT DOING THIS
+- - fix the dates for some stuff (every date has to be after the project start date) -- WERE NOT GONNA DO THIS
 - maybe get rid of not needed data in dependencies
 - add comments to everything
-- fix the dates for some stuff (every date has to be after the project start date) -- WERE NOT GONNA DO THIS
+
 
 
 
