@@ -9,7 +9,7 @@ internal class TaskImplementation : ITask
         int Id = DataSource.Config.NextITaskId;
         if(DataSource.Tasks.Any(taskItem => taskItem.Id == Id))
         {
-            throw new Exception("object with that id already exists!");
+            throw new DalAlreadyExistsException("object with that id already exists!");
         }
         // just doing non-preset feilds here not sure if were supposed to do that
         // until we have more constructors
@@ -76,7 +76,7 @@ internal class TaskImplementation : ITask
         int index = DataSource.Tasks.FindIndex(t => t.Id == task.Id && t.Inactive == false);
         if (index == -1)
         {
-            throw new Exception($"object of type Task with identifier {task.Id} does not exist");
+            throw new DalDoesNotExistException($"object of type Task with identifier {task.Id} does not exist");
         }
 
         // Removes the old task
@@ -92,7 +92,7 @@ internal class TaskImplementation : ITask
         int index = DataSource.Tasks.FindIndex(t => t.Id == id);
         if (index == -1)
         {
-            throw new Exception($"object of type Task with identifier {id} does not exist");
+            throw new DalDoesNotExistException($"object of type Task with identifier {id} does not exist");
         }
 
         Task inactiveTask = DataSource.Tasks[index] with { Inactive = true };

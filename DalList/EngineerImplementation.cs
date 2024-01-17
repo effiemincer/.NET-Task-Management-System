@@ -11,7 +11,7 @@ internal class EngineerImplementation : IEngineer
         //int Id = DataSource.Config.NextEngineerId;
         if (DataSource.Engineers.Any(engineerItem => engineerItem.Id == engineer.Id))
         {
-            throw new Exception("object with that id already exists!");
+            throw new DalAlreadyExistsException("object with that id already exists!");
         }
         Engineer engineerCopy = new Engineer(
             engineer.Id, 
@@ -64,7 +64,7 @@ internal class EngineerImplementation : IEngineer
         int index = DataSource.Engineers.FindIndex(e => e.Id == engineer.Id && e.Inactive == false);
         if (index == -1)
         {
-            throw new Exception($"object of type Engineer with identifier {engineer.Id} does not exist");
+            throw new DalDoesNotExistException($"object of type Engineer with identifier {engineer.Id} does not exist");
         }
 
         // Remove the old engineer
@@ -79,7 +79,7 @@ internal class EngineerImplementation : IEngineer
         int index = DataSource.Engineers.FindIndex(e => e.Id == id );
         if (index == -1)
         {
-            throw new Exception($"object of type Engineer with identifier {id} does not exist");
+            throw new DalDoesNotExistException($"object of type Engineer with identifier {id} does not exist");
         }
 
         Engineer inactiveEngineer = DataSource.Engineers[index] with { Inactive = true };
