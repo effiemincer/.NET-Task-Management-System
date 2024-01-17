@@ -32,9 +32,31 @@ internal class EngineerImplementation : IEngineer
         return foundEngineer;
     }
 
-    public List<Engineer> ReadAll()
+    public Engineer? Read(Func<Engineer, bool> filter)
     {
-        return new List<Engineer>(DataSource.Engineers.FindAll(i => i.Inactive is not true));
+        if (filter == null)
+        {
+            return null;
+        }
+        return DataSource.Engineers.FirstOrDefault(filter);
+    }
+
+    //public List<Engineer> ReadAll()
+    //{
+    //    return new List<Engineer>(DataSource.Engineers.FindAll(i => i.Inactive is not true));
+    //}
+
+    public IEnumerable<Engineer> ReadAll(Func<Engineer, bool>? filter = null)
+    {
+        if (filter != null)
+        {
+            return from item in DataSource.Engineers
+                   where filter(item) && !item.Inactive
+                   select item;
+        }
+        return from item in DataSource.Engineers
+               where !item.Inactive
+               select item;
     }
 
     public void Update(Engineer engineer)

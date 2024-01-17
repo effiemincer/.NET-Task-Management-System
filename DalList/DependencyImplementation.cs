@@ -16,7 +16,7 @@ internal class DependencyImplementation : IDependency
         int Id = DataSource.Config.NextDependencyId;
         if (DataSource.Dependencies.Any(dependencyItem => dependencyItem.Id == Id))
         {
-            throw new Exception("object with that id already exists!");
+            throw new DalAlreadyExistsException("object with that id already exists!");
         }
         Dependency dependencyCopy = new Dependency(
             Id,
@@ -46,13 +46,34 @@ internal class DependencyImplementation : IDependency
         return foundDependency;
     }
 
+    public Dependency? Read(Func<Dependency, bool> filter) {
+        if (filter == null)
+        {
+            return null;
+        }
+        return DataSource.Dependencies.FirstOrDefault(filter);
+    }
+
     /// <summary>
     /// Dependency ReadAll
     /// </summary>
     /// <returns> the dependency list </returns>
-    public List<Dependency> ReadAll()
+    //public List<Dependency> ReadAll()
+    //{
+    //    return new List<Dependency>(DataSource.Dependencies.FindAll(i => i.Inactive is not true));
+    //}
+
+    public IEnumerable<Dependency> ReadAll(Func<Dependency, bool>? filter = null)
     {
-        return new List<Dependency>(DataSource.Dependencies.FindAll(i => i.Inactive is not true));
+        if (filter != null)
+        {
+            return from item in DataSource.Dependencies
+                   where filter(item) && !item.Inactive
+                   select item;
+        }
+        return from item in DataSource.Dependencies
+               where !item.Inactive
+               select item;
     }
 
     /// <summary>
@@ -65,7 +86,7 @@ internal class DependencyImplementation : IDependency
         int index = DataSource.Dependencies.FindIndex(d => d.Id == dependency.Id && d.Inactive == false);
         if (index == -1)
         {
-            throw new Exception($"object of type Dependency with identifier {dependency.Id} does not exist");
+            throw new DalDoesNotExistException($"object of type Dependency with identifier {dependency.Id} does not exist");
         }
 
         // Remove the old dependency
@@ -85,7 +106,7 @@ internal class DependencyImplementation : IDependency
         int index = DataSource.Dependencies.FindIndex(d => d.Id == id);
         if (index == -1)
         {
-            throw new Exception($"object of type Dependency with identifier {id} does not exist");
+            throw new DalDoesNotExistException($"object of type Dependency with identifier {id} does not exist");
         }
 
         Dependency inactiveDependency= DataSource.Dependencies[index] with { Inactive = true };

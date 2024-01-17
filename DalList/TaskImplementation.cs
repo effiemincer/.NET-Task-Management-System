@@ -44,9 +44,31 @@ internal class TaskImplementation : ITask
         return foundTask;
     }
 
-    public List<Task> ReadAll()
+    public Task? Read(Func<Task, bool> filter)
     {
-        return new List<Task>(DataSource.Tasks.FindAll(i => i.Inactive is not true));
+        if (filter == null)
+        {
+            return null;
+        }
+        return DataSource.Tasks.FirstOrDefault(filter);
+    }
+
+    //public List<Task> ReadAll()
+    //{
+    //    return new List<Task>(DataSource.Tasks.FindAll(i => i.Inactive is not true));
+    //}
+
+    public IEnumerable<Task> ReadAll(Func<Task, bool>? filter = null)
+    {
+        if (filter != null)
+        {
+            return from item in DataSource.Tasks
+                   where filter(item) && !item.Inactive
+                   select item;
+        }
+        return from item in DataSource.Tasks
+               where !item.Inactive
+               select item;
     }
 
     public void Update(Task task)
