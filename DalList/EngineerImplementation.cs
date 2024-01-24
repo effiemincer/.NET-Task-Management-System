@@ -7,8 +7,7 @@ internal class EngineerImplementation : IEngineer
 {
     public int Create(Engineer engineer)
     {
-        // what to do with id's here??
-        //int Id = DataSource.Config.NextEngineerId;
+
         if (DataSource.Engineers.Any(engineerItem => engineerItem.Id == engineer.Id))
         {
             throw new DalAlreadyExistsException("object with that id already exists!");

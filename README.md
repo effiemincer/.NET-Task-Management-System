@@ -2,12 +2,10 @@
 
 Todo:
 - create logic for dependencies (group the tasks in groups of 4 and set dependencies on them in chronological order) - WERE NOT DOING THIS
-- - fix the dates for some stuff (every date has to be after the project start date) -- WERE NOT GONNA DO THIS
-- maybe get rid of not needed data in dependencies
+- fix the dates for some stuff (every date has to be after the project start date) -- WERE NOT GONNA DO THIS
 - add comments to everything (chatGPT)
 - implement the project stuff (maybe in the config xml) the the project has a start and end date (or implement in both task and dependency, but that's dumb)
-- add engineer xml stuff (stage 3 part 5) add as XElement
-- 
+- add dependency as an XElement xml stuff (stage 3 part 5) add as XElement
 
 
 
@@ -21,3 +19,4 @@ Done:
 - Add to test suite 4 - Config and make it that you can choose b/w the 3 functions in config
 - initialize project start date and end date
 - match all data types to the data source structure: https://dbdiagram.io/d/153007-5784-DO-64d8f90302bd1c4a5eb3b8a5
+- maybe get rid of not needed data in dependencies

@@ -578,6 +578,7 @@ internal class Program
                         input = Console.ReadLine();
                         int? reqID = (input == "" || input is null) ? null : Convert.ToInt32(input);
 
+                        /*
                         Console.WriteLine("Enter customer email of the Dependency: ");
                         input = Console.ReadLine();
                         string? customerEmail = (input == "") ? null : input;
@@ -597,6 +598,7 @@ internal class Program
                         Console.WriteLine("Enter delivery date date of the Dependency: ");
                         input = Console.ReadLine();
                         DateTime? deliveryDate = (input == "" ? null : DateTime.Parse(input!));
+                        */
 
                         Console.WriteLine("Enter whether dependency is inactive (Y/N): ");
                         input = Console.ReadLine();
@@ -604,8 +606,7 @@ internal class Program
 
                         try
                         {
-                            Dependency dep = new Dependency(0, depTaskID, reqID, customerEmail, shipAddress,
-                                dateCreated, shipDate, deliveryDate, inactive);
+                            Dependency dep = new Dependency(0, depTaskID, reqID, inactive);
                             s_dal!.Dependency.Create(dep);
                         }
                         catch (Exception ex)
@@ -682,6 +683,7 @@ internal class Program
                                 input = Console.ReadLine();
                                 reqID = (input == "" || input is null) ? dependency!.RequisiteID : Convert.ToInt32(input);
 
+                                /*
                                 Console.WriteLine("Enter customer email of the Dependency: ");
                                 input = Console.ReadLine();
                                 customerEmail = (input == "") ? dependency!.CustomerEmail : input;
@@ -701,13 +703,13 @@ internal class Program
                                 Console.WriteLine("Enter delivery date date of the Dependency: ");
                                 input = Console.ReadLine();
                                 deliveryDate = (input == "" ? dependency!.DeliveryDate : DateTime.Parse(input!));
+                                */
 
                                 Console.WriteLine("Enter whether dependency is inactive (Y/N): ");
                                 input = Console.ReadLine();
                                 inactive = ((input! == "") ? dependency!.Inactive : (input! == "Y"));
 
-                                Dependency updatedDependency = new Dependency(dependency!.Id, depTaskID, reqID, customerEmail, 
-                                    shipAddress, dateCreated, shipDate, deliveryDate, inactive);
+                                Dependency updatedDependency = new Dependency(dependency!.Id, depTaskID, reqID, inactive);
 
                                 s_dal!.Dependency.Update(updatedDependency);
 

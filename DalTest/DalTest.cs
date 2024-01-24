@@ -101,6 +101,7 @@ static internal class DalTest
 
         private static void createDependencies()
         {
+            /*
             string[] EmailAddresses =
             {
                 "john.smith@example.com",
@@ -188,10 +189,11 @@ static internal class DalTest
                 "616 Redwood Blvd, Loft 26, Summitville, State, 15837",
                 "717 Maple Lane, Unit 15, Brookside, State, 73526"
             };
+            */
 
 
-            for (int i = 0; i < EmailAddresses.Length; ++i) {
-
+            for (int i = 0; i < 40; ++i) {
+                /*
                 DateTime _creation = DateTime.Now;
                 int _creationAddition = s_random.Next(365, 1400);
                 _creation.AddDays(_creationAddition);
@@ -201,7 +203,7 @@ static internal class DalTest
                 DateTime _shipping = _creation.AddDays(_shippingAddition);
 
                 int _deliveryAddition = s_random.Next(1, 7);
-                DateTime _delivery = _shipping.AddDays(_deliveryAddition);
+                DateTime _delivery = _shipping.AddDays(_deliveryAddition); */
 
                 //pick a random task and assign it to these 2 ids:
                 int taskID = s_random.Next(8000, 8020);
@@ -209,7 +211,7 @@ static internal class DalTest
 
                 while (reqID == taskID) reqID = s_random.Next(8000, 8020); // to avoid circular dependency
 
-                s_dal!.Dependency.Create(new Dependency(0, taskID, reqID, EmailAddresses[i], ShippingAddresses[i], _creation, _shipping, _delivery));
+                s_dal!.Dependency.Create(new Dependency(0, taskID, reqID));
             }
 
         }

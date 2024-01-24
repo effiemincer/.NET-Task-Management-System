@@ -20,12 +20,7 @@ internal class DependencyImplementation : IDependency
         Dependency dependencyCopy = new Dependency(
             Id,
             dependency?.DependentTaskId ?? 0,
-            dependency?.RequisiteID ?? 0,
-            dependency?.CustomerEmail ?? "",
-            dependency?.ShippingAddress ?? "",
-            dependency?.OrderCreationDate ?? DateTime.Now,
-            dependency?.ShippingDate,
-            dependency?.DeliveryDate
+            dependency?.RequisiteID ?? 0
             );
         Dependencies.Add(dependencyCopy);
         XMLTools.SaveListToXMLSerializer<Dependency>(Dependencies, "dependencies");
