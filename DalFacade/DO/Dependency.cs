@@ -17,5 +17,5 @@ public record Dependency
     )
 {
     //empty ctor
-    //public Dependency() : this(0) { }     //for stage 3
+    public Dependency() : this(0) { }     //for stage 3
 }
