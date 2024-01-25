@@ -4,14 +4,14 @@ using DalApi;
 namespace Dal;
 
 
-public class ProjectImplementation : IProject
+public class ConfigImplementation : IConfig
 {
 
     /// <summary>
     /// set new KickStart Date of project
     /// </summary>
     /// <param name="newStartDate"></param>
-    public void SetProjectStartDate(DateTime? newStartDate)
+    public void SetProjectStartDate(DateTime newStartDate)
     {
 
         DataSource.Config.kickstartDate = newStartDate;
@@ -21,7 +21,7 @@ public class ProjectImplementation : IProject
     /// Set new end date for project
     /// </summary>
     /// <param name="newEndDate"></param>
-    public void SetProjectEndDate(DateTime? newEndDate)
+    public void SetProjectEndDate(DateTime newEndDate)
     {
         DataSource.Config.endDate = newEndDate;
     }

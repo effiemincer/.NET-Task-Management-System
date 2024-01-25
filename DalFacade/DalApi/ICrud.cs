@@ -22,4 +22,6 @@ public interface ICrud<T> where T : class
 
     IEnumerable<T?> ReadAll(Func<T, bool>? filter = null); // stage 2
 
+    void Reset(); //erase all data values (in memory) and erase all data files (in xml)
+
 }

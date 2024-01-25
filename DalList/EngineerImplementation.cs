@@ -92,5 +92,10 @@ internal class EngineerImplementation : IEngineer
     {
         DataSource.Engineers.Clear();
     }
+
+    public void EngineersReset()
+    {
+        throw new NotImplementedException();
+    }
 }
 

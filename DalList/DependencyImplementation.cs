@@ -120,5 +120,10 @@ internal class DependencyImplementation : IDependency
     {
         DataSource.Dependencies.Clear();
     }
+
+    public void DependenciesReset()
+    {
+        throw new NotImplementedException();
+    }
 }
 

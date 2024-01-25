@@ -3,13 +3,13 @@
 
 namespace DalApi;
 
-public interface IProject
+public interface IConfig
 {
     //set start date of porject
-    void SetProjectStartDate(DateTime? newStartDate);
+    void SetProjectStartDate(DateTime newStartDate);
 
     //set end date of project
-    void SetProjectEndDate(DateTime? newEndDate);
+    void SetProjectEndDate(DateTime newEndDate);
 
     //getters
     public DateTime? GetProjectStartDate();
@@ -20,3 +20,4 @@ public interface IProject
     void Reset();
 
 }
+

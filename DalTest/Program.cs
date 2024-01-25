@@ -6,7 +6,7 @@ namespace DalTest;
 
 internal class Program
 {
-    private static IProject? s_dalConfig = new ProjectImplementation();    //stage 1
+    //private static IConfig? s_dalConfig = new ConfigImplementation();    //stage 1
     //private static ITask? s_dalTask = new TaskImplementation(); //stage 1
     //private static IEngineer? s_dalEngineer = new EngineerImplementation(); //stage 1
     //private static IDependency? s_dalDependency = new DependencyImplementation(); //stage 1
@@ -18,7 +18,7 @@ internal class Program
         Console.Write("Would you like to create Initial data? (Y/N)"); //stage 3
         string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input"); //stage 3
         if (ans == "Y") //stage 3
-            DalTest.Initialization.Do(s_dal, s_dalConfig);
+            DalTest.Initialization.Do(s_dal);
 
         string? userInput = null;
 
@@ -759,14 +759,16 @@ internal class Program
                 }
             }
 
-//----------------------------------- Entire Project Maniuplation Menu --------------------------------
+//----------------------------------- Entire Config Maniuplation Menu --------------------------------
             else if (userInput == "4")
             {
                 Console.WriteLine("\nEnter a character for which action to test:\n" +
                     "a. Go back\n" +
                     "b. Reset everything - Reset()\n" +
                     "c. Set new Project Start Date\n" +
-                    "d. Set new Project End Date");
+                    "d. Set new Project End Date\n" + 
+                    "e. Get Project Start Date\n" +
+                    "f. Get Project End Date");
 
                 //take in user input
                 userInput = Console.ReadLine();
@@ -780,7 +782,7 @@ internal class Program
                         try
                         {
                             Console.WriteLine("\nResetting entire project you absolute savage...");
-                            s_dalConfig!.Reset();
+                            s_dal!.Config.Reset();
                         }
                         catch (Exception ex)
                         {
@@ -794,9 +796,9 @@ internal class Program
                         {
                             Console.WriteLine("\nEnter new Project Kickstart date:");
                             string? input = Console.ReadLine();
-                            DateTime? newDate = (input == "") ? null : DateTime.Parse(input!);
+                            DateTime newDate = (input == "") ? DateTime.Now : DateTime.Parse(input!);
 
-                            s_dalConfig!.SetProjectStartDate(newDate);
+                            s_dal!.Config.SetProjectStartDate(newDate);
                         }
                         catch (Exception ex)
                         {
@@ -811,9 +813,33 @@ internal class Program
                         {
                             Console.WriteLine("\nEnter new Project End date:");
                             string? input = Console.ReadLine();
-                            DateTime? newDate = (input == "") ? null : DateTime.Parse(input!);
+                            DateTime newDate = (input == "") ? DateTime.Now : DateTime.Parse(input!);
 
-                            s_dalConfig!.SetProjectEndDate(newDate);
+                            s_dal!.Config.SetProjectEndDate(newDate);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                        break;
+                    //------------ get Prject start date ----------------
+                    case "e":
+                        try
+                        {
+                            Console.WriteLine("\nProject start date: ");
+                            Console.WriteLine(s_dal!.Config.GetProjectStartDate());
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                        break;
+                    //------------ get Prject End date ----------------
+                    case "f":
+                        try
+                        {
+                            Console.WriteLine("\nProject end date: ");
+                            Console.WriteLine(s_dal!.Config.GetProjectEndDate());
                         }
                         catch (Exception ex)
                         {

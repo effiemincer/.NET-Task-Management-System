@@ -13,7 +13,7 @@ static internal class DalTest
     /// </summary>
     public static class Initialization
     {
-        private static IProject? s_dalConfig;    //stage 1
+        //private static IConfig? s_dalConfig;    //stage 1
         //private static ITask? s_dalTask; //stage 1
         //private static IEngineer? s_dalEngineer; //stage 1
         //private static IDependency? s_dalDependency; //stage 1
@@ -224,8 +224,8 @@ static internal class DalTest
             DateTime startDate = DateTime.Now.AddDays(startDateAdd);  
             DateTime endDate = DateTime.Now.AddDays(endDateAdd);
 
-            s_dalConfig!.SetProjectStartDate(startDate);
-            s_dalConfig!.SetProjectEndDate(endDate);
+            s_dal!.Config.SetProjectStartDate(startDate);
+            s_dal!.Config.SetProjectEndDate(endDate);
 
         }
 
@@ -243,19 +243,17 @@ static internal class DalTest
         //    createDependencies();
         //}
 
-        public static void Reset()
+        public static void reset()
         {
-            s_dal!.Engineer.Reset();
-            s_dal!.Task.Reset();
-            s_dal!.Dependency.Reset();
+            s_dal!.Config.Reset();
         }
 
-        public static void Do(IDal? Dal, IProject? dalConfig)
+        public static void Do(IDal? Dal)
         {
             s_dal = Dal ?? throw new NullReferenceException("DAL obj can't be null");
-            s_dalConfig = dalConfig ?? throw new NullReferenceException("DAL cannot be null!");
+            //s_dalConfig = dalConfig ?? throw new NullReferenceException("DAL cannot be null!");
 
-            Reset();
+            reset();
 
             createStartAndEndDateForProject();
             createTasks();

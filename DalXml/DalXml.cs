@@ -11,4 +11,6 @@ sealed public class DalXml : IDal
     public IEngineer Engineer => new EngineerImplementation();
 
     public ITask Task => new TaskImplementation();
+
+    public IConfig Config => new ConfigImplementation();
 }

@@ -110,4 +110,8 @@ internal class TaskImplementation : ITask
         DataSource.Tasks.Clear();
     }
 
+    public void TasksReset()
+    {
+        throw new NotImplementedException();
+    }
 }
