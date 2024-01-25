@@ -145,7 +145,7 @@ internal class DependencyImplementation : IDependency
                 Id = Int32.Parse(depElement.Element("Id")!.Value),
                 DependentTaskId = depElement.Element("DependentTaskId") != null ? (int?)depElement.Element("DependentTaskId") : null,
                 RequisiteID = depElement.Element("RequisiteID") != null ? (int?)depElement.Element("RequisiteID") : null,
-                Inactive = depElement.Element("Inactive")!.Value == "true" ? true : false
+                Inactive = (depElement.Element("Inactive")!.Value == "false" || depElement.Element("Inactive")!.Value == "False") ? false : true
             })
             .Where(dep => dep.Inactive is false)
             .ToList();

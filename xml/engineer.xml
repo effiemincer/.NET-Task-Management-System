@@ -4,40 +4,40 @@
     <Id>267890123</Id>
     <FullName>John Smith</FullName>
     <EmailAddress>john.smith@example.com</EmailAddress>
-    <ExperienceLevel>Beginner</ExperienceLevel>
-    <CostPerHour>49</CostPerHour>
+    <ExperienceLevel>AdvancedBeginner</ExperienceLevel>
+    <CostPerHour>48</CostPerHour>
     <Inactive>false</Inactive>
   </Engineer>
   <Engineer>
     <Id>278901234</Id>
     <FullName>Alice Johnson</FullName>
     <EmailAddress>alice.johnson@example.com</EmailAddress>
-    <ExperienceLevel>Expert</ExperienceLevel>
-    <CostPerHour>49</CostPerHour>
+    <ExperienceLevel>Intermediate</ExperienceLevel>
+    <CostPerHour>52</CostPerHour>
     <Inactive>false</Inactive>
   </Engineer>
   <Engineer>
     <Id>289012345</Id>
     <FullName>David Miller</FullName>
     <EmailAddress>david.miller@example.com</EmailAddress>
-    <ExperienceLevel>AdvancedBeginner</ExperienceLevel>
-    <CostPerHour>47</CostPerHour>
-    <Inactive>false</Inactive>
-  </Engineer>
-  <Engineer>
-    <Id>290123456</Id>
-    <FullName>Emily White</FullName>
-    <EmailAddress>emily.white@example.com</EmailAddress>
-    <ExperienceLevel>Beginner</ExperienceLevel>
-    <CostPerHour>38</CostPerHour>
+    <ExperienceLevel>Expert</ExperienceLevel>
+    <CostPerHour>30</CostPerHour>
     <Inactive>false</Inactive>
   </Engineer>
   <Engineer>
     <Id>302345678</Id>
     <FullName>Michael Davis</FullName>
     <EmailAddress>michael.davis@example.com</EmailAddress>
-    <ExperienceLevel>AdvancedBeginner</ExperienceLevel>
-    <CostPerHour>50</CostPerHour>
+    <ExperienceLevel>Intermediate</ExperienceLevel>
+    <CostPerHour>54</CostPerHour>
     <Inactive>false</Inactive>
+  </Engineer>
+  <Engineer>
+    <Id>290123456</Id>
+    <FullName>Emily White</FullName>
+    <EmailAddress>emily.white@example.com</EmailAddress>
+    <ExperienceLevel>AdvancedBeginner</ExperienceLevel>
+    <CostPerHour>40</CostPerHour>
+    <Inactive>true</Inactive>
   </Engineer>
 </ArrayOfEngineer>

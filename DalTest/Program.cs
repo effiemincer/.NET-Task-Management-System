@@ -79,12 +79,12 @@ internal class Program
                         TimeSpan? duration = null;
                         int hours, mins;
 
-                        if (input != "" || input is not null)
+                        if (input != "" && input is not null)
                         {
                             hours = Convert.ToInt32(input);
 
                             input = Console.ReadLine();
-                            if (input != "" || input is not null)
+                            if (input != "" && input is not null)
                             {
                                 mins = Convert.ToInt32(input);
                                 duration = new TimeSpan(hours, mins, 0);
@@ -184,7 +184,7 @@ internal class Program
                         try
                         {
                             //for loop to print them all
-                            foreach(DO.Task var_task in s_dal!.Task.ReadAll())
+                            foreach(DO.Task? var_task in s_dal!.Task.ReadAll())
                             {
                                 
                                 Console.WriteLine(var_task);
@@ -203,7 +203,6 @@ internal class Program
                     case "e":  //update
                         Console.WriteLine("Enter task ID to update: "); 
                         stringId = Console.ReadLine();
-                        DO.Task? t;
 
                         //checks not empty string
                         if (stringId != "")
@@ -231,16 +230,16 @@ internal class Program
                                 input = Console.ReadLine();
                                 description = (input == "" || input is null) ? task!.Description : input;
 
-                                Console.WriteLine("Enter duration of task (hours): ");
+                                Console.WriteLine("Enter duration of task (hours, hit enter then put minutes and press enter): ");
                                 input = Console.ReadLine();
                                 duration = task!.Duration;
 
-                                if (input != "" || input is not null)
+                                if (input != "" && input is not null)
                                 {
                                     hours = Convert.ToInt32(input);
 
                                     input = Console.ReadLine();
-                                    if (input != "" || input is not null)
+                                    if (input != "" && input is not null)
                                     {
                                         mins = Convert.ToInt32(input);
                                         duration = new TimeSpan(hours, mins, 0);
@@ -353,7 +352,7 @@ internal class Program
 //=============================================== Engineer Menu ==========================================================
             else if (userInput == "2")
             {
-                Console.WriteLine("\nEnter a character for which action to test in Task:\n" +
+                Console.WriteLine("\nEnter a character for which action to test in Engineer:\n" +
                     "a. Go back\n" +
                     "b. Add an Object to the entity list - Create()\n" +
                     "c. Display and object using an object’s identifier - Read()\n" +
@@ -443,7 +442,7 @@ internal class Program
                         try
                         {
                             //for loop to print them all
-                            foreach (Engineer var_eng in s_dal!.Engineer.ReadAll())
+                            foreach (Engineer? var_eng in s_dal!.Engineer.ReadAll())
                             {
                                 
                                 Console.WriteLine(var_eng);
@@ -647,7 +646,7 @@ internal class Program
                         try
                         {
                             //for loop to print them all
-                            foreach (Dependency var_dep in s_dal!.Dependency.ReadAll())
+                            foreach (Dependency? var_dep in s_dal!.Dependency.ReadAll())
                             {
                                 Console.WriteLine(var_dep);
                                 Console.WriteLine();

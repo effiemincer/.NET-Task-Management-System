@@ -73,6 +73,10 @@ internal class TaskImplementation : ITask
 
         // Add the new inactive Task
         Tasks.Add(inactiveTask);
+
+        // Save the empty list to XML
+        XMLTools.SaveListToXMLSerializer<DO.Task>(Tasks, "tasks");
+
     }
 
     // Read a specific Task by ID

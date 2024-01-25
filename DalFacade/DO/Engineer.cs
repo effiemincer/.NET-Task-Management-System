@@ -5,7 +5,7 @@ namespace DO;
 /// Engineer: someone who can complete tasks
 ///</summary>
 
-/// <param name="Id">A unique identifier (created automatically)</param>
+/// <param name="Id">A unique identifier </param>
 /// <param name="FullName"> Full name </param>
 /// <param name="EmailAddress"> Email</param>
 /// <param name="ExperienceLevel"> experience from enum</param>

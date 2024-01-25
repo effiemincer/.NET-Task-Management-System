@@ -60,7 +60,7 @@ internal class EngineerImplementation : IEngineer
         Engineers.Add(inactiveEngineer);
 
         // Save the updated list to XML
-        XMLTools.SaveListToXMLSerializer<Engineer>(Engineers, "engineer");
+        XMLTools.SaveListToXMLSerializer<Engineer>(Engineers, "engineers");
     }
 
     // Read a specific Engineer by ID
