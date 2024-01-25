@@ -5,8 +5,8 @@ Todo:
 - fix the dates for some stuff (every date has to be after the project start date) -- WERE NOT GONNA DO THIS
 - add comments to everything (chatGPT)
 - implement the project stuff (maybe in the config xml) the the project has a start and end date (or implement in both task and dependency, but that's dumb)
-
-
+	- add project stuff in data-config.xml
+	- fix reset stuff from inititialization in dalTest and put it in the config stuff
 
 
 

@@ -10,12 +10,15 @@ internal class Program
     //private static ITask? s_dalTask = new TaskImplementation(); //stage 1
     //private static IEngineer? s_dalEngineer = new EngineerImplementation(); //stage 1
     //private static IDependency? s_dalDependency = new DependencyImplementation(); //stage 1
-    private static IDal? s_dal = new DalList();
+    // private static IDal? s_dal = new DalList();   // stage 2
+    private static IDal? s_dal = new DalXml();
 
     static void Main(string[] args)
     {
-
-        DalTest.Initialization.Do(s_dal, s_dalConfig);
+        Console.Write("Would you like to create Initial data? (Y/N)"); //stage 3
+        string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input"); //stage 3
+        if (ans == "Y") //stage 3
+            DalTest.Initialization.Do(s_dal, s_dalConfig);
 
         string? userInput = null;
 

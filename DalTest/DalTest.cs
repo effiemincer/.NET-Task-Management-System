@@ -243,10 +243,19 @@ static internal class DalTest
         //    createDependencies();
         //}
 
+        public static void Reset()
+        {
+            s_dal!.Engineer.Reset();
+            s_dal!.Task.Reset();
+            s_dal!.Dependency.Reset();
+        }
+
         public static void Do(IDal? Dal, IProject? dalConfig)
         {
             s_dal = Dal ?? throw new NullReferenceException("DAL obj can't be null");
             s_dalConfig = dalConfig ?? throw new NullReferenceException("DAL cannot be null!");
+
+            Reset();
 
             createStartAndEndDateForProject();
             createTasks();

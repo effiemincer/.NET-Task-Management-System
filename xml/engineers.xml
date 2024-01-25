@@ -1,3 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfEngineer>
+<ArrayOfEngineer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Engineer>
+    <Id>267890123</Id>
+    <FullName>John Smith</FullName>
+    <EmailAddress>john.smith@example.com</EmailAddress>
+    <ExperienceLevel>Advanced</ExperienceLevel>
+    <CostPerHour>31</CostPerHour>
+    <Inactive>false</Inactive>
+  </Engineer>
+  <Engineer>
+    <Id>278901234</Id>
+    <FullName>Alice Johnson</FullName>
+    <EmailAddress>alice.johnson@example.com</EmailAddress>
+    <ExperienceLevel>Beginner</ExperienceLevel>
+    <CostPerHour>32</CostPerHour>
+    <Inactive>false</Inactive>
+  </Engineer>
+  <Engineer>
+    <Id>289012345</Id>
+    <FullName>David Miller</FullName>
+    <EmailAddress>david.miller@example.com</EmailAddress>
+    <ExperienceLevel>Beginner</ExperienceLevel>
+    <CostPerHour>33</CostPerHour>
+    <Inactive>false</Inactive>
+  </Engineer>
+  <Engineer>
+    <Id>290123456</Id>
+    <FullName>Emily White</FullName>
+    <EmailAddress>emily.white@example.com</EmailAddress>
+    <ExperienceLevel>Expert</ExperienceLevel>
+    <CostPerHour>30</CostPerHour>
+    <Inactive>false</Inactive>
+  </Engineer>
+  <Engineer>
+    <Id>302345678</Id>
+    <FullName>Michael Davis</FullName>
+    <EmailAddress>michael.davis@example.com</EmailAddress>
+    <ExperienceLevel>Beginner</ExperienceLevel>
+    <CostPerHour>58</CostPerHour>
+    <Inactive>false</Inactive>
+  </Engineer>
 </ArrayOfEngineer>

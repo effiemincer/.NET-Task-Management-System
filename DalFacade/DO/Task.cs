@@ -41,6 +41,6 @@ public record Task
 )
 {
     //empty ctor
-    //public Task() : this(0, "") { }   //for stage 3
+    public Task() : this(0, "") { }   //for stage 3
 }
 
