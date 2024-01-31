@@ -248,9 +248,9 @@ static internal class DalTest
             s_dal!.Config.Reset();
         }
 
-        public static void Do(IDal? Dal)
+        public static void Do()
         {
-            s_dal = Dal ?? throw new NullReferenceException("DAL obj can't be null");
+            s_dal = DalApi.Factory.Get;
             //s_dalConfig = dalConfig ?? throw new NullReferenceException("DAL cannot be null!");
 
             reset();
