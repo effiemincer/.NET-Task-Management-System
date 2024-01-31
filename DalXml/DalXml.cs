@@ -13,4 +13,8 @@ sealed public class DalXml : IDal
     public ITask Task => new TaskImplementation();
 
     public IConfig Config => new ConfigImplementation();
+
+    public static IDal Instance { get; } = new DalXml();
+
+    private DalXml() { }
 }
