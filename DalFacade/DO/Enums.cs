@@ -5,10 +5,10 @@ public record Enums
 {
     public enum EngineerExperience
     {
-        Beginner,
+        Novice,
         AdvancedBeginner,
-        Intermediate,
-        Advanced,
+        Competent,
+        Proficient,
         Expert
     }
 }
