@@ -1,7 +1,6 @@
 ﻿   
 using DalApi;
 using DO;
-using System.Data.Common;
 using System.Xml.Linq;
 
 namespace Dal;
@@ -9,7 +8,7 @@ namespace Dal;
 
 internal class ConfigImplementation : IConfig
 {
-    static string s_data_config_xml = "data-config";
+    readonly string s_data_config_xml = "data-config";
 
     /// <summary>
     /// set new KickStart Date of project
