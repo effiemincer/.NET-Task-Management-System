@@ -22,7 +22,7 @@ public record Engineer
     bool Inactive = false
 )
 {
-    public Engineer() : this (0, "", ""){ } //empty ctor for stage 3
+    public Engineer() : this (0, "", "", 0){ } //empty ctor for stage 3
 
 }
 
