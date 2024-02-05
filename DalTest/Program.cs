@@ -397,7 +397,7 @@ internal class Program
 
                         Console.WriteLine("Enter cost per hour of the engineer (XX.XX): ");
                         input = Console.ReadLine();
-                        double? costPerHour = (input == "") ? null : Convert.ToDouble(input);
+                        double costPerHour = (input == "") ? 0 : Convert.ToDouble(input);
 
                         Console.WriteLine("Enter whether engineer is inactive (Y/N): ");
                         input = Console.ReadLine();
@@ -405,7 +405,7 @@ internal class Program
 
                         try
                         {
-                            Engineer eng = new Engineer(tz, name, email, experience, costPerHour, inactive);
+                            Engineer eng = new Engineer(tz, name, email, costPerHour, experience, inactive);
                             s_dal!.Engineer.Create(eng);
                         }
                         catch (Exception ex)
@@ -503,8 +503,8 @@ internal class Program
                                 input = Console.ReadLine();
                                 inactive = ((input! == "") ? engineer!.Inactive : (input! == "Y"));
 
-                                Engineer updatedEng = new Engineer(engineer!.Id, name, email, experience, costPerHour, inactive);
-                            
+                                Engineer updatedEng = new Engineer(engineer!.Id, name, email, costPerHour, experience, inactive);
+
                                 if (engineer is not null) s_dal!.Engineer.Update(updatedEng);
 
                             }

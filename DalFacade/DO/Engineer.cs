@@ -16,9 +16,9 @@ public record Engineer
     int Id,
     string FullName,
     string EmailAddress,
+    double CostPerHour,
     //enum
     Enums.EngineerExperience? ExperienceLevel = null,
-    double? CostPerHour = null,
     bool Inactive = false
 )
 {

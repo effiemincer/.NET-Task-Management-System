@@ -16,8 +16,8 @@ internal class EngineerImplementation : IEngineer
             engineer.Id, 
             engineer.FullName, 
             engineer.EmailAddress,
-            engineer?.ExperienceLevel,
-            engineer?.CostPerHour ?? null
+            engineer.CostPerHour,
+            engineer?.ExperienceLevel
         );
         DataSource.Engineers.Add(engineerCopy);
         return engineer!.Id;
