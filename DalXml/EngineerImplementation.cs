@@ -24,7 +24,7 @@ internal class EngineerImplementation : IEngineer
             engineer.Id,
             engineer.FullName,
             engineer.EmailAddress,
-            engineer.CostPerHour
+            engineer.CostPerHour,
             engineer?.ExperienceLevel
         );
 

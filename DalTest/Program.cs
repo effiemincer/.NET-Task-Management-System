@@ -222,7 +222,7 @@ internal class Program
                                 //Collects Updated information from User - if input is blank then do not change
                                 Console.WriteLine("Enter name of task: ");
                                 input = Console.ReadLine();
-                                name = (input == "" || input is null) ? task!.Nickname : input;
+                                name = (input == "" || input is null) ? task!.Alias : input;
 
                                 Console.WriteLine("Date Created (mm/dd/yyyy): ");
                                 input = Console.ReadLine();

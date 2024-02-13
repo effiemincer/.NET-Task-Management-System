@@ -95,7 +95,7 @@ static internal class DalTest
                 Enums.EngineerExperience[] _allLevels = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
                 int _randIndex = s_random.Next(0, _allLevels.Length);
 
-                s_dal!.Engineer.Create(new Engineer(Convert.ToInt32(IdentityNumbers[i]), EngineerNames[i], EmailAddresses[i], _allLevels[_randIndex], _cost));
+                s_dal!.Engineer.Create(new Engineer(Convert.ToInt32(IdentityNumbers[i]), EngineerNames[i], EmailAddresses[i], _cost, _allLevels[_randIndex] ));
             }
         }
 

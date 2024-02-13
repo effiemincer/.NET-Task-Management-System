@@ -27,7 +27,7 @@ internal class TaskImplementation : ITask
         // Create a copy of the Task with the new ID
         DO.Task taskCopy = new DO.Task(
             Id,
-            entity.Nickname,
+            entity.Alias,
             entity.DateCreated,
             entity.Description,
             entity?.Duration,

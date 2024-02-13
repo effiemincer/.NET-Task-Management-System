@@ -6,6 +6,9 @@ Todo:
 - add comments to everything (chatGPT) in the style of ///
 
 
+- WE ARE ON PAGE 18 of STAGE 4
+
+
 
 
 
