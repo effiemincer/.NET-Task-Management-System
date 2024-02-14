@@ -1,4 +1,5 @@
 ﻿using BlApi;
+using BO;
 
 namespace BlImplementation;
 
@@ -19,6 +20,9 @@ internal class TaskImplementation : ITask
 
         if (boTask.Id < 0 || boTask.Alias == "" || boTask.Description == "")
             throw new BO.BlBadInputDataException("Missing ID or name");
+
+        //check if the dependent task ID's exist throw error if not
+        //if it does exist then create a dependency and pass it down
 
         try
         {
@@ -73,7 +77,48 @@ internal class TaskImplementation : ITask
         if (doTask is null)
             throw new BO.BlDoesNotExistException($"Task with ID={id} does not exist");
 
+        //status calculation
+        BO.Enums.Status stat = StatusCalculator(doTask);
 
+        //projected start date calculation
+        DateTime? projectedStart = doTask.Deadline - doTask.Duration;
+
+        //dependencies calculation
+        IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dep => dep.DependentTaskId == doTask.Id);
+
+        /*
+        //if (dependencies is null)
+        //{
+        //    return new BO.Task()
+        //    {
+        //        Id = doTask.Id,
+        //        Alias = doTask.Alias,
+        //        DateCreated = doTask.DateCreated,
+        //        Description = doTask.Description,
+        //        Status = stat,
+        //        RequiredEffortTime = doTask.Duration,
+        //        ActualStartDate = doTask.ActualStartDate,
+        //        ScheduledStartDate = doTask.ScheduledStartDate,
+        //        ProjectedStartDate = projectedStart,
+        //        Deadline = doTask.Deadline,
+        //        ActualEndDate = doTask.ActualEndDate,
+        //        Deliverable = doTask.Deliverable,
+        //        Remarks = doTask.Notes,
+        //        Complexity = (BO.Enums.EngineerExperience?)doTask.DegreeOfDifficulty
+        //    };
+        //}
+
+        //else
+        //{
+        */
+        IEnumerable<BO.TaskInList> dependenciesList = from DO.Dependency dep in dependencies
+                                                        select new BO.TaskInList
+                                                        {
+                                                            Id = (int)dep.RequisiteID!,
+                                                            Description = _dal.Task.Read((int)dep.RequisiteID)!.Description,
+                                                            Alias = _dal.Task.Read((int)dep.RequisiteID)!.Alias,
+                                                            Status = StatusCalculator(_dal.Task.Read((int)dep.RequisiteID)!)
+                                                        };
 
         return new BO.Task()
         {
@@ -81,11 +126,12 @@ internal class TaskImplementation : ITask
             Alias = doTask.Alias,
             DateCreated = doTask.DateCreated,
             Description = doTask.Description,
-            Status = Read(doTask.Id)?.Status ?? BO.Enums.Status.Unscheduled,
+            Status = stat,
+            Dependencies = dependenciesList.ToList<BO.TaskInList>() ?? null,
             RequiredEffortTime = doTask.Duration,
             ActualStartDate = doTask.ActualStartDate,
             ScheduledStartDate = doTask.ScheduledStartDate,
-            ProjectedStartDate = doTask.ScheduledStartDate,
+            ProjectedStartDate = projectedStart,
             Deadline = doTask.Deadline,
             ActualEndDate = doTask.ActualEndDate,
             Deliverable = doTask.Deliverable,
@@ -159,4 +205,22 @@ internal class TaskImplementation : ITask
             throw new BO.BlAlreadyExistsException($"Task with ID={boTask!.Id} already exists", ex);
         }
     }
+
+
+    private BO.Enums.Status StatusCalculator(DO.Task task)
+    {
+        if (task.ActualStartDate is null && task.ScheduledStartDate is null)
+            return BO.Enums.Status.Unscheduled;
+        else if (task.ActualStartDate is null && task.ScheduledStartDate is not null)
+            return BO.Enums.Status.Scheduled;
+        else if (task.ActualStartDate is not null && (task.ActualStartDate + task.Duration) <= task.Deadline)
+            return BO.Enums.Status.OnTrack;
+        else if (task.ActualEndDate is not null && (task.ActualStartDate + task.Duration) > task.Deadline)
+            return BO.Enums.Status.InJeopardy;
+        else if (task.ActualEndDate is not null)
+            return BO.Enums.Status.Done;
+        else
+            throw new BlBadInputDataException("Status could not be calculated for task with ID=" + task.Id);
+    }
+
 }
