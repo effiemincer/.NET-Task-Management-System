@@ -12,6 +12,5 @@ public class Engineer
     public Enums.EngineerExperience? ExperienceLevel {  get; set; }
     public double CostPerHour {  get; init; }
     public BO.TaskInEngineer? Task {  get; set; }
-    public bool Inactive {  get; set; }
         
 }
