@@ -11,7 +11,7 @@ public class Task
     public string? Alias { get; init; }
     public DateTime DateCreated { get; init; }
     public string? Description { get; init; }
-    public BO.Enums.Status Status { get; init; }  
+    public BO.Enums.Status? Status { get; set; }  
     public List<BO.TaskInList>? Dependencies { get; set; }
     public BO.MilestoneInTask? Milestone { get; set; }
     public TimeSpan? RequiredEffortTime { get; set; }
