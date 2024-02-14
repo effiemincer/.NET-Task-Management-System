@@ -1,4 +1,5 @@
 ﻿using BlApi;
+using static BO.Enums;
 
 namespace BlImplementation;
 
@@ -6,61 +7,149 @@ internal class TaskImplementation : ITask
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
-    public int Create(BO.Task item)
+    public int Create(BO.Task boTask)
     {
 
-        //test logic of all the fields
+        if(boTask is null)
+            throw new BO.BlArgumentNullException("Task is null");
 
-        DO.Task boTask = new DO.Task
-        {
+        if (boTask.Id < 0 || boTask.Alias is null || boTask.Alias == "")
+            throw new BO.BlYOUGAVEME BADINFO YOU ARE EVIL("Missing ID or name");
 
-        };
-        //{
-        //    Id = item.Id,
-        //    Alias = item.Alias,
-        //    DateCreated = item.DateCreated,
-        //    Description = item.Description,
-        //    Status = item.Status,
-        //    Dependencies = item?.Dependencies,
-        //    Milestone = item?.Milestone,
-        //    RequiredEffortTime = item?.RequiredEffortTime,
-        //    ActualStartDate = item?.ActualStartDate,
-        //    ScheduledStartDate = item?.ScheduledStartDate,
-        //    ProjectedStartDate = item?.ProjectedStartDate,
-        //    Deadline = item?.Deadline,
-        //    ActualEndDate = item?.ActualEndDate,
-        //    Deliverable = item?.Deliverable,
-        //    Remarks = item?.Remarks,
-        //    Engineer = item?.Engineer,
-        //    Complexity = item?.Complexity,
-        //    Inactive = item!.Inactive
-        //};
+        bool hasMilestone = (boTask.Milestone != null);
 
+        DO.Task doTask = new DO.Task
+        (
+            boTask.Id,
+            boTask.Alias ?? "",
+            boTask.DateCreated,
+            boTask.Description ?? "",
+            boTask?.RequiredEffortTime,
+            boTask?.Deadline,
+            boTask?.ProjectedStartDate,
+            (DO.Enums.EngineerExperience?)boTask?.Complexity,
+            boTask?.Engineer?.Id,
+            boTask?.ActualEndDate,
+            hasMilestone,
+            boTask?.ActualStartDate,
+            boTask?.Deliverable,
+            boTask?.Remarks
+        );
         try
         {
-            int idTask = _dal.Task.Create(newTask);
+            int idTask = _dal.Task.Create(doTask);
+            return idTask;
         }
-
-        return newTask.Id;
+        catch (DO.DalAlreadyExistsException ex)
+        {
+            throw new BO.BlAlreadyExistsException($"Task with ID={boTask!.Id} already exists", ex);
+        }
     }
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            _dal.Task.Delete(id);
+
+        }
+        catch (DO.DalDoesNotExistException ex)
+        {
+            throw new BO.BlDoesNotExistException($"Task with ID={id} does not exist", ex);
+        }   
+        
     }
 
-    public BO.Task Read(int id)
+    public BO.Task? Read(int id)
     {
-        throw new NotImplementedException();
+        DO.Task? doTask = _dal.Task.Read(id);
+
+        if (doTask is null)
+            throw new BO.BlDoesNotExistException($"Task with ID={id} does not exist");
+
+        return new BO.Task()
+        {
+            Id = doTask.Id,
+            Alias = doTask.Alias,
+            DateCreated = doTask.DateCreated,
+            Description = doTask.Description,
+            Status = Read(doTask.Id)?.Status ?? BO.Enums.Status.Unscheduled,
+            RequiredEffortTime = doTask.Duration,
+            ActualStartDate = doTask.ActualStartDate,
+            ScheduledStartDate = doTask.ScheduledStartDate,
+            ProjectedStartDate = doTask.ScheduledStartDate,
+            Deadline = doTask.Deadline,
+            ActualEndDate = doTask.ActualEndDate,
+            Deliverable = doTask.Deliverable,
+            Remarks = doTask.Notes,
+            Complexity = (BO.Enums.EngineerExperience?)doTask.DegreeOfDifficulty,
+            Inactive = doTask.Inactive
+        };
     }
 
-    public IEnumerable<BO.TaskInList> ReadAll()
+    public IEnumerable<BO.TaskInList> ReadAll(Func<BO.Task, bool>? filter = null)
     {
-        throw new NotImplementedException();
+        IEnumerable<BO.TaskInList> tasks;
+
+        if (filter != null) { 
+        tasks = from DO.Task doTask in _dal.Task.ReadAll()
+                where filter(Read(doTask.Id)!)
+                select new BO.TaskInList
+                {
+                    Id = doTask.Id,
+                    Description = doTask.Description,
+                    Alias = doTask.Alias,
+                    Status = Read(doTask.Id)?.Status ?? BO.Enums.Status.Unscheduled
+                };
     }
 
-    public void Update(BO.Task item)
+        else { 
+            tasks = from DO.Task doTask in _dal.Task.ReadAll()
+                    select new BO.TaskInList
+                    {
+                        Id = doTask.Id,
+                        Description = doTask.Description,
+                        Alias = doTask.Alias,
+                        Status = Read(doTask.Id)?.Status ?? BO.Enums.Status.Unscheduled
+                    };
+        }
+        return tasks;
+}
+
+    //fix this, it doesn't make sense i.e let's say you wanted to update the status of a task it wouldn't save anywhere
+    public void Update(BO.Task? boTask)
     {
-        throw new NotImplementedException();
+        if (boTask is null)
+            throw new BO.BlArgumentNullException("Task is null");
+
+        //test logic of all the fields
+        bool hasMilestone = (boTask.Milestone is not null);
+
+        DO.Task doTask = new DO.Task
+        (
+            boTask.Id,
+            boTask.Alias ?? "",
+            boTask.DateCreated,
+            boTask.Description ?? "",
+            boTask?.RequiredEffortTime,
+            boTask?.Deadline,
+            boTask?.ProjectedStartDate,
+            (DO.Enums.EngineerExperience?)boTask?.Complexity,
+            boTask?.Engineer?.Id,
+            boTask?.ActualEndDate,
+            hasMilestone,
+            boTask?.ActualStartDate,
+            boTask?.Deliverable,
+            boTask?.Remarks
+        );
+
+        try
+        {
+            _dal.Task.Update(doTask);
+        }
+        catch (DO.DalAlreadyExistsException ex)
+        {
+            throw new BO.BlAlreadyExistsException($"Task with ID={boTask!.Id} already exists", ex);
+        }
     }
 }

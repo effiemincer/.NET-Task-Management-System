@@ -6,7 +6,7 @@ Todo:
 - add comments to everything (chatGPT) in the style of ///
 
 
-- WE ARE ON PAGE 18 of STAGE 4
+- implement checks in Business layer found on page 16 of the general overview
 
 
 

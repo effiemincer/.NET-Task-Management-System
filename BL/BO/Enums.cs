@@ -4,17 +4,19 @@ public class Enums
 {
     public enum EngineerExperience
     {
-        Beginner,
+        Novice,
         AdvancedBeginner,
-        Intermediate,
-        Advanced,
+        Competent,
+        Proficient,
         Expert
     }
 
     public enum Status
     {
-        New,
-        InProgress,
+        Unscheduled,
+        Scheduled,
+        OnTrack,
+        InJeopardy,
         Done
     }
 }
