@@ -16,12 +16,12 @@ internal class TaskImplementation : ITask
 
         Task taskCopy = new Task(
             Id,
-            task.Nickname,
+            task.Alias,
             task.DateCreated,
             task.Description,
             task?.Duration,
             task?.Deadline,
-            task?.ProjectedStartDate,
+            task?.ScheduledStartDate,
             task?.DegreeOfDifficulty,
             task?.AssignedEngineerId,
             task?.ActualEndDate,

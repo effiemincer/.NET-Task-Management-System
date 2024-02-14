@@ -19,9 +19,9 @@ internal class EngineerImplementation : IEngineer
         DO.Engineer doEngineer = new DO.Engineer(
             e.Id,
             e.Name,
-            e.EmailAddress,
+            e.EmailAddress!,
             e.CostPerHour,
-            (DO.Enums.EngineerExperience?)e?.ExperienceLevel,
+            (DO.Enums.EngineerExperience?)e?.ExperienceLevel
             
         ); 
         try
@@ -55,7 +55,7 @@ internal class EngineerImplementation : IEngineer
         DO.Engineer? doEngineer = _dal.Engineer.Read(id);
         if (doEngineer == null) throw new BO.BlDoesNotExistException($"Engineer with ID={id} does not exist!");
         
-        IEnumerable<DO.Task> tasks = _dal.Task.ReadAll(task => task.AssignedEngineerId == id);
+        IEnumerable<DO.Task> tasks = _dal.Task.ReadAll(task => task.AssignedEngineerId == id)!;
         if (tasks.Count() > 1) throw new Exception("multiple tasks assigned to engineer"); // might add something to handle this
         
         return new BO.Engineer()
@@ -83,15 +83,15 @@ internal class EngineerImplementation : IEngineer
                             ExperienceLevel = (BO.Enums.EngineerExperience?)e.ExperienceLevel,
                             CostPerHour = e.CostPerHour,
                             Task = new BO.TaskInEngineer(
-                                                     _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null).Id,
-                                                     _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null).Alias
+                                                     _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null)!.Id,
+                                                     _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null)!.Alias
                                                  ),
                         };
         }
         else
         {
             engineers = from DO.Engineer e in _dal.Engineer.ReadAll()
-                        where filter(Read(e.Id))
+                        where e != null && filter(Read(e.Id)!)
                         select new BO.Engineer
                         {
                             Id = e.Id,
@@ -100,8 +100,8 @@ internal class EngineerImplementation : IEngineer
                             ExperienceLevel = (BO.Enums.EngineerExperience?)e.ExperienceLevel,
                             CostPerHour = e.CostPerHour,
                             Task = new BO.TaskInEngineer(
-                                _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null).Id,
-                                _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null).Alias
+                                _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null)!.Id,
+                                _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null)!.Alias
                             ),
                         };
         }
@@ -121,14 +121,14 @@ internal class EngineerImplementation : IEngineer
                 (
                     e.Id,
                     e.Name,
-                    e.EmailAddress,
+                    e.EmailAddress!,
                     e.CostPerHour,
                     (DO.Enums.EngineerExperience?)e?.ExperienceLevel
                 )
             );
     }
 
-    private bool isEmail(string email)
+    private bool isEmail(string? email)
     {
         if (string.IsNullOrWhiteSpace(email))
         {

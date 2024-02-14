@@ -14,7 +14,7 @@ internal class TaskImplementation : ITask
             throw new BO.BlArgumentNullException("Task is null");
 
         if (boTask.Id < 0 || boTask.Alias is null || boTask.Alias == "")
-            throw new BO.BlYOUGAVEME BADINFO YOU ARE EVIL("Missing ID or name");
+            throw new BO.BlBadInputDataException("Missing ID or name");
 
         bool hasMilestone = (boTask.Milestone != null);
 
@@ -82,8 +82,7 @@ internal class TaskImplementation : ITask
             ActualEndDate = doTask.ActualEndDate,
             Deliverable = doTask.Deliverable,
             Remarks = doTask.Notes,
-            Complexity = (BO.Enums.EngineerExperience?)doTask.DegreeOfDifficulty,
-            Inactive = doTask.Inactive
+            Complexity = (BO.Enums.EngineerExperience?)doTask.DegreeOfDifficulty
         };
     }
 
