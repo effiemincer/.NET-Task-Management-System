@@ -24,4 +24,5 @@ public class Task
     public string? Remarks { get; set; }
     public BO.EngineerInTask? Engineer { get; set; }
     public Enums.EngineerExperience? Complexity { get; set; }
+    public override string ToString() => this.ToStringProperty();
 }

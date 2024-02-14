@@ -2,9 +2,9 @@
 using BlApi;
 public class Bl : IBl
 {
-    public IEngineer Engineer => throw new NotImplementedException();
+    public IEngineer Engineer => new EngineerImplementation();
 
-    public ITask Task => throw new NotImplementedException();
+    public ITask Task => new TaskImplementation();
 
-    public IMilestone Milestone => throw new NotImplementedException();
+    public IMilestone Milestone => new MilestoneImplementation();
 }

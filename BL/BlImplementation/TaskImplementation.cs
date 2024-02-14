@@ -20,7 +20,9 @@ internal class TaskImplementation : ITask
         if (boTask.Id < 0 || boTask.Alias == "" || boTask.Description == "")
             throw new BO.BlBadInputDataException("Missing ID or name");
 
-        DO.Task doTask = new DO.Task
+        try
+        {
+            DO.Task doTask = new DO.Task
         (
             boTask.Id,
             boTask.Alias ?? "",
@@ -37,8 +39,6 @@ internal class TaskImplementation : ITask
             boTask!.Deliverable,
             boTask!.Remarks
         );  
-        try
-        {
             int idTask = _dal.Task.Create(doTask);
             return idTask;
         }
@@ -72,6 +72,8 @@ internal class TaskImplementation : ITask
 
         if (doTask is null)
             throw new BO.BlDoesNotExistException($"Task with ID={id} does not exist");
+
+
 
         return new BO.Task()
         {
