@@ -7,10 +7,10 @@ namespace BO;
 public class Task
 {
     public int Id { get; init; }
-    public string Description { get; init; }
-    public string Alias { get; init; }
-    public DateTime CreatedAtDate { get; init; }
-    public BO.Status Status { get; init; }  
+    public string? Alias { get; init; }
+    public DateTime DateCreated { get; init; }
+    public string? Description { get; init; }
+    public BO.Enums.Status Status { get; init; }  
     public List<BO.TaskInList>? Dependencies { get; set; }
     public BO.MilestoneInTask? Milestone { get; set; }
     public TimeSpan? RequiredEffortTime { get; set; }
@@ -23,6 +23,6 @@ public class Task
     public string? Remarks { get; set; }
     public BO.EngineerInTask? Engineer { get; set; }
     public BO.EngineerExperience? Complexity { get; set; }
-    
+    public string? Notes {  get; set; }
     public bool Inactive { get; }
 }

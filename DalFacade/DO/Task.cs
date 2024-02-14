@@ -6,7 +6,7 @@ namespace DO;
 /// </summary>
 
 /// <param name = "Id" > unique ID(created automatically)</param>
-/// <param name = "Nickname"></param>
+/// <param name = "Alias"></param>
 /// <param name = "Description"></param>
 /// <param name = "Is it a milestone?">(T/F)</param>
 /// <param name = "Date created"></param>
@@ -23,7 +23,7 @@ namespace DO;
 public record Task
 (
     int Id,
-    string Nickname,
+    string Alias,
     DateTime DateCreated = new DateTime(),
     string Description = "",
     TimeSpan? Duration = null,                                  

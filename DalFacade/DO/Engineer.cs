@@ -16,13 +16,13 @@ public record Engineer
     int Id,
     string FullName,
     string EmailAddress,
+    double CostPerHour,
     //enum
     Enums.EngineerExperience? ExperienceLevel = null,
-    double? CostPerHour = null,
     bool Inactive = false
 )
 {
-    public Engineer() : this (0, "", ""){ } //empty ctor for stage 3
+    public Engineer() : this (0, "", "", 0){ } //empty ctor for stage 3
 
 }
 
