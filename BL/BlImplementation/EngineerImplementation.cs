@@ -39,7 +39,8 @@ internal class EngineerImplementation : IEngineer
     }
     public void Delete(int id)
     {
-        if (_dal.Task.ReadAll(task => task.AssignedEngineerId == id).Count() > 0) throw new Exception("Cannot delete engineer that was assaigned to a task");
+        if (_dal.Task.ReadAll(task => task.AssignedEngineerId == id).Count() > 0) 
+            throw new Exception("Cannot delete engineer that was assaigned to a task");
 
         try
         {

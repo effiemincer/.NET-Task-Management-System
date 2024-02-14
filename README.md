@@ -7,6 +7,7 @@ Todo:
 
 
 - implement checks in Business layer found on page 16 of the general overview
+- add logic for calculated fields
 
 
 

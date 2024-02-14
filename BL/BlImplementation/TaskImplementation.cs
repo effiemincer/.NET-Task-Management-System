@@ -1,5 +1,4 @@
 ﻿using BlApi;
-using static BO.Enums;
 
 namespace BlImplementation;
 
@@ -7,16 +6,19 @@ internal class TaskImplementation : ITask
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
+    //add logic for calculated fields
+
     public int Create(BO.Task boTask)
     {
 
         if(boTask is null)
             throw new BO.BlArgumentNullException("Task is null");
 
-        if (boTask.Id < 0 || boTask.Alias is null || boTask.Alias == "")
-            throw new BO.BlBadInputDataException("Missing ID or name");
+        if (boTask.Alias is null || boTask.Description is null || boTask.Milestone == null)
+            throw new BO.BlNullPropertyException("Alias or Description is null");
 
-        bool hasMilestone = (boTask.Milestone != null);
+        if (boTask.Id < 0 || boTask.Alias == "" || boTask.Description == "")
+            throw new BO.BlBadInputDataException("Missing ID or name");
 
         DO.Task doTask = new DO.Task
         (
@@ -24,17 +26,17 @@ internal class TaskImplementation : ITask
             boTask.Alias ?? "",
             boTask.DateCreated,
             boTask.Description ?? "",
-            boTask?.RequiredEffortTime,
-            boTask?.Deadline,
-            boTask?.ProjectedStartDate,
+            boTask!.RequiredEffortTime,
+            boTask!.Deadline,
+            boTask!.ProjectedStartDate,
             (DO.Enums.EngineerExperience?)boTask?.Complexity,
-            boTask?.Engineer?.Id,
-            boTask?.ActualEndDate,
-            hasMilestone,
-            boTask?.ActualStartDate,
-            boTask?.Deliverable,
-            boTask?.Remarks
-        );
+            boTask!.Engineer?.Id,
+            boTask!.ActualEndDate,
+            (boTask!.Milestone != null),
+            boTask!.ActualStartDate,
+            boTask!.Deliverable,
+            boTask!.Remarks
+        );  
         try
         {
             int idTask = _dal.Task.Create(doTask);
@@ -48,6 +50,7 @@ internal class TaskImplementation : ITask
 
     public void Delete(int id)
     {
+
         try
         {
             _dal.Task.Delete(id);
@@ -62,6 +65,9 @@ internal class TaskImplementation : ITask
 
     public BO.Task? Read(int id)
     {
+        if (id < 0)
+            throw new BO.BlBadInputDataException("ID must be positive");
+
         DO.Task? doTask = _dal.Task.Read(id);
 
         if (doTask is null)
