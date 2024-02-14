@@ -1,4 +1,5 @@
 ﻿using BlApi;
+
 namespace BlImplementation;
 
 internal class TaskImplementation : ITask
@@ -7,7 +8,40 @@ internal class TaskImplementation : ITask
 
     public int Create(BO.Task item)
     {
-        throw new NotImplementedException();
+
+        //test logic of all the fields
+
+        DO.Task boTask = new DO.Task
+        {
+
+        };
+        //{
+        //    Id = item.Id,
+        //    Alias = item.Alias,
+        //    DateCreated = item.DateCreated,
+        //    Description = item.Description,
+        //    Status = item.Status,
+        //    Dependencies = item?.Dependencies,
+        //    Milestone = item?.Milestone,
+        //    RequiredEffortTime = item?.RequiredEffortTime,
+        //    ActualStartDate = item?.ActualStartDate,
+        //    ScheduledStartDate = item?.ScheduledStartDate,
+        //    ProjectedStartDate = item?.ProjectedStartDate,
+        //    Deadline = item?.Deadline,
+        //    ActualEndDate = item?.ActualEndDate,
+        //    Deliverable = item?.Deliverable,
+        //    Remarks = item?.Remarks,
+        //    Engineer = item?.Engineer,
+        //    Complexity = item?.Complexity,
+        //    Inactive = item!.Inactive
+        //};
+
+        try
+        {
+            int idTask = _dal.Task.Create(newTask);
+        }
+
+        return newTask.Id;
     }
 
     public void Delete(int id)

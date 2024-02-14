@@ -9,4 +9,6 @@ public class MilestoneInList
     public string? Alias { get; init; }
     public BO.Enums.Status Status { get; set; }
     public double? CompletionPercentage { get; set; }
+
+    //SHOULD WE BE ADDING INACTIVE HERE?
 }

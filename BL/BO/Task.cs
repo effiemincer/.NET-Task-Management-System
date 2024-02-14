@@ -1,5 +1,6 @@
 ﻿
 
+
 using DO;
 
 namespace BO;
@@ -22,7 +23,6 @@ public class Task
     public string? Deliverable { get; set; }
     public string? Remarks { get; set; }
     public BO.EngineerInTask? Engineer { get; set; }
-    public BO.EngineerExperience? Complexity { get; set; }
-    public string? Notes {  get; set; }
-    public bool Inactive { get; }
+    public Enums.EngineerExperience? Complexity { get; set; }
+    public bool Inactive { get; set; }
 }
