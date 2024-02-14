@@ -2,7 +2,7 @@
 
 namespace BlApi;
 
-public interface IMillestone
+public interface IMilestone
 {
     public int Create(BO.Milestone item);
     public BO.Milestone Read(int id);
