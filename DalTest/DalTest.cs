@@ -5,7 +5,7 @@ using DO;
 using DalApi;
 
 
-static internal class DalTest
+static public class DalTest
 {
 
     /// <summary>
