@@ -214,7 +214,7 @@ internal class MilestoneImplementation : IMilestone
                 Id = task.Id,
                 Description = task.Description,
                 Alias = task.Alias,
-                Status = StatusCalculator(task)
+                Status = classTools.StatusCalculator(task)
             });
 
         }
@@ -222,23 +222,6 @@ internal class MilestoneImplementation : IMilestone
         return res;
     }
 
-    //somehow get this from the BO.Task directly???
-    //put this in helper/tools/wtvr its called ??
-    private BO.Enums.Status StatusCalculator(DO.Task task)
-    {
-        if (task.ActualStartDate is null && task.ProjectedStartDate is null)
-            return BO.Enums.Status.Unscheduled;
-        else if (task.ActualStartDate is null && task.ProjectedStartDate is not null)
-            return BO.Enums.Status.Scheduled;
-        else if (task.ActualStartDate is not null && (task.ActualStartDate + task.Duration) <= task.Deadline)
-            return BO.Enums.Status.OnTrack;
-        else if (task.ActualEndDate is not null && (task.ActualStartDate + task.Duration) > task.Deadline)
-            return BO.Enums.Status.InJeopardy;
-        else if (task.ActualEndDate is not null)
-            return BO.Enums.Status.Done;
-        else
-            throw new BlBadInputDataException("Status could not be calculated for task with ID=" + task.Id);
-    }
 
     public List<BO.Task> CreateSchedule(DateTime startDate, DateTime endDate, List<TaskInList> tasks, List<MilestoneInList> milestones, List<DO.Dependency> dependencies)
     {
@@ -264,7 +247,7 @@ internal class MilestoneImplementation : IMilestone
                 Description = task.Description,
                 Alias = task.Alias,
                 DateCreated = task.DateCreated,
-                Status = StatusCalculator(task),
+                Status = classTools.StatusCalculator(task),
                 ProjectedStartDate = task.ProjectedStartDate,
                 Deadline = task.Deadline,
                 ActualEndDate = task.ActualEndDate,
@@ -300,7 +283,7 @@ internal class MilestoneImplementation : IMilestone
             Description = description,
             Alias = name,
             DateCreated = task.DateCreated,
-            Status = StatusCalculator(task),
+            Status = classTools.StatusCalculator(task),
             ProjectedStartDate = task.ProjectedStartDate,
             Deadline = task.Deadline,
             ActualEndDate = task.ActualEndDate,

@@ -107,7 +107,7 @@ internal class TaskImplementation : ITask
             throw new BO.BlDoesNotExistException($"Task with ID={id} does not exist");
 
         //status calculation
-        BO.Enums.Status stat = StatusCalculator(doTask);
+        BO.Enums.Status stat = classTools.StatusCalculator(doTask);
 
         //projected start date calculation
         DateTime? projectedStart = doTask.Deadline - doTask.Duration;
@@ -120,7 +120,7 @@ internal class TaskImplementation : ITask
             DateCreated = doTask.DateCreated,
             Description = doTask.Description,
             Status = stat,
-            Dependencies = DependenciesCalculator(doTask),
+            Dependencies = classTools.DependenciesCalculator(doTask),
             RequiredEffortTime = doTask.Duration,
             ActualStartDate = doTask.ActualStartDate,
             ProjectedStartDate = projectedStart,
@@ -209,39 +209,6 @@ internal class TaskImplementation : ITask
     }
 
 
-    private BO.Enums.Status StatusCalculator(DO.Task task)
-    {
-        if (task.ActualStartDate is null && task.ProjectedStartDate is null)
-            return BO.Enums.Status.Unscheduled;
-        else if (task.ActualStartDate is null && task.ProjectedStartDate is not null)
-            return BO.Enums.Status.Scheduled;
-        else if (task.ActualStartDate is not null && (task.ActualStartDate + task.Duration) <= task.Deadline)
-            return BO.Enums.Status.OnTrack;
-        else if (task.ActualEndDate is not null && (task.ActualStartDate + task.Duration) > task.Deadline)
-            return BO.Enums.Status.InJeopardy;
-        else if (task.ActualEndDate is not null)
-            return BO.Enums.Status.Done;
-        else
-            throw new BlBadInputDataException("Status could not be calculated for task with ID=" + task.Id);
-    }
-
-    private List<BO.TaskInList> DependenciesCalculator(DO.Task doTask)
-    {
-        //dependencies calculation
-        IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dep => dep.DependentTaskId == doTask.Id);
-
-        IEnumerable<BO.TaskInList> dependenciesList = from DO.Dependency dep in dependencies
-                                                      select new BO.TaskInList
-                                                      {
-                                                          Id = (int)dep.RequisiteID!,
-                                                          Description = _dal.Task.Read((int)dep.RequisiteID)!.Description,
-                                                          Alias = _dal.Task.Read((int)dep.RequisiteID)!.Alias,
-                                                          Status = StatusCalculator(_dal.Task.Read((int)dep.RequisiteID)!)
-                                                      };
-
-        return dependenciesList.ToList<BO.TaskInList>();
-    }
-
     //I'm stuck here because you can't update a field that is calculated
     
     public void UpdateProjectedStartDate(int id, DateTime newDateTime)
@@ -257,8 +224,8 @@ internal class TaskImplementation : ITask
             Alias = doTask.Alias,
             DateCreated = doTask.DateCreated,
             Description = doTask.Description,
-            Status = StatusCalculator(doTask),
-            Dependencies = DependenciesCalculator(doTask),
+            Status = classTools.StatusCalculator(doTask),
+            Dependencies = classTools.DependenciesCalculator(doTask),
             RequiredEffortTime = doTask.Duration,
             ActualStartDate = doTask.ActualStartDate,
             ProjectedStartDate = newDateTime,
