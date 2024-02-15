@@ -1,14 +1,12 @@
 ﻿using BlApi;
 using BO;
-using System.Linq.Expressions;
+
 
 namespace BlImplementation;
 
 internal class TaskImplementation : ITask
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
-
-    //add logic for calculated fields
 
     public int Create(BO.Task boTask)
     {
@@ -28,12 +26,15 @@ internal class TaskImplementation : ITask
         {
             //check if the dependent task ID's exist throw error if not
             //if it does exist then create a dependency and pass it down
-            if (boTask.Dependencies!.Count() > 0)
+            if (boTask.Dependencies is not null && boTask.Dependencies!.Count() > 0)
             {
                 foreach (BO.TaskInList dep in boTask.Dependencies)
                 {
                     if (_dal.Task.Read(dep.Id) is null)
                         throw new BO.BlBadInputDataException($"Task with ID={dep.Id} does not exist");
+
+                    if (isCircularDep(dep.Id, boTask.Id, 10))
+                        throw new BO.BlBadInputDataException($"Task with ID={dep.Id} has a circular dependency");
                 }
 
                 foreach (BO.TaskInList dep in boTask.Dependencies)
@@ -46,14 +47,7 @@ internal class TaskImplementation : ITask
                     _dal.Dependency.Create(doDep);
                 }
             }
-        }
-        catch (DO.DalAlreadyExistsException ex)
-        {
-            throw new BO.BlAlreadyExistsException($"Dependency with ID={boTask.Id} already exists", ex);
-        }
-            
 
-         try { 
             DO.Task doTask = new DO.Task
         (
             boTask.Id,
@@ -70,14 +64,15 @@ internal class TaskImplementation : ITask
             boTask!.ActualStartDate,
             boTask!.Deliverable,
             boTask!.Remarks
-        );  
+        );
             int idTask = _dal.Task.Create(doTask);
             return idTask;
         }
         catch (DO.DalAlreadyExistsException ex)
         {
-            throw new BO.BlAlreadyExistsException($"Task with ID={boTask!.Id} already exists", ex);
+            throw new BO.BlAlreadyExistsException($"Entity with ID={boTask.Id} already exists", ex);
         }
+            
     }
 
 
@@ -120,7 +115,7 @@ internal class TaskImplementation : ITask
             DateCreated = doTask.DateCreated,
             Description = doTask.Description,
             Status = stat,
-            Dependencies = classTools.DependenciesCalculator(doTask),
+            Dependencies = classTools.DependenciesCalculator(doTask, _dal),
             RequiredEffortTime = doTask.Duration,
             ActualStartDate = doTask.ActualStartDate,
             ProjectedStartDate = projectedStart,
@@ -159,7 +154,7 @@ internal class TaskImplementation : ITask
                     };
         }
         return tasks;
-}
+    }
 
   
     public BO.Task Update(BO.Task? boTask)
@@ -209,7 +204,6 @@ internal class TaskImplementation : ITask
     }
 
 
-    //I'm stuck here because you can't update a field that is calculated
     
     public void UpdateProjectedStartDate(int id, DateTime newDateTime)
     {
@@ -218,28 +212,70 @@ internal class TaskImplementation : ITask
         if (doTask is null)
             throw new BO.BlDoesNotExistException("Task with ID=" + id + " does not exist");
 
-        BO.Task boTask = new BO.Task()
-        {
-            Id = doTask.Id,
-            Alias = doTask.Alias,
-            DateCreated = doTask.DateCreated,
-            Description = doTask.Description,
-            Status = classTools.StatusCalculator(doTask),
-            Dependencies = classTools.DependenciesCalculator(doTask),
-            RequiredEffortTime = doTask.Duration,
-            ActualStartDate = doTask.ActualStartDate,
-            ProjectedStartDate = newDateTime,
-            Deadline = doTask.Deadline,
-            ActualEndDate = doTask.ActualEndDate,
-            Deliverable = doTask.Deliverable,
-            Remarks = doTask.Notes,
-            Complexity = (BO.Enums.EngineerExperience?)doTask.DegreeOfDifficulty
-        };
+        DO.Task newDoTask = new DO.Task
+        (
+            doTask.Id,
+            doTask.Alias ?? "",
+            doTask.DateCreated,
+            doTask.Description ?? "",
+            doTask?.Duration,
+            doTask?.Deadline,
+            newDateTime,
+            doTask?.DegreeOfDifficulty,
+            doTask?.AssignedEngineerId,
+            doTask?.ActualEndDate,
+            doTask!.IsMilestone,
+            doTask?.ActualStartDate,
+            doTask?.Deliverable,
+            doTask?.Notes
+        );
 
-        if (boTask.Dependencies.Count() == 0)
+        IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dep => dep.DependentTaskId == newDoTask.Id);
+
+        if (dependencies.Count() == 0)
         {
-            _dal.Task.Update();
+            _dal.Task.Update(newDoTask);
+        }
+        //checks that the newDatetime is before the deadline of the dependent task
+        else
+        {
+            foreach (DO.Dependency? dep in dependencies)
+            {
+                if (newDateTime <= _dal.Task.Read((int)dep!.RequisiteID!)!.Deadline)
+                    throw new BO.BlBadInputDataException("Projected start date cannot be later than the deadline of the dependent task");
+            }
+            _dal.Task.Update(newDoTask);
         }
     }
-    
+
+    private bool isCircularDep(int depId, int reqId, int n) {
+        if (n == 0) 
+            return false;
+
+        BO.Task? boTask = Read(reqId);
+
+        if (boTask is null)
+            throw new BO.BlDoesNotExistException("Task with ID=" + reqId + " does not exist");
+
+        IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dep => dep.DependentTaskId == boTask.Id);
+
+        if (dependencies == null) 
+            return false;
+
+        foreach (DO.Dependency? dep in dependencies)
+        {
+            if (dep != null && dep.Id == depId)
+                return true;
+        }
+
+            foreach (DO.Dependency? dep in dependencies)
+        {
+               if (isCircularDep(depId, dep!.Id, n-1))
+                   return true;
+        }
+
+        return false;
+    }
+
+
 }

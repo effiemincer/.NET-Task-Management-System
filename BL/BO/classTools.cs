@@ -48,7 +48,7 @@ public static class classTools
             throw new BlBadInputDataException("Status could not be calculated for task with ID=" + task.Id);
     }
 
-    public static List<BO.TaskInList> DependenciesCalculator(DO.Task doTask)
+    public static List<BO.TaskInList> DependenciesCalculator(DO.Task doTask, DalApi.IDal _dal)
     {
         //dependencies calculation
         IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dep => dep.DependentTaskId == doTask.Id);

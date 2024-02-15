@@ -21,7 +21,7 @@ internal class TaskImplementation : ITask
             task.Description,
             task?.Duration,
             task?.Deadline,
-            task?.ScheduledStartDate,
+            task?.ProjectedStartDate,
             task?.DegreeOfDifficulty,
             task?.AssignedEngineerId,
             task?.ActualEndDate,

@@ -32,7 +32,7 @@ internal class TaskImplementation : ITask
             entity.Description,
             entity?.Duration,
             entity?.Deadline,
-            entity?.ScheduledStartDate,
+            entity?.ProjectedStartDate,
             entity?.DegreeOfDifficulty,
             entity?.AssignedEngineerId,
             entity?.ActualEndDate,
