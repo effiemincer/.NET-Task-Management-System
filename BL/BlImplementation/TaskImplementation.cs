@@ -28,7 +28,7 @@ internal class TaskImplementation : ITask
         {
             //check if the dependent task ID's exist throw error if not
             //if it does exist then create a dependency and pass it down
-            if (boTask.Dependencies.Count() > 0)
+            if (boTask.Dependencies!.Count() > 0)
             {
                 foreach (BO.TaskInList dep in boTask.Dependencies)
                 {
@@ -123,7 +123,6 @@ internal class TaskImplementation : ITask
             Dependencies = DependenciesCalculator(doTask),
             RequiredEffortTime = doTask.Duration,
             ActualStartDate = doTask.ActualStartDate,
-            ScheduledStartDate = doTask.ScheduledStartDate,
             ProjectedStartDate = projectedStart,
             Deadline = doTask.Deadline,
             ActualEndDate = doTask.ActualEndDate,
@@ -212,9 +211,9 @@ internal class TaskImplementation : ITask
 
     private BO.Enums.Status StatusCalculator(DO.Task task)
     {
-        if (task.ActualStartDate is null && task.ScheduledStartDate is null)
+        if (task.ActualStartDate is null && task.ProjectedStartDate is null)
             return BO.Enums.Status.Unscheduled;
-        else if (task.ActualStartDate is null && task.ScheduledStartDate is not null)
+        else if (task.ActualStartDate is null && task.ProjectedStartDate is not null)
             return BO.Enums.Status.Scheduled;
         else if (task.ActualStartDate is not null && (task.ActualStartDate + task.Duration) <= task.Deadline)
             return BO.Enums.Status.OnTrack;
@@ -244,7 +243,7 @@ internal class TaskImplementation : ITask
     }
 
     //I'm stuck here because you can't update a field that is calculated
-    /*
+    
     public void UpdateProjectedStartDate(int id, DateTime newDateTime)
     {
         DO.Task doTask = _dal.Task.Read(id)!;
@@ -262,7 +261,6 @@ internal class TaskImplementation : ITask
             Dependencies = DependenciesCalculator(doTask),
             RequiredEffortTime = doTask.Duration,
             ActualStartDate = doTask.ActualStartDate,
-            ScheduledStartDate = doTask.ScheduledStartDate,
             ProjectedStartDate = newDateTime,
             Deadline = doTask.Deadline,
             ActualEndDate = doTask.ActualEndDate,
@@ -276,5 +274,5 @@ internal class TaskImplementation : ITask
             _dal.Task.Update();
         }
     }
-    */
+    
 }

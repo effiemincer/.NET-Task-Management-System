@@ -28,7 +28,7 @@ public record Task
     string Description = "",
     TimeSpan? Duration = null,                                  
     DateTime? Deadline = null,
-    DateTime? ScheduledStartDate = null,
+    DateTime? ProjectedStartDate = null,
     Enums.EngineerExperience? DegreeOfDifficulty = null,
     int? AssignedEngineerId = null,
     DateTime? ActualEndDate = null,

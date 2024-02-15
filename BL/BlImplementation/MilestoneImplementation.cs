@@ -226,9 +226,9 @@ internal class MilestoneImplementation : IMilestone
     //put this in helper/tools/wtvr its called ??
     private BO.Enums.Status StatusCalculator(DO.Task task)
     {
-        if (task.ActualStartDate is null && task.ScheduledStartDate is null)
+        if (task.ActualStartDate is null && task.ProjectedStartDate is null)
             return BO.Enums.Status.Unscheduled;
-        else if (task.ActualStartDate is null && task.ScheduledStartDate is not null)
+        else if (task.ActualStartDate is null && task.ProjectedStartDate is not null)
             return BO.Enums.Status.Scheduled;
         else if (task.ActualStartDate is not null && (task.ActualStartDate + task.Duration) <= task.Deadline)
             return BO.Enums.Status.OnTrack;
@@ -265,7 +265,7 @@ internal class MilestoneImplementation : IMilestone
                 Alias = task.Alias,
                 DateCreated = task.DateCreated,
                 Status = StatusCalculator(task),
-                ProjectedStartDate = task.ScheduledStartDate,
+                ProjectedStartDate = task.ProjectedStartDate,
                 Deadline = task.Deadline,
                 ActualEndDate = task.ActualEndDate,
                 CompletionPercentage = 0.0, //what to do here?
@@ -301,7 +301,7 @@ internal class MilestoneImplementation : IMilestone
             Alias = name,
             DateCreated = task.DateCreated,
             Status = StatusCalculator(task),
-            ProjectedStartDate = task.ScheduledStartDate,
+            ProjectedStartDate = task.ProjectedStartDate,
             Deadline = task.Deadline,
             ActualEndDate = task.ActualEndDate,
             CompletionPercentage = 0.0, //what to do here?
@@ -317,7 +317,7 @@ internal class MilestoneImplementation : IMilestone
             Description = description,
             Duration = task.Duration,
             Deadline = task.Deadline,
-            ScheduledStartDate = task.ScheduledStartDate,
+            ProjectedStartDate = task.ProjectedStartDate,
             DegreeOfDifficulty = task.DegreeOfDifficulty,
             AssignedEngineerId = task.AssignedEngineerId,
             ActualEndDate = task.ActualEndDate,

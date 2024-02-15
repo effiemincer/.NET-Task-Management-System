@@ -16,7 +16,6 @@ public class Task
     public BO.MilestoneInTask? Milestone { get; set; }
     public TimeSpan? RequiredEffortTime { get; set; }
     public DateTime? ActualStartDate { get; set; }
-    public DateTime? ScheduledStartDate { get; set; }
     public DateTime? ProjectedStartDate { get; set; }
     public DateTime? Deadline { get; set; }
     public DateTime? ActualEndDate { get; set; }
