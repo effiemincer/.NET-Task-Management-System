@@ -1,5 +1,6 @@
 ﻿using BlApi;
 using BO;
+using System.Linq.Expressions;
 
 namespace BlImplementation;
 
@@ -21,11 +22,38 @@ internal class TaskImplementation : ITask
         if (boTask.Id < 0 || boTask.Alias == "" || boTask.Description == "")
             throw new BO.BlBadInputDataException("Missing ID or name");
 
-        //check if the dependent task ID's exist throw error if not
-        //if it does exist then create a dependency and pass it down
+
 
         try
         {
+            //check if the dependent task ID's exist throw error if not
+            //if it does exist then create a dependency and pass it down
+            if (boTask.Dependencies.Count() > 0)
+            {
+                foreach (BO.TaskInList dep in boTask.Dependencies)
+                {
+                    if (_dal.Task.Read(dep.Id) is null)
+                        throw new BO.BlBadInputDataException($"Task with ID={dep.Id} does not exist");
+                }
+
+                foreach (BO.TaskInList dep in boTask.Dependencies)
+                {
+                    DO.Dependency doDep = new DO.Dependency
+                    {
+                        DependentTaskId = boTask.Id,
+                        RequisiteID = dep.Id
+                    };
+                    _dal.Dependency.Create(doDep);
+                }
+            }
+        }
+        catch (DO.DalAlreadyExistsException ex)
+        {
+            throw new BO.BlAlreadyExistsException($"Dependency with ID={boTask.Id} already exists", ex);
+        }
+            
+
+         try { 
             DO.Task doTask = new DO.Task
         (
             boTask.Id,
@@ -51,6 +79,7 @@ internal class TaskImplementation : ITask
             throw new BO.BlAlreadyExistsException($"Task with ID={boTask!.Id} already exists", ex);
         }
     }
+
 
     public void Delete(int id)
     {
@@ -83,42 +112,6 @@ internal class TaskImplementation : ITask
         //projected start date calculation
         DateTime? projectedStart = doTask.Deadline - doTask.Duration;
 
-        //dependencies calculation
-        IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dep => dep.DependentTaskId == doTask.Id);
-
-        /*
-        //if (dependencies is null)
-        //{
-        //    return new BO.Task()
-        //    {
-        //        Id = doTask.Id,
-        //        Alias = doTask.Alias,
-        //        DateCreated = doTask.DateCreated,
-        //        Description = doTask.Description,
-        //        Status = stat,
-        //        RequiredEffortTime = doTask.Duration,
-        //        ActualStartDate = doTask.ActualStartDate,
-        //        ScheduledStartDate = doTask.ScheduledStartDate,
-        //        ProjectedStartDate = projectedStart,
-        //        Deadline = doTask.Deadline,
-        //        ActualEndDate = doTask.ActualEndDate,
-        //        Deliverable = doTask.Deliverable,
-        //        Remarks = doTask.Notes,
-        //        Complexity = (BO.Enums.EngineerExperience?)doTask.DegreeOfDifficulty
-        //    };
-        //}
-
-        //else
-        //{
-        */
-        IEnumerable<BO.TaskInList> dependenciesList = from DO.Dependency dep in dependencies
-                                                        select new BO.TaskInList
-                                                        {
-                                                            Id = (int)dep.RequisiteID!,
-                                                            Description = _dal.Task.Read((int)dep.RequisiteID)!.Description,
-                                                            Alias = _dal.Task.Read((int)dep.RequisiteID)!.Alias,
-                                                            Status = StatusCalculator(_dal.Task.Read((int)dep.RequisiteID)!)
-                                                        };
 
         return new BO.Task()
         {
@@ -127,7 +120,7 @@ internal class TaskImplementation : ITask
             DateCreated = doTask.DateCreated,
             Description = doTask.Description,
             Status = stat,
-            Dependencies = dependenciesList.ToList<BO.TaskInList>() ?? null,
+            Dependencies = DependenciesCalculator(doTask),
             RequiredEffortTime = doTask.Duration,
             ActualStartDate = doTask.ActualStartDate,
             ScheduledStartDate = doTask.ScheduledStartDate,
@@ -169,16 +162,28 @@ internal class TaskImplementation : ITask
         return tasks;
 }
 
-    //fix this, it doesn't make sense i.e let's say you wanted to update the status of a task it wouldn't save anywhere
-    public void Update(BO.Task? boTask)
+  
+    public BO.Task Update(BO.Task? boTask)
     {
         if (boTask is null)
             throw new BO.BlArgumentNullException("Task is null");
 
+        //update everything , the visaul layer will deal with production vs. planning mode
+        DO.Task? doTask = _dal.Task.Read(boTask.Id);
+        if (doTask == null)
+            throw new BO.BlBadInputDataException("Task with ID=" + boTask.Id + " does not exist ");
+
+        if (doTask.Alias.Count() <= 0)
+            throw new BO.BlBadInputDataException("Task with ID=" + boTask.Id + " has no name ");
+
+
         //test logic of all the fields
         bool hasMilestone = (boTask.Milestone is not null);
 
-        DO.Task doTask = new DO.Task
+
+        try
+        {
+            doTask = new DO.Task
         (
             boTask.Id,
             boTask.Alias ?? "",
@@ -195,15 +200,13 @@ internal class TaskImplementation : ITask
             boTask?.Deliverable,
             boTask?.Remarks
         );
-
-        try
-        {
             _dal.Task.Update(doTask);
         }
         catch (DO.DalAlreadyExistsException ex)
         {
             throw new BO.BlAlreadyExistsException($"Task with ID={boTask!.Id} already exists", ex);
         }
+        return boTask!;
     }
 
 
@@ -223,4 +226,55 @@ internal class TaskImplementation : ITask
             throw new BlBadInputDataException("Status could not be calculated for task with ID=" + task.Id);
     }
 
+    private List<BO.TaskInList> DependenciesCalculator(DO.Task doTask)
+    {
+        //dependencies calculation
+        IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dep => dep.DependentTaskId == doTask.Id);
+
+        IEnumerable<BO.TaskInList> dependenciesList = from DO.Dependency dep in dependencies
+                                                      select new BO.TaskInList
+                                                      {
+                                                          Id = (int)dep.RequisiteID!,
+                                                          Description = _dal.Task.Read((int)dep.RequisiteID)!.Description,
+                                                          Alias = _dal.Task.Read((int)dep.RequisiteID)!.Alias,
+                                                          Status = StatusCalculator(_dal.Task.Read((int)dep.RequisiteID)!)
+                                                      };
+
+        return dependenciesList.ToList<BO.TaskInList>();
+    }
+
+    //I'm stuck here because you can't update a field that is calculated
+    /*
+    public void UpdateProjectedStartDate(int id, DateTime newDateTime)
+    {
+        DO.Task doTask = _dal.Task.Read(id)!;
+
+        if (doTask is null)
+            throw new BO.BlDoesNotExistException("Task with ID=" + id + " does not exist");
+
+        BO.Task boTask = new BO.Task()
+        {
+            Id = doTask.Id,
+            Alias = doTask.Alias,
+            DateCreated = doTask.DateCreated,
+            Description = doTask.Description,
+            Status = StatusCalculator(doTask),
+            Dependencies = DependenciesCalculator(doTask),
+            RequiredEffortTime = doTask.Duration,
+            ActualStartDate = doTask.ActualStartDate,
+            ScheduledStartDate = doTask.ScheduledStartDate,
+            ProjectedStartDate = newDateTime,
+            Deadline = doTask.Deadline,
+            ActualEndDate = doTask.ActualEndDate,
+            Deliverable = doTask.Deliverable,
+            Remarks = doTask.Notes,
+            Complexity = (BO.Enums.EngineerExperience?)doTask.DegreeOfDifficulty
+        };
+
+        if (boTask.Dependencies.Count() == 0)
+        {
+            _dal.Task.Update();
+        }
+    }
+    */
 }
