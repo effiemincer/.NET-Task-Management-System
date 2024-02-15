@@ -1,12 +1,12 @@
 ﻿
+using BO;
 
 namespace BlApi;
 
 public interface IMilestone
 {
-    public int Create(BO.Milestone item);
-    public BO.Milestone Read(int id);
-    public IEnumerable<BO.MilestoneInList> ReadAll();
-    public void Update(BO.Milestone item);
-    public void Delete(int id);
+    public List<BO.Task> CreateSchedule(DateTime startDate, DateTime endDate, List<TaskInList> tasks, List<MilestoneInList> milestones, List<DO.Dependency> dependencies);
+    public Milestone Read(int id);
+    public Milestone Update(int id, string name, string description, string comments);
+    public List<Milestone> ReadAll();
 }

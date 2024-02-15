@@ -1,7 +1,7 @@
 ﻿namespace BO;
 
 
-//DO Exceptions
+// BO Exceptions
 [Serializable]
 public class BlDoesNotExistException : Exception
 {
@@ -37,7 +37,7 @@ public class BlNoAccessRightsException : Exception
     { }
 }
 
-//BL Exceptions
+// BL Exceptions
 [Serializable]
 public class  BlNullPropertyException : Exception
 {

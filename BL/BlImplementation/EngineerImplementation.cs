@@ -136,10 +136,8 @@ internal class EngineerImplementation : IEngineer
             return false;
         }
 
-        // Define a regular expression for a simple email validation
         string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
 
-        // Use Regex.IsMatch to check if the email matches the pattern
         return Regex.IsMatch(email, emailPattern);
     } 
 }
