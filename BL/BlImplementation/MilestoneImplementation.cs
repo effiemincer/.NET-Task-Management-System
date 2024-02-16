@@ -140,6 +140,7 @@ internal class MilestoneImplementation : IMilestone
                 MilestoneDict[task.Id] = MilestoneDict[(int)task.AssignedEngineerId]; 
                 MilestoneDict.Remove((int)task.AssignedEngineerId);
             }
+            initialized = true;
             return;
         }
 
