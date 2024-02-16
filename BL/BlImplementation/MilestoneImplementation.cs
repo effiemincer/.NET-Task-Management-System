@@ -9,7 +9,6 @@ using System.Text;
 internal class MilestoneImplementation : IMilestone
 {
     private static Dictionary<int, MilestoneDictItem> MilestoneDict = new Dictionary<int, MilestoneDictItem>();
-    public static List<Milestone> MilestoneList = new List<Milestone>();
     private static bool initialized = false;
     
     private DalApi.IDal _dal = DalApi.Factory.Get;
@@ -19,10 +18,7 @@ internal class MilestoneImplementation : IMilestone
         public List<int> milestoneDef {  get; set; }
         public bool isStart { get; set; }
         public bool isEnd { get; set; }
-    }
-
-    
-   
+    }   
 
     private Dictionary<int, List<int>> CreateDependencyGroups()
     {
@@ -34,7 +30,6 @@ internal class MilestoneImplementation : IMilestone
             throw new Exception("no dependencies!");
         }
 
-        //not sure which id is for what ask effie
         foreach (var dep in dependencies)
         {
             if (dep.DependentTaskId == null) throw new Exception("no dependent task id");
@@ -56,21 +51,17 @@ internal class MilestoneImplementation : IMilestone
 
     private void InitMilestoneDict()
     {
-        //two things #1 when a new task or dependancy are created milestone has to be cleared and initialized = false
+        // two things #1 when a new task or dependancy are created milestone has to be cleared and initialized = false
         // #2 when creating the milestone dict do we need the ids of the milestones in memory or do we not care?
         // additional question when a milestone task is put into the memory do we replace its dependants' dependency list with this id?
         // or another way to do it is to always build the milestone regularly  but then at the end check milestone objects and replace the keys in our milestone dict with the appropriate id
         // it seems like they want the first option based on what i wrote down on the bottom however i may end up just ignoring that anyways for flexability reasons it might be better to do
-        // it my way this way if they create an entirely new task even after initializing milestone everything will be fine 
-        // another wrinkle i just thought of is what if the milestone structure changes ----> i have thought about it and i think its best everytime you initialize Milestone you delete all
-        // milestone objects in the dal and then recreate them i know this is a bitof a waste of time algorithmically however trying to handle every different change will be difficult 
-        // this way we can avoid problems of needing to update milestone tasks and 
 
         if (initialized) return;
 
         Dictionary<int, List<int>> dependencyGroups = CreateDependencyGroups();
         if (dependencyGroups.Count == 0) throw new Exception("no dependencies");
-
+        // rewrite this to handle case of no dependencies
 
         //this needs a filter to filter out tasks that are milestones
         IEnumerable<DO.Task>? tasks = _dal.Task.ReadAll();
@@ -84,13 +75,13 @@ internal class MilestoneImplementation : IMilestone
         {
             if (isInMileStoneDictIdList(depTask.Key)) continue;
 
-            MilestoneDict[marker] = new MilestoneDictItem() 
-                { 
-                    idList = new List<int>(depTask.Key),
-                    milestoneDef = new List<int>(depTask.Value),
-                    isStart= false,
-                    isEnd= false,
-                };
+            MilestoneDict[marker] = new MilestoneDictItem()
+            {
+                idList = new List<int>(depTask.Key),
+                milestoneDef = new List<int>(depTask.Value),
+                isStart = false,
+                isEnd = false
+            };
 
             foreach (var depTask2 in dependencyGroups)
             {
@@ -114,61 +105,60 @@ internal class MilestoneImplementation : IMilestone
                     idList = new List<int>(task.Id),
                     milestoneDef = new List<int>(),
                     isStart = true,
-                    isEnd= false,
+                    isEnd= false
                 };
             }
             if (!isInMileStoneDictDef(task.Id))
             {
                 MilestoneDict[marker] = new MilestoneDictItem()
                 {
-                    idList = new List<int>(task.Id),
-                    milestoneDef = new List<int>(),
+                    idList = new List<int>(),
+                    milestoneDef = new List<int>(task.Id),
                     isStart = false,
-                    isEnd= true,
+                    isEnd= true
                 };
             }
         }
 
-        //creating actual milestone intances from 'backbone dictionary'
-        foreach(var milestoneDef in MilestoneDict)
+        IEnumerable<DO.Task>? milestoneTasks = tasks.Where(task => task.IsMilestone);
+
+        //if the milestones already stored in data layer
+        if (milestoneTasks.Count() != 0)
         {
-            //where to get the rest of the milestone info from?
-            //add logic for start and end milestones --> depends on above questions answer
-            
-            // is the milestone obj necessary here??
-            // maybe instead we put a task (isMilestone = true) into DAL
-            // only use milestone obj when passing back through read func
-            // remember that when creating the task in DAL id will be changed need to store that change in DICTIONARY
-            try
+            foreach(var task in milestoneTasks)
             {
-                
-                MilestoneList.Add(
-                    new Milestone()
-                    {
-                        Id = milestoneDef.Key,
-                        Description = "",
-                        Alias = "m" + milestoneDef.Key,
-                        DateCreated = new DateTime(),
-                        Status = new BO.Enums.Status(),
-                        ProjectedStartDate = new DateTime(),
-                        Deadline = new DateTime(),
-                        ActualEndDate = new DateTime(),
-                        CompletionPercentage = 0.0,
-                        Remarks = "",
-                        Dependencies = getTasks(milestoneDef.Value.idList),
-                    }
-                );
+                // since MilestoneDict baseKey is stored in AssignedEngineerId use it to associate the task with dict data 
+                if (task.AssignedEngineerId == null) throw new Exception("no milestone dict id");
+                MilestoneDict[task.Id] = MilestoneDict[(int)task.AssignedEngineerId]; 
+                MilestoneDict.Remove((int)task.AssignedEngineerId);
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            
+            return;
         }
 
-        //get rid of task dependencies instead have tasks with milestones ??
-        //how to get BO.Tasks here ??
-        //how does the user access BO logic ??
+        //if not make them
+        foreach(var milestone in MilestoneDict) 
+        {
+            int id = _dal.Task.Create(new DO.Task()
+            {
+                Id = milestone.Key,
+                Alias = "m" + milestone.Key,
+                DateCreated = DateTime.Now,
+                Description = calcDescription(milestone),
+                Duration = calcDuration(milestone),
+                Deadline = calcDeadline(milestone),
+                ProjectedStartDate = calcProjectedStartDate(milestone),
+                DegreeOfDifficulty = null,
+                AssignedEngineerId = milestone.Key, //since this field is nto necessary for milestones use it store baseKey in MilestoneDict
+                ActualEndDate = calcActualEndDate(milestone),
+                IsMilestone = true,
+                ActualStartDate = calcActualStartDate(milestone),
+                Deliverable = null,
+                Notes = null,
+                Inactive = false
+            });
+            MilestoneDict[id] = MilestoneDict[milestone.Key];
+            MilestoneDict.Remove(milestone.Key);
+        }
 
         initialized = true;
     }
@@ -222,12 +212,113 @@ internal class MilestoneImplementation : IMilestone
         return res;
     }
 
+    private string? calcDescription(KeyValuePair<int, MilestoneDictItem> milestone)
+    {
+        string res = "";
 
-    public List<BO.Task> CreateSchedule(DateTime startDate, DateTime endDate, List<TaskInList> tasks, List<MilestoneInList> milestones, List<DO.Dependency> dependencies)
+        if (milestone.Value.isStart)
+        {
+            res += "This milestone is a start ";
+        }
+        
+        if ( milestone.Value.isEnd)
+        {
+            res += "This milestone is an end ";
+        }
+        return res;
+    }
+    private TimeSpan? calcDuration(KeyValuePair<int, MilestoneDictItem> milestone) 
+    {
+        TimeSpan? res = TimeSpan.Zero;
+        if (milestone.Value.isStart) return null;
+        foreach (var id in milestone.Value.milestoneDef)
+        {
+            res += _dal.Task.Read(id).Duration ?? TimeSpan.Zero;
+        }
+        
+        return res;
+    }
+    private DateTime? calcDeadline(KeyValuePair<int, MilestoneDictItem> milestone)
+    {
+        if (milestone.Value.isStart) return null;
+        DateTime? res = DateTime.MaxValue;
+        foreach (var id in milestone.Value.milestoneDef)
+        {
+            if (_dal.Task.Read(id).Deadline != null && _dal.Task.Read(id).Deadline < res)
+                res = _dal.Task.Read(id).Deadline;
+        }
+        if (res ==  DateTime.MaxValue) return null;
+        return res;
+    }
+    private DateTime? calcProjectedStartDate(KeyValuePair<int, MilestoneDictItem> milestone)
+    {
+        if (milestone.Value.isStart) return null;
+        DateTime? res = DateTime.MaxValue;
+        foreach (var id in milestone.Value.milestoneDef)
+        {
+            if (_dal.Task.Read(id).ProjectedStartDate != null && _dal.Task.Read(id).ProjectedStartDate < res)
+                res = _dal.Task.Read(id).ProjectedStartDate;
+        }
+        if (res == DateTime.MaxValue) return null;
+        return res;
+    }
+    private DateTime? calcActualEndDate(KeyValuePair<int, MilestoneDictItem> milestone)
+    {
+        if (milestone.Value.isStart) return null;
+        DateTime? res = DateTime.MinValue;
+        foreach (var id in milestone.Value.milestoneDef)
+        {
+            if (_dal.Task.Read(id).ActualEndDate != null && _dal.Task.Read(id).ActualEndDate > res)
+                res = _dal.Task.Read(id).ActualEndDate;
+        }
+        if (res == DateTime.MinValue) return null;
+        return res;
+    }
+    private DateTime? calcActualStartDate(KeyValuePair<int, MilestoneDictItem> milestone)
+    {
+        if (milestone.Value.isStart) return null;
+        DateTime? res = DateTime.MaxValue;
+        foreach (var id in milestone.Value.milestoneDef)
+        {
+            if (_dal.Task.Read(id).ActualStartDate != null && _dal.Task.Read(id).ActualStartDate < res)
+                res = _dal.Task.Read(id).ActualStartDate;
+        }
+        if (res == DateTime.MaxValue) return null;
+        return res;
+    }
+
+    private double calcCompletionPercent(List<TaskInList> tasks)
+    {
+        if (tasks.Count == 0)   return 0;
+        double denominator = 4 * tasks.Count();
+        double numerator = 0;
+        foreach (var task in tasks)
+        {
+            numerator += (int)task.Status;
+        }
+
+        return numerator / denominator;
+    }
+
+
+    public string CreateSchedule(DateTime startDate, DateTime endDate)
     {
         InitMilestoneDict();
 
-        return new List<Task>();
+        TimeSpan? projectTimeSpan = TimeSpan.Zero;
+        foreach(var milestone in MilestoneDict)
+        {
+            var taskMilestone = _dal.Task.Read(milestone.Key);
+            if (taskMilestone.Duration == null) throw new Exception("one of the milestone durations is null");
+
+            if (taskMilestone.Duration > taskMilestone.Deadline - taskMilestone.ProjectedStartDate)
+                throw new Exception($"Milestone with id={taskMilestone.Id} has an impossible duration!");
+            
+            projectTimeSpan += taskMilestone.Duration;
+        }
+        if(projectTimeSpan > endDate - startDate)
+            throw new Exception("Project cannot fit within the given schedule!");
+        return "all milestones and the project fit within the schedule!";
     }
 
     public Milestone Read(int id)
@@ -239,6 +330,9 @@ internal class MilestoneImplementation : IMilestone
         DO.Task? task = _dal.Task.Read(id);
         if (task == null) throw new Exception("task is null");
         if (!task.IsMilestone) throw new Exception("task is not a milestone");
+
+        var taskList = getTasks(MilestoneDict[task.Id].idList);
+
         try
         {
             return new Milestone()
@@ -251,9 +345,9 @@ internal class MilestoneImplementation : IMilestone
                 ProjectedStartDate = task.ProjectedStartDate,
                 Deadline = task.Deadline,
                 ActualEndDate = task.ActualEndDate,
-                CompletionPercentage = 0.0, //what to do here?
+                CompletionPercentage = calcCompletionPercent(taskList),
                 Remarks = task.Notes,
-                Dependencies = getTasks(MilestoneDict[task.Id].idList),
+                Dependencies = taskList,
             };
         }
         catch (Exception ex)
@@ -266,9 +360,6 @@ internal class MilestoneImplementation : IMilestone
     {
         InitMilestoneDict();
 
-        //very confusing language not sure what this is asking for 
-        //check whether the order exists in the DL, AND that the name is nonempty.
-
         if (id < 0) throw new Exception("id < 0");
         if (name == "" || name == null) throw new Exception("name provided is null");
 
@@ -276,7 +367,9 @@ internal class MilestoneImplementation : IMilestone
         if (task == null) throw new Exception("task is null");
 
         if (task?.Alias == "" || task?.Alias == null) throw new Exception("task name is empty");
-        
+
+        var taskList = getTasks(MilestoneDict[task.Id].idList);
+
         Milestone res = new Milestone()
         {
             Id = task.Id,
@@ -287,9 +380,9 @@ internal class MilestoneImplementation : IMilestone
             ProjectedStartDate = task.ProjectedStartDate,
             Deadline = task.Deadline,
             ActualEndDate = task.ActualEndDate,
-            CompletionPercentage = 0.0, //what to do here?
+            CompletionPercentage = calcCompletionPercent(taskList), 
             Remarks = comments,
-            Dependencies = getTasks(MilestoneDict[task.Id].idList),
+            Dependencies = taskList,
         };
 
         _dal.Task.Update(new DO.Task()
@@ -314,9 +407,4 @@ internal class MilestoneImplementation : IMilestone
         return res;
     }
 
-    public List<Milestone> ReadAll()
-    {
-        InitMilestoneDict();
-        return MilestoneList;
-    }
 }

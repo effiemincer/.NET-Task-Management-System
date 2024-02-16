@@ -13,10 +13,10 @@ public class Enums
 
     public enum Status
     {
+        InJeopardy,
         Unscheduled,
         Scheduled,
         OnTrack,
-        InJeopardy,
-        Done
+        Done 
     }
 }
