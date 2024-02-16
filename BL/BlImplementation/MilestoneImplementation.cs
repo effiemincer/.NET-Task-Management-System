@@ -135,8 +135,10 @@ internal class MilestoneImplementation : IMilestone
             return;
         }
 
+        Dictionary<int, MilestoneDictItem> temp = new Dictionary<int, MilestoneDictItem>();
+
         //if not make them
-        foreach(var milestone in MilestoneDict) 
+        foreach (var milestone in MilestoneDict) 
         {
             int id = _dal.Task.Create(new DO.Task()
             {
@@ -156,9 +158,10 @@ internal class MilestoneImplementation : IMilestone
                 Notes = null,
                 Inactive = false
             });
-            MilestoneDict[id] = MilestoneDict[milestone.Key];
-            MilestoneDict.Remove(milestone.Key);
+            temp[id] = MilestoneDict[milestone.Key];
         }
+        
+        MilestoneDict = temp;
 
         initialized = true;
     }
