@@ -1,7 +1,8 @@
 ﻿namespace BO;
 
-
-// BO Exceptions
+/// <summary>
+/// Exceptions for the Business Logic layer
+/// </summary>
 [Serializable]
 public class BlDoesNotExistException : Exception
 {
@@ -37,7 +38,6 @@ public class BlNoAccessRightsException : Exception
     { }
 }
 
-// BL Exceptions
 [Serializable]
 public class  BlNullPropertyException : Exception
 {

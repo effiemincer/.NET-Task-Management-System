@@ -6,8 +6,18 @@ using System.Text;
 
 namespace BO;
 
+/// <summary>
+/// Helper class for the Business Logic layer
+/// </summary>
 public static class classTools
 {
+
+    /// <summary>
+    /// String representation of an object's properties
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="obj"></param>
+    /// <returns> a string representing the object's properties</returns>
     public static string ToStringProperty<T>(this T obj)
     {
         if (obj == null)
@@ -31,7 +41,12 @@ public static class classTools
     }
 
 
-
+    /// <summary>
+    /// Status Calculator for a Task
+    /// </summary>
+    /// <param name="task"><param>
+    /// <returns> the status of the task</returns>
+    /// <exception cref="BlBadInputDataException"></exception>
     public static BO.Enums.Status StatusCalculator(DO.Task task)
     {
         if (task.ActualEndDate is not null)
@@ -48,6 +63,12 @@ public static class classTools
             throw new BlBadInputDataException("Status could not be calculated for task with ID=" + task.Id);
     }
 
+    /// <summary>
+    /// Dependencies Calculator for a Task
+    /// </summary>
+    /// <param name="doTask"></param>
+    /// <param name="_dal"></param>
+    /// <returns> a list of tasks that the given task is dependent on</returns>
     public static List<BO.TaskInList> DependenciesCalculator(DO.Task doTask, DalApi.IDal _dal)
     {
         //dependencies calculation

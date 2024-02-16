@@ -5,6 +5,9 @@ using DO;
 
 namespace BO;
 
+/// <summary>
+/// Class representing a Task
+/// </summary>
 public class Task
 {
     public int Id { get; init; }

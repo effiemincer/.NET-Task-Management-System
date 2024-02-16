@@ -1,6 +1,9 @@
 ﻿
 namespace BO;
 
+/// <summary>
+/// Class representing a Task in an Engineer
+/// </summary>
 public class TaskInEngineer
 {
     public int? Id { get; init; }

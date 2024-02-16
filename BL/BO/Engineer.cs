@@ -4,6 +4,9 @@ using static DO.Enums;
 
 namespace BO;
 
+/// <summary>
+/// Class representing an Engineer
+/// </summary>
 public class Engineer
 {
     public int Id { get; init; }

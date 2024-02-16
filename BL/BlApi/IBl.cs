@@ -2,6 +2,9 @@
 
 namespace BlApi;
 
+/// <summary>
+/// Interface for the Business Logic layer
+/// </summary>
 public interface IBl
 {
     public IEngineer Engineer { get; }

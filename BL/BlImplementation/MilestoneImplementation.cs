@@ -2,24 +2,59 @@
 namespace BlImplementation;
 using BlApi;
 using BO;
-using DalApi;
 using System.Collections.Generic;
-using System.Text;
 
+/// <summary>
+/// MilestoneImplementation class implements IMilestone interface and is responsible for the logic of the Milestone entity
+/// </summary>
 internal class MilestoneImplementation : IMilestone
 {
+    /// <summary>
+    /// Dal instance to be used by the class
+    /// </summary>
     private static Dictionary<int, MilestoneDictItem> MilestoneDict = new Dictionary<int, MilestoneDictItem>();
+    /// <summary>
+    /// initialized is a flag to check if the MilestoneDict has been initialized
+    /// </summary>
     private static bool initialized = false;
     
+    /// <summary>
+    /// Dal instance to be used by the class
+    /// </summary>
     private DalApi.IDal _dal = DalApi.Factory.Get;
+
+    /// <summary>
+    /// MilestoneDictItem is a class to store the data of the MilestoneDict
+    /// </summary>
     private class MilestoneDictItem
     { 
-        public List<int> idList {  get; set; }
+        /// <summary>
+        /// IdList is a list of task ids that this milestone points to
+        /// </summary>
+        public List<int> idList {  get; set; } 
+
+        /// <summary>
+        /// milestoneDef is a list of task ids that point to this milestone
+        /// </summary>
         public List<int> milestoneDef {  get; set; }
+
+        /// <summary>
+        /// is the milestone a start milestone
+        /// </summary>
         public bool isStart { get; set; }
+
+        /// <summary>
+        /// is the milestone an end milestone
+        /// </summary>
         public bool isEnd { get; set; }
     }   
 
+    /// <summary>
+    /// Create Dependency Groups
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="BO.BlBadInputDataException"></exception>
+    /// <exception cref="BO.BlArgumentNullException"></exception>
     private Dictionary<int, List<int>> CreateDependencyGroups()
     {
         IEnumerable<DO.Dependency>? dependencies = _dal.Dependency.ReadAll();
@@ -49,28 +84,25 @@ internal class MilestoneImplementation : IMilestone
         return depGroups;
     }
 
+    /// <summary>
+    /// Initializes the Milestone Dictionary.
+    /// </summary>
     private void InitMilestoneDict()
     {
-        // two things #1 when a new task or dependancy are created milestone has to be cleared and initialized = false
-        // #2 when creating the milestone dict do we need the ids of the milestones in memory or do we not care?
-        // additional question when a milestone task is put into the memory do we replace its dependants' dependency list with this id?
-        // or another way to do it is to always build the milestone regularly  but then at the end check milestone objects and replace the keys in our milestone dict with the appropriate id
-        // it seems like they want the first option based on what i wrote down on the bottom however i may end up just ignoring that anyways for flexability reasons it might be better to do
-
+        // Check if the MilestoneDict has already been initialized
         if (initialized) return;
 
+        // Retrieve dependency groups
         Dictionary<int, List<int>> dependencyGroups = CreateDependencyGroups();
-        if (dependencyGroups.Count == 0) throw new BO.BlBadInputDataException("no dependencies");
-        // rewrite this to handle case of no dependencies
+        if (dependencyGroups.Count == 0) throw new BO.BlBadInputDataException("No dependencies");
 
-        //this needs a filter to filter out tasks that are milestones
+        // Retrieve all tasks
         IEnumerable<DO.Task>? tasks = _dal.Task.ReadAll();
-        if (tasks.Count() == 0) throw new BO.BlBadInputDataException("no Tasks");
-
-        
+        if (tasks.Count() == 0) throw new BO.BlBadInputDataException("No tasks");
 
         int marker = 1;
 
+        // Create Milestone Dictionary items based on dependency groups
         foreach (var depTask in dependencyGroups)
         {
             if (isInMileStoneDictIdList(depTask.Key)) continue;
@@ -95,7 +127,7 @@ internal class MilestoneImplementation : IMilestone
             ++marker;
         }
 
-        //create start milestone dict item
+        // Create start milestone dictionary item
         MilestoneDict[marker] = new MilestoneDictItem()
         {
             idList = new List<int>(),
@@ -104,7 +136,7 @@ internal class MilestoneImplementation : IMilestone
             isEnd = false
         };
 
-        //create end milestone dict item
+        // Create end milestone dictionary item
         MilestoneDict[marker + 1] = new MilestoneDictItem()
         {
             idList = new List<int>(),
@@ -113,31 +145,31 @@ internal class MilestoneImplementation : IMilestone
             isEnd = true
         };
 
-        //start and end milestones
+        // Add start and end milestones
         foreach (var task in tasks)
         {
-            // start put in idList
-            if(!isInMileStoneDictIdList(task.Id))
+            // Add tasks to idList of start milestone
+            if (!isInMileStoneDictIdList(task.Id))
             {
                 MilestoneDict[marker].idList.Add(task.Id);
             }
-            //end put in milestone def
+            // Add tasks to milestoneDef of end milestone
             if (!isInMileStoneDictDef(task.Id))
             {
                 MilestoneDict[marker + 1].milestoneDef.Add(task.Id);
             }
         }
 
+        // Check if milestones are already stored in the data layer
         IEnumerable<DO.Task>? milestoneTasks = tasks.Where(task => task.IsMilestone);
 
-        //if the milestones already stored in data layer
         if (milestoneTasks.Count() != 0)
         {
-            foreach(var task in milestoneTasks)
+            // Associate milestone tasks with the dictionary data
+            foreach (var task in milestoneTasks)
             {
-                // since MilestoneDict baseKey is stored in AssignedEngineerId use it to associate the task with dict data 
-                if (task.AssignedEngineerId == null) throw new BO.BlBadInputDataException("no milestone dict id");
-                MilestoneDict[task.Id] = MilestoneDict[(int)task.AssignedEngineerId]; 
+                if (task.AssignedEngineerId == null) throw new BO.BlBadInputDataException("No milestone dictionary ID");
+                MilestoneDict[task.Id] = MilestoneDict[(int)task.AssignedEngineerId];
                 MilestoneDict.Remove((int)task.AssignedEngineerId);
             }
             initialized = true;
@@ -146,8 +178,8 @@ internal class MilestoneImplementation : IMilestone
 
         Dictionary<int, MilestoneDictItem> temp = new Dictionary<int, MilestoneDictItem>();
 
-        //if not make them
-        foreach (var milestone in MilestoneDict) 
+        // If not, create them
+        foreach (var milestone in MilestoneDict)
         {
             int id = _dal.Task.Create(new DO.Task()
             {
@@ -159,7 +191,7 @@ internal class MilestoneImplementation : IMilestone
                 Deadline = calcDeadline(milestone),
                 ProjectedStartDate = calcProjectedStartDate(milestone),
                 DegreeOfDifficulty = null,
-                AssignedEngineerId = milestone.Key, //since this field is nto necessary for milestones use it store baseKey in MilestoneDict
+                AssignedEngineerId = milestone.Key, // Store baseKey in MilestoneDict since this field is not necessary for milestones
                 ActualEndDate = calcActualEndDate(milestone),
                 IsMilestone = true,
                 ActualStartDate = calcActualStartDate(milestone),
@@ -169,12 +201,18 @@ internal class MilestoneImplementation : IMilestone
             });
             temp[id] = MilestoneDict[milestone.Key];
         }
-        
+
         MilestoneDict = temp;
 
         initialized = true;
     }
 
+
+    /// <summary>
+    /// sortList sorts a list of integers
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns>
     private List<int> sortList (List<int> list)
     {
         List<int> sortedList = new List<int>(list);
@@ -185,6 +223,11 @@ internal class MilestoneImplementation : IMilestone
         return sortedList;
     }
 
+    /// <summary>
+    /// check if a task is in the MilestoneDict idList
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     private bool isInMileStoneDictIdList(int id)
     {
         bool res = false;
@@ -195,6 +238,12 @@ internal class MilestoneImplementation : IMilestone
         return res;
     }
 
+
+    /// <summary>
+    /// check if a task is in the MilestoneDict milestoneDef
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     private bool isInMileStoneDictDef(int id)
     {
         bool res = false;
@@ -205,6 +254,12 @@ internal class MilestoneImplementation : IMilestone
         return res;
     }
 
+    /// <summary>
+    /// getTasks returns a list of tasks from a list of task ids
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    /// <exception cref="BO.BlDoesNotExistException"></exception>
     private List<TaskInList> getTasks(List<int> list)
     {
         List<TaskInList> res = new List<TaskInList>();
@@ -224,6 +279,11 @@ internal class MilestoneImplementation : IMilestone
         return res;
     }
 
+    /// <summary>
+    /// calcDescription returns a string of the description of a milestone
+    /// </summary>
+    /// <param name="milestone"></param>
+    /// <returns></returns>
     private string? calcDescription(KeyValuePair<int, MilestoneDictItem> milestone)
     {
         string res = "";
@@ -239,6 +299,12 @@ internal class MilestoneImplementation : IMilestone
         }
         return res;
     }
+
+    /// <summary>
+    /// calcDuration returns the duration of a milestone
+    /// </summary>
+    /// <param name="milestone"></param>
+    /// <returns></returns>
     private TimeSpan? calcDuration(KeyValuePair<int, MilestoneDictItem> milestone) 
     {
         TimeSpan? res = TimeSpan.Zero;
@@ -250,6 +316,12 @@ internal class MilestoneImplementation : IMilestone
         
         return res;
     }
+
+    /// <summary>
+    /// calcDeadline returns the deadline of a milestone
+    /// </summary>
+    /// <param name="milestone"></param>
+    /// <returns></returns>
     private DateTime? calcDeadline(KeyValuePair<int, MilestoneDictItem> milestone)
     {
         if (milestone.Value.isStart) return null;
@@ -262,6 +334,12 @@ internal class MilestoneImplementation : IMilestone
         if (res ==  DateTime.MaxValue) return null;
         return res;
     }
+
+    /// <summary>
+    /// calcProjectedStartDate returns the projected start date of a milestone
+    /// </summary>
+    /// <param name="milestone"></param>
+    /// <returns></returns>
     private DateTime? calcProjectedStartDate(KeyValuePair<int, MilestoneDictItem> milestone)
     {
         if (milestone.Value.isStart) return null;
@@ -274,6 +352,12 @@ internal class MilestoneImplementation : IMilestone
         if (res == DateTime.MaxValue) return null;
         return res;
     }
+
+    /// <summary>
+    /// Calculates the actual end date of a milestone
+    /// </summary>
+    /// <param name="milestone"></param>
+    /// <returns></returns>
     private DateTime? calcActualEndDate(KeyValuePair<int, MilestoneDictItem> milestone)
     {
         if (milestone.Value.isStart) return null;
@@ -286,6 +370,12 @@ internal class MilestoneImplementation : IMilestone
         if (res == DateTime.MinValue) return null;
         return res;
     }
+
+    /// <summary>
+    /// Calculates the actual start date of a milestone
+    /// </summary>
+    /// <param name="milestone"></param>
+    /// <returns></returns>
     private DateTime? calcActualStartDate(KeyValuePair<int, MilestoneDictItem> milestone)
     {
         if (milestone.Value.isStart) return null;
@@ -299,6 +389,11 @@ internal class MilestoneImplementation : IMilestone
         return res;
     }
 
+    /// <summary>
+    /// Calculates the completion percentage of a milestone
+    /// </summary>
+    /// <param name="tasks"></param>
+    /// <returns></returns>
     private double calcCompletionPercent(List<TaskInList> tasks)
     {
         if (tasks.Count == 0)   return 0;
@@ -312,7 +407,14 @@ internal class MilestoneImplementation : IMilestone
         return numerator / denominator;
     }
 
-
+    /// <summary>
+    /// Create a schedule for the project using the milestones
+    /// </summary>
+    /// <param name="startDate">the start date of the project</param>
+    /// <param name="endDate">the end date of the project</param>
+    /// <returns>a string that says whether task creation was successful</returns>
+    /// <exception cref="BO.BlNullPropertyException">one of the milestones duration is null</exception>
+    /// <exception cref="BO.BlBadInputDataException">Milestones don't fit within schedule</exception>
     public string CreateSchedule(DateTime startDate, DateTime endDate)
     {
         InitMilestoneDict();
@@ -333,11 +435,19 @@ internal class MilestoneImplementation : IMilestone
         return "all milestones and the project fit within the schedule!";
     }
 
+    /// <summary>
+    /// Read a milestone by ID
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>a Milestone</returns>
+    /// <exception cref="BO.BlDoesNotExistException">task does not exist</exception>
+    /// <exception cref="BO.BlBadInputDataException">inoput doesn't return a task</exception>
+    /// <exception cref="BO.BlAlreadyExistsException">the Milestone already exists</exception>
     public Milestone Read(int id)
     {
         InitMilestoneDict();
 
-        if (id < 0) throw new Exception("id < 0");
+        if (id < 0) throw new BO.BlBadInputDataException("id < 0");
 
         DO.Task? task = _dal.Task.Read(id);
         if (task == null) throw new BO.BlDoesNotExistException("task is null");
@@ -368,6 +478,16 @@ internal class MilestoneImplementation : IMilestone
         }
     }
 
+    /// <summary>
+    /// Update a milestone by ID
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="name"></param>
+    /// <param name="description"></param>
+    /// <param name="comments"></param>
+    /// <returns>the updated Milestone</returns>
+    /// <exception cref="BO.BlBadInputDataException"> Data doesn't work for Milestone</exception>
+    /// <exception cref="BO.BlDoesNotExistException"> Milestone ID doesn't exist</exception>
     public Milestone Update(int id, string name = "" , string description = "", string comments = "")
     {
         InitMilestoneDict();

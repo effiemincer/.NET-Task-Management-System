@@ -2,6 +2,9 @@
 
 namespace BO;
 
+/// <summary>
+/// Class representing a Task in a List
+/// </summary>
 public class TaskInList
 {
     public int Id { get; set; }

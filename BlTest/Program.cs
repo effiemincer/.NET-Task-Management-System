@@ -626,6 +626,7 @@ internal class Program
                         {
 
                             string res = s_bl!.Milestone.CreateSchedule((DateTime)s_dal!.Config.GetProjectStartDate()!, (DateTime)s_dal!.Config.GetProjectEndDate()!);
+                            Console.WriteLine(res);
                         }
                         catch (Exception ex)
                         {

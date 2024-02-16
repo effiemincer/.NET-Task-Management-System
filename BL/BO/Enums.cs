@@ -1,5 +1,8 @@
 ﻿namespace BO;
 
+/// <summary>
+/// Class representing the enums used in the BL Layer
+/// </summary>
 public class Enums
 {
     public enum EngineerExperience

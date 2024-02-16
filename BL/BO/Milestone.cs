@@ -2,6 +2,9 @@
 
 namespace BO;
 
+/// <summary>
+/// Class representing a Milestone
+/// </summary>
 public class Milestone
 {
     public int Id { get; init; }
