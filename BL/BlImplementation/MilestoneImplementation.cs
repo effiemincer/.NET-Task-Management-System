@@ -77,7 +77,7 @@ internal class MilestoneImplementation : IMilestone
 
             MilestoneDict[marker] = new MilestoneDictItem()
             {
-                idList = new List<int>(depTask.Key),
+                idList = new List<int> { depTask.Key },
                 milestoneDef = new List<int>(depTask.Value),
                 isStart = false,
                 isEnd = false
@@ -86,7 +86,7 @@ internal class MilestoneImplementation : IMilestone
             foreach (var depTask2 in dependencyGroups)
             {
                 if (depTask.Key == depTask2.Key) continue;
-                if (depTask.Value == depTask2.Value)
+                if (depTask.Value.SequenceEqual(depTask2.Value))
                 {
                     MilestoneDict[marker].idList.Add(depTask2.Key);
                 }
@@ -95,28 +95,36 @@ internal class MilestoneImplementation : IMilestone
             ++marker;
         }
 
-        //start and end milestones
-        foreach(var task in tasks)
+        //create start milestone dict item
+        MilestoneDict[marker] = new MilestoneDictItem()
         {
+            idList = new List<int>(),
+            milestoneDef = new List<int>(),
+            isStart = true,
+            isEnd = false
+        };
+
+        //create end milestone dict item
+        MilestoneDict[marker + 1] = new MilestoneDictItem()
+        {
+            idList = new List<int>(),
+            milestoneDef = new List<int>(),
+            isStart = false,
+            isEnd = true
+        };
+
+        //start and end milestones
+        foreach (var task in tasks)
+        {
+            // start put in idList
             if(!isInMileStoneDictIdList(task.Id))
             {
-                MilestoneDict[0] = new MilestoneDictItem()
-                {
-                    idList = new List<int>(task.Id),
-                    milestoneDef = new List<int>(),
-                    isStart = true,
-                    isEnd= false
-                };
+                MilestoneDict[marker].idList.Add(task.Id);
             }
+            //end put in milestone def
             if (!isInMileStoneDictDef(task.Id))
             {
-                MilestoneDict[marker] = new MilestoneDictItem()
-                {
-                    idList = new List<int>(),
-                    milestoneDef = new List<int>(task.Id),
-                    isStart = false,
-                    isEnd= true
-                };
+                MilestoneDict[marker + 1].milestoneDef.Add(task.Id);
             }
         }
 
