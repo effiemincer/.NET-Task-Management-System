@@ -10,4 +10,6 @@ public interface ITask
     public BO.Task Update(BO.Task? item);
     public void Delete(int id);
 
+    public void UpdateProjectedStartDate(int id, DateTime? newDateTime);
+
 }

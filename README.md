@@ -6,9 +6,9 @@ Todo:
 - add comments to everything (chatGPT) in the style of ///
 
 
-- implement checks in Business layer found on page 16 of the general overview
-- add logic for calculated fields
-- change projected start date to be the same as scheduled start date for task everywhere
+
+
+
 
 
 
@@ -29,3 +29,6 @@ Done:
 	- add project stuff in data-config.xml
 	- fix reset stuff from inititialization in dalTest and put it in the config stuff
 - refactor Engineer cost to be non-nullable this sucks and is a lot of work for their mistake
+- change projected start date to be the same as scheduled start date for task everywhere
+- add logic for calculated fields
+- implement checks in Business layer found on page 16 of the general overview

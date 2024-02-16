@@ -14,13 +14,22 @@ internal class TaskImplementation : ITask
         if(boTask is null)
             throw new BO.BlArgumentNullException("Task is null");
 
-        if (boTask.Alias is null || boTask.Description is null || boTask.Milestone == null)
+        if (boTask.Alias is null || boTask.Description is null)
             throw new BO.BlNullPropertyException("Alias or Description is null");
 
         if (boTask.Id < 0 || boTask.Alias == "" || boTask.Description == "")
             throw new BO.BlBadInputDataException("Missing ID or name");
 
+        if (boTask.Engineer is not null)
+        {
+            IEnumerable<DO.Engineer?> engineers = _dal.Engineer.ReadAll(eng => eng.Id == boTask.Engineer.Id);
+            if (engineers.Count() == 0)
+                throw new BO.BlDoesNotExistException("Engineer with ID=" + boTask.Engineer.Id + " does not exist");
+        }
 
+        //check that the duration of the task is possible to be completed within the dates
+        if (boTask.Deadline < boTask.ProjectedStartDate + boTask.RequiredEffortTime)
+            throw new BO.BlBadInputDataException("Task with ID=" + boTask.Id + " cannot be completed within the deadline");
 
         try
         {
@@ -33,7 +42,7 @@ internal class TaskImplementation : ITask
                     if (_dal.Task.Read(dep.Id) is null)
                         throw new BO.BlBadInputDataException($"Task with ID={dep.Id} does not exist");
 
-                    if (isCircularDep(dep.Id, boTask.Id, 10))
+                    if (isCircularDep(dep.Id, boTask.Id, 40))
                         throw new BO.BlBadInputDataException($"Task with ID={dep.Id} has a circular dependency");
                 }
 
@@ -78,6 +87,11 @@ internal class TaskImplementation : ITask
 
     public void Delete(int id)
     {
+
+        //add in if task is a depenedecny cannot delete meaning it is a requisite ID for some depedencies
+        IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dep => dep.RequisiteID == id);
+        if (dependencies.Count() > 0)
+            throw new BO.BlBadInputDataException("Task with ID=" + id + " is a requisite ID for some dependencies and therefore cannot be deleted");
 
         try
         {
@@ -185,7 +199,7 @@ internal class TaskImplementation : ITask
             boTask.Description ?? "",
             boTask?.RequiredEffortTime,
             boTask?.Deadline,
-            boTask?.ProjectedStartDate,
+            doTask?.ProjectedStartDate,
             (DO.Enums.EngineerExperience?)boTask?.Complexity,
             boTask?.Engineer?.Id,
             boTask?.ActualEndDate,
@@ -205,7 +219,7 @@ internal class TaskImplementation : ITask
 
 
     
-    public void UpdateProjectedStartDate(int id, DateTime newDateTime)
+    public void UpdateProjectedStartDate(int id, DateTime? newDateTime)
     {
         DO.Task doTask = _dal.Task.Read(id)!;
 
@@ -270,7 +284,7 @@ internal class TaskImplementation : ITask
 
             foreach (DO.Dependency? dep in dependencies)
         {
-               if (isCircularDep(depId, dep!.Id, n-1))
+               if (isCircularDep(depId, (int)dep!.DependentTaskId!, n -1))
                    return true;
         }
 

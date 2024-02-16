@@ -54,18 +54,30 @@ internal class EngineerImplementation : IEngineer
     public BO.Engineer? Read(int id)
     {
         DO.Engineer? doEngineer = _dal.Engineer.Read(id);
-        if (doEngineer == null) throw new BO.BlDoesNotExistException($"Engineer with ID={id} does not exist!");
-        
-        IEnumerable<DO.Task> tasks = _dal.Task.ReadAll(task => task.AssignedEngineerId == id)!;
+        if (doEngineer == null) 
+            throw new BO.BlDoesNotExistException($"Engineer with ID={id} does not exist!");
+
+
+        IEnumerable<DO.Task?> tasks = _dal.Task.ReadAll(task => task.AssignedEngineerId == id);
         if (tasks.Count() > 1) throw new Exception("multiple tasks assigned to engineer"); // might add something to handle this
         
-        return new BO.Engineer()
+        if (tasks.Count() == 0 || tasks == null) return new BO.Engineer()
         {
             Id = id,
             Name = doEngineer.FullName,
+            EmailAddress = doEngineer.EmailAddress,
             ExperienceLevel = (BO.Enums.EngineerExperience?)doEngineer.ExperienceLevel,
             CostPerHour = doEngineer.CostPerHour,
-            Task = new BO.TaskInEngineer(tasks.First().Id, tasks.First().Alias)
+            Task = null
+        };
+        else return new BO.Engineer()
+        {
+            Id = id,
+            Name = doEngineer.FullName,
+            EmailAddress = doEngineer.EmailAddress,
+            ExperienceLevel = (BO.Enums.EngineerExperience?)doEngineer.ExperienceLevel,
+            CostPerHour = doEngineer.CostPerHour,
+            Task = new BO.TaskInEngineer(tasks.First()!.Id, tasks.First()!.Alias)
         };
     }
 
@@ -84,8 +96,8 @@ internal class EngineerImplementation : IEngineer
                             ExperienceLevel = (BO.Enums.EngineerExperience?)e.ExperienceLevel,
                             CostPerHour = e.CostPerHour,
                             Task = new BO.TaskInEngineer(
-                                                     _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null)!.Id,
-                                                     _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null)!.Alias
+                                                     _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).Count() != 0 ? _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null)!.Id : null,
+                                                     _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).Count() != 0 ? _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null)!.Alias : null
                                                  ),
                         };
         }
@@ -101,8 +113,8 @@ internal class EngineerImplementation : IEngineer
                             ExperienceLevel = (BO.Enums.EngineerExperience?)e.ExperienceLevel,
                             CostPerHour = e.CostPerHour,
                             Task = new BO.TaskInEngineer(
-                                _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null)!.Id,
-                                _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null)!.Alias
+                                _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).Count() != 0 ? _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null)!.Id : null,
+                                _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).Count() != 0 ? _dal.Task.ReadAll(task => task.AssignedEngineerId == e.Id).FirstOrDefault(task => task != null)!.Alias : null
                             ),
                         };
         }
@@ -111,10 +123,14 @@ internal class EngineerImplementation : IEngineer
     }
     public void Update(BO.Engineer e)
     {
-        if (e.Id < 0) throw new Exception("ID provided was invalid");
-        if (e.Name == null || e.Name == "") throw new Exception("Name provided was invalid");
-        if (e.CostPerHour < 0) throw new Exception("Cost per hour provided was invalid");
-        if (!isEmail(e.EmailAddress)) throw new Exception("Email provided was invalid");
+        if (e.Id < 0) 
+            throw new Exception("ID provided was invalid");
+        if (e.Name == null || e.Name == "") 
+            throw new Exception("Name provided was invalid");
+        if (e.CostPerHour < 0) 
+            throw new Exception("Cost per hour provided was invalid");
+        if (!isEmail(e.EmailAddress)) 
+            throw new Exception("Email provided was invalid");
 
         _dal.Engineer.Update
             (

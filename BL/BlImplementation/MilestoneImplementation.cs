@@ -27,13 +27,13 @@ internal class MilestoneImplementation : IMilestone
 
         if (dependencies.Count() <= 0 )
         {
-            throw new Exception("no dependencies!");
+            throw new BO.BlBadInputDataException("no dependencies!");
         }
 
         foreach (var dep in dependencies)
         {
-            if (dep.DependentTaskId == null) throw new Exception("no dependent task id");
-            if (dep.RequisiteID == null) throw new Exception("no requisite task id");
+            if (dep.DependentTaskId == null) throw new BO.BlArgumentNullException("no dependent task id");
+            if (dep.RequisiteID == null) throw new BO.BlArgumentNullException("no requisite task id");
             if (!depGroups.ContainsKey(((int)dep.DependentTaskId)))
             {
                 depGroups[(int)dep.DependentTaskId] = new List<int>();
@@ -60,12 +60,12 @@ internal class MilestoneImplementation : IMilestone
         if (initialized) return;
 
         Dictionary<int, List<int>> dependencyGroups = CreateDependencyGroups();
-        if (dependencyGroups.Count == 0) throw new Exception("no dependencies");
+        if (dependencyGroups.Count == 0) throw new BO.BlBadInputDataException("no dependencies");
         // rewrite this to handle case of no dependencies
 
         //this needs a filter to filter out tasks that are milestones
         IEnumerable<DO.Task>? tasks = _dal.Task.ReadAll();
-        if (tasks.Count() == 0) throw new Exception("no Tasks");
+        if (tasks.Count() == 0) throw new BO.BlBadInputDataException("no Tasks");
 
         
 
@@ -128,7 +128,7 @@ internal class MilestoneImplementation : IMilestone
             foreach(var task in milestoneTasks)
             {
                 // since MilestoneDict baseKey is stored in AssignedEngineerId use it to associate the task with dict data 
-                if (task.AssignedEngineerId == null) throw new Exception("no milestone dict id");
+                if (task.AssignedEngineerId == null) throw new BO.BlBadInputDataException("no milestone dict id");
                 MilestoneDict[task.Id] = MilestoneDict[(int)task.AssignedEngineerId]; 
                 MilestoneDict.Remove((int)task.AssignedEngineerId);
             }
@@ -199,7 +199,7 @@ internal class MilestoneImplementation : IMilestone
         
         foreach (var id in list) {
             DO.Task? task = _dal.Task.Read(id);
-            if (task == null) throw new Exception("task does not exist"); 
+            if (task == null) throw new BO.BlDoesNotExistException("task does not exist"); 
             res.Add(new TaskInList() {
                 Id = task.Id,
                 Description = task.Description,
@@ -309,15 +309,15 @@ internal class MilestoneImplementation : IMilestone
         foreach(var milestone in MilestoneDict)
         {
             var taskMilestone = _dal.Task.Read(milestone.Key);
-            if (taskMilestone.Duration == null) throw new Exception("one of the milestone durations is null");
+            if (taskMilestone.Duration == null) throw new BO.BlNullPropertyException("one of the milestone durations is null");
 
             if (taskMilestone.Duration > taskMilestone.Deadline - taskMilestone.ProjectedStartDate)
-                throw new Exception($"Milestone with id={taskMilestone.Id} has an impossible duration!");
+                throw new BO.BlBadInputDataException($"Milestone with id={taskMilestone.Id} has an impossible duration!");
             
             projectTimeSpan += taskMilestone.Duration;
         }
         if(projectTimeSpan > endDate - startDate)
-            throw new Exception("Project cannot fit within the given schedule!");
+            throw new BO.BlBadInputDataException("Project cannot fit within the given schedule!");
         return "all milestones and the project fit within the schedule!";
     }
 
@@ -328,8 +328,8 @@ internal class MilestoneImplementation : IMilestone
         if (id < 0) throw new Exception("id < 0");
 
         DO.Task? task = _dal.Task.Read(id);
-        if (task == null) throw new Exception("task is null");
-        if (!task.IsMilestone) throw new Exception("task is not a milestone");
+        if (task == null) throw new BO.BlDoesNotExistException("task is null");
+        if (!task.IsMilestone) throw new BO.BlBadInputDataException("task is not a milestone");
 
         var taskList = getTasks(MilestoneDict[task.Id].idList);
 
@@ -350,9 +350,9 @@ internal class MilestoneImplementation : IMilestone
                 Dependencies = taskList,
             };
         }
-        catch (Exception ex)
+        catch (DO.DalAlreadyExistsException ex)
         {
-            throw ex;
+            throw new BO.BlAlreadyExistsException("A task/milestone with that ID already exists", ex);
         }
     }
 
@@ -360,13 +360,13 @@ internal class MilestoneImplementation : IMilestone
     {
         InitMilestoneDict();
 
-        if (id < 0) throw new Exception("id < 0");
-        if (name == "" || name == null) throw new Exception("name provided is null");
+        if (id < 0) throw new BO.BlBadInputDataException("id < 0");
+        if (name == "" || name == null) throw new BO.BlBadInputDataException("name provided is null");
 
         DO.Task? task = _dal.Task.Read(id);
-        if (task == null) throw new Exception("task is null");
+        if (task == null) throw new BO.BlDoesNotExistException("task is null");
 
-        if (task?.Alias == "" || task?.Alias == null) throw new Exception("task name is empty");
+        if (task?.Alias == "" || task?.Alias == null) throw new BO.BlBadInputDataException("task name is empty");
 
         var taskList = getTasks(MilestoneDict[task.Id].idList);
 

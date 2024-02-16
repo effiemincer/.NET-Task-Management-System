@@ -19,11 +19,11 @@ public static class classTools
         Type type = typeof(T);
         PropertyInfo[] properties = type.GetProperties();
 
-        stringBuilder.Append($"{type.Name} properties:\n");
+        stringBuilder.Append($"\n{type.Name} properties:\n");
 
         foreach (PropertyInfo property in properties)
         {
-            object value = property.GetValue(obj) ?? "null property";
+            object value = property.GetValue(obj) ?? "";
             stringBuilder.Append($"{property.Name}: {value ?? "null"}\n");
         }
 
@@ -34,7 +34,9 @@ public static class classTools
 
     public static BO.Enums.Status StatusCalculator(DO.Task task)
     {
-        if (task.ActualStartDate is null && task.ProjectedStartDate is null)
+        if (task.ActualEndDate is not null)
+            return BO.Enums.Status.Done;
+        else if (task.ActualStartDate is null && task.ProjectedStartDate is null)
             return BO.Enums.Status.Unscheduled;
         else if (task.ActualStartDate is null && task.ProjectedStartDate is not null)
             return BO.Enums.Status.Scheduled;
@@ -42,8 +44,6 @@ public static class classTools
             return BO.Enums.Status.OnTrack;
         else if (task.ActualEndDate is not null && (task.ActualStartDate + task.Duration) > task.Deadline)
             return BO.Enums.Status.InJeopardy;
-        else if (task.ActualEndDate is not null)
-            return BO.Enums.Status.Done;
         else
             throw new BlBadInputDataException("Status could not be calculated for task with ID=" + task.Id);
     }
@@ -53,7 +53,8 @@ public static class classTools
         //dependencies calculation
         IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dep => dep.DependentTaskId == doTask.Id);
 
-        IEnumerable<BO.TaskInList> dependenciesList = from DO.Dependency dep in dependencies
+        IEnumerable<BO.TaskInList?> dependenciesList = from DO.Dependency? dep in dependencies
+                                                       where (dep != null && dep.RequisiteID != null)
                                                       select new BO.TaskInList
                                                       {
                                                           Id = (int)dep.RequisiteID!,
@@ -62,6 +63,6 @@ public static class classTools
                                                           Status = StatusCalculator(_dal.Task.Read((int)dep.RequisiteID)!)
                                                       };
 
-        return dependenciesList.ToList<BO.TaskInList>();
+        return dependenciesList!.ToList<BO.TaskInList>();
     }
 }

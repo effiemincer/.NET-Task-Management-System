@@ -254,7 +254,7 @@ internal class Program
 
                                 Console.WriteLine("Enter projected start date of task (mm/dd/yyyy): ");
                                 input = Console.ReadLine();
-                                projectedStart = (input == "" ? task!.ScheduledStartDate : DateTime.Parse(input!));
+                                projectedStart = (input == "" ? task!.ProjectedStartDate : DateTime.Parse(input!));
 
                                 Console.WriteLine("Enter difficulty of task (0-4): ");
                                 //list of enums and variables 
