@@ -320,9 +320,9 @@ internal class MilestoneImplementation : IMilestone
         foreach(var milestone in MilestoneDict)
         {
             var taskMilestone = _dal.Task.Read(milestone.Key);
-            if (taskMilestone.Duration == null) throw new BO.BlNullPropertyException("one of the milestone durations is null");
+            if (taskMilestone.Duration == null && !MilestoneDict[taskMilestone.Id].isStart) throw new BO.BlNullPropertyException("one of the milestone durations is null");
 
-            if (taskMilestone.Duration > taskMilestone.Deadline - taskMilestone.ProjectedStartDate)
+            if (taskMilestone.Duration > taskMilestone.Deadline - taskMilestone.ProjectedStartDate && !MilestoneDict[taskMilestone.Id].isStart)
                 throw new BO.BlBadInputDataException($"Milestone with id={taskMilestone.Id} has an impossible duration!");
             
             projectTimeSpan += taskMilestone.Duration;
