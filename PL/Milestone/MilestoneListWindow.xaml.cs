@@ -25,7 +25,7 @@ public partial class MilestoneListWindow : Window
     public BO.Enums.Status MilestoneStatus { get; set; } = BO.Enums.Status.None;
     public MilestoneListWindow()
     {
-       // MilestoneList = s_bl?.Milestone.ReadAll();
+       MilestoneList = s_bl?.Milestone.ReadAll();
         InitializeComponent();
     }
 
@@ -44,6 +44,6 @@ public partial class MilestoneListWindow : Window
 
     private void cbTaskStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        //MilestoneList = (MilestoneStatus == BO.Enums.Status.None) ? s_bl?.Milestone.ReadAll()! : s_bl?.Milestone.ReadAll(item => item.Status == MilestoneStatus)!;
+        MilestoneList = (MilestoneStatus == BO.Enums.Status.None) ? s_bl?.Milestone.ReadAll()! : s_bl?.Milestone.ReadAll(item => item.Status == MilestoneStatus)!;
     }
 }

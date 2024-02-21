@@ -184,7 +184,7 @@ namespace BlImplementation
             {
                 // Read filtered Tasks from the data access layer
                 tasks = from DO.Task doTask in _dal.Task.ReadAll()
-                        where filter(Read(doTask.Id)!)
+                        where filter(Read(doTask.Id)!) && !doTask.IsMilestone
                         select new BO.TaskInList
                         {
                             Id = doTask.Id,
@@ -197,6 +197,7 @@ namespace BlImplementation
             {
                 // Read all Tasks from the data access layer
                 tasks = from DO.Task doTask in _dal.Task.ReadAll()
+                        where !doTask.IsMilestone
                         select new BO.TaskInList
                         {
                             Id = doTask.Id,
