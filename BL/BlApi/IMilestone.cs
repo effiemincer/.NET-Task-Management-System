@@ -37,5 +37,5 @@ public interface IMilestone
     /// Read all milestones
     /// </summary>
     /// <returns> all milestones </returns>
-    public IEnumerable<MilestoneInList> ReadAll();
+    public IEnumerable<MilestoneInList> ReadAll(Func<BO.MilestoneInList, bool>? filter = null);
 }
