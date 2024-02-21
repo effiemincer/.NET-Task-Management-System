@@ -3,6 +3,7 @@ namespace BlImplementation;
 using BlApi;
 using BO;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 /// <summary>
 /// MilestoneImplementation class implements IMilestone interface and is responsible for the logic of the Milestone entity
@@ -539,4 +540,17 @@ internal class MilestoneImplementation : IMilestone
         return res;
     }
 
+    public IEnumerable<MilestoneInList> ReadAll()
+    {
+        IEnumerable<MilestoneInList> milestones = from DO.Task m_task in _dal.Task.ReadAll(task => task.IsMilestone)
+                    select new BO.MilestoneInList
+                    {
+                        Id = m_task.Id,
+                        Description = m_task.Description,
+                        Alias = m_task.Alias,
+                        Status = classTools.StatusCalculator(m_task),
+                        CompletionPercentage = calcCompletionPercent(getTasks(MilestoneDict[m_task.Id].idList))
+                    };
+        return milestones;
+    }
 }
