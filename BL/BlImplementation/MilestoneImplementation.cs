@@ -542,6 +542,8 @@ internal class MilestoneImplementation : IMilestone
 
     public IEnumerable<MilestoneInList> ReadAll(Func<BO.MilestoneInList, bool>? filter = null)
     {
+        InitMilestoneDict();
+
         IEnumerable<MilestoneInList> milestones = from DO.Task m_task in _dal.Task.ReadAll(task => task.IsMilestone)
                     select new BO.MilestoneInList
                     {
