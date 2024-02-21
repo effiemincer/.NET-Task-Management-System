@@ -24,5 +24,17 @@ namespace Engineer
         {
             InitializeComponent();
         }
+        public IEnumerable<BO.Engineer> EngineerList 
+        { 
+            get { return (IEnumerable<BO.Engineer>)GetValue(EngineerListProperty); }
+            set { SetValue(EngineerListProperty, value); }
+        }
+
+        public static readonly DependencyProperty EngineerListProperty =
+            DependencyProperty.Register("EngineerList",
+                typeof(IEnumerable<BO.Engineer>),
+                typeof(EngineerListWindow),
+                new PropertyMetadata(null)
+            );
     }
 }
