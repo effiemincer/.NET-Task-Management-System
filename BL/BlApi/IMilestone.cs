@@ -32,4 +32,10 @@ public interface IMilestone
     /// <param name="comments"></param>
     /// <returns> a Milestone object representing the updated milestone</returns>
     public Milestone Update(int id, string name, string description, string comments);
+
+    /// <summary>
+    /// Read all milestones
+    /// </summary>
+    /// <returns> all milestones </returns>
+    public IEnumerable<MilestoneInList> ReadAll();
 }
