@@ -540,7 +540,7 @@ internal class MilestoneImplementation : IMilestone
         return res;
     }
 
-    public IEnumerable<MilestoneInList> ReadAll()
+    public IEnumerable<MilestoneInList> ReadAll(Func<BO.MilestoneInList, bool>? filter = null)
     {
         IEnumerable<MilestoneInList> milestones = from DO.Task m_task in _dal.Task.ReadAll(task => task.IsMilestone)
                     select new BO.MilestoneInList
@@ -551,6 +551,12 @@ internal class MilestoneImplementation : IMilestone
                         Status = classTools.StatusCalculator(m_task),
                         CompletionPercentage = calcCompletionPercent(getTasks(MilestoneDict[m_task.Id].idList))
                     };
+        if (filter != null)
+        {
+            milestones = milestones.Where(filter);
+
+        }
+
         return milestones;
     }
 }
