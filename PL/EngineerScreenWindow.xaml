@@ -1,0 +1,14 @@
+﻿<Window x:Class="PL.EngineerScreenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="EngineerScreenWindow" Height="650" Width="800">
+    <Grid>
+        <Button Content="Tasks" HorizontalAlignment="Left" Margin="190,214,0,0" VerticalAlignment="Top" Height="61" Width="109" Click="Tasks_Button_Click"/>
+        <Button Content="Current Task" HorizontalAlignment="Left" Margin="473,214,0,0" VerticalAlignment="Top" Height="61" Width="109" Click="Current_Task_Button_Click"/>
+
+    </Grid>
+</Window>
