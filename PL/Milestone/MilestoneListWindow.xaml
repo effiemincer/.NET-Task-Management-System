@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Milestone"
         mc:Ignorable="d"
-        Title="MilestoneListWindow" Height="450" Width="800">
+        Title="MilestoneListWindow" Height="450" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid Margin="0,0,0,-16">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -18,9 +19,13 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <ComboBox 
+                SelectedValue="{Binding Path=MilestoneStatus, Mode=TwoWay}"
+                ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}"
+                Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
-        <ListView Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+        <ListView
+            Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>

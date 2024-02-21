@@ -190,7 +190,7 @@ namespace BlImplementation
                             Id = doTask.Id,
                             Description = doTask.Description,
                             Alias = doTask.Alias,
-                            Status = Read(doTask.Id)?.Status ?? BO.Enums.Status.Unscheduled
+                            Status = Read(doTask.Id)?.Status ?? BO.Enums.Status.None
                         };
             }
             else
@@ -202,7 +202,7 @@ namespace BlImplementation
                             Id = doTask.Id,
                             Description = doTask.Description,
                             Alias = doTask.Alias,
-                            Status = Read(doTask.Id)?.Status ?? BO.Enums.Status.Unscheduled
+                            Status = Read(doTask.Id)?.Status ?? BO.Enums.Status.None
                         };
             }
             return tasks;

@@ -11,7 +11,8 @@ public class Enums
         AdvancedBeginner,
         Competent,
         Proficient,
-        Expert
+        Expert,
+        None
     }
 
     public enum Status
@@ -20,6 +21,7 @@ public class Enums
         Unscheduled,
         Scheduled,
         OnTrack,
-        Done 
+        Done,
+        None
     }
 }

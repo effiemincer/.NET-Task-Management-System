@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:Engineer"
         mc:Ignorable="d"
         Title="EngineerListWindow" Height="650" Width="800"
-        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
->
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid Margin="0,0,0,-16">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -20,9 +19,13 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <ComboBox
+                SelectionChanged="cbEngineerExperience_SelectionChanged"
+                SelectedValue="{Binding Path=EngineerExperience, Mode=TwoWay}"
+                ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}"
+                Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
-        <ListView Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+        <ListView Margin="5"  Grid.Row="1" ItemsSource="{Binding EngineerList}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
