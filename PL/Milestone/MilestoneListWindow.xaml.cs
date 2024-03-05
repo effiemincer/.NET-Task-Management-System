@@ -42,7 +42,7 @@ public partial class MilestoneListWindow : Window
             new PropertyMetadata(null)
         );
 
-    private void cbTaskStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void cbMilestoneStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         MilestoneList = (MilestoneStatus == BO.Enums.Status.None) ? s_bl?.Milestone.ReadAll()! : s_bl?.Milestone.ReadAll(item => item.Status == MilestoneStatus)!;
     }

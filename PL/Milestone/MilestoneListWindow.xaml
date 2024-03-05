@@ -20,12 +20,12 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <ComboBox 
+                SelectionChanged="cbMilestoneStatus_SelectionChanged"
                 SelectedValue="{Binding Path=MilestoneStatus, Mode=TwoWay}"
                 ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}"
                 Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
-        <ListView
-            Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+        <ListView Margin="5"  Grid.Row="1" ItemsSource="{Binding MilestoneList}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
