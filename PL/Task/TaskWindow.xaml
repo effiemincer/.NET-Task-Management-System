@@ -5,8 +5,65 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Task"
         mc:Ignorable="d"
-        Title="TaskWindow" Height="450" Width="800">
+        Title="TaskWindow" Height="480" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="350"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Your Grid with a Border -->
+        <Border BorderBrush="Black" Grid.Row="1" BorderThickness="2">
+            <UniformGrid Rows="15" Columns="2" Width="450">
+
+                <TextBlock Text="Id:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Alias:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Date Created:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Status:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Dependencies:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Milestone:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Required Effort Time:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Actual Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Projected Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Deadline:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Actual End Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Deliverable:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Remarks:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+            </UniformGrid>
+
+        </Border>
+        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Task Window" VerticalAlignment="Center" Height="20" Width="110" FontSize="16" FontWeight="Bold"/>
+
     </Grid>
+
 </Window>

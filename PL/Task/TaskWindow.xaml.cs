@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +21,20 @@ namespace Task
     /// </summary>
     public partial class TaskWindow : Window
     {
-        public TaskWindow()
+        private bool isAdd;
+
+        private BO.Task task;
+        public TaskWindow(BO.Task task_, bool isAdd_ = false)
         {
             InitializeComponent();
+            isAdd = isAdd_;
+            task = task_;
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            return;
+        }
+
     }
 }

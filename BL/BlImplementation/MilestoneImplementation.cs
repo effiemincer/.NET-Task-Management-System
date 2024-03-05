@@ -14,6 +14,7 @@ internal class MilestoneImplementation : IMilestone
     /// Dal instance to be used by the class
     /// </summary>
     private static Dictionary<int, MilestoneDictItem> MilestoneDict = new Dictionary<int, MilestoneDictItem>();
+    
     /// <summary>
     /// initialized is a flag to check if the MilestoneDict has been initialized
     /// </summary>
@@ -556,7 +557,6 @@ internal class MilestoneImplementation : IMilestone
         if (filter != null)
         {
             milestones = milestones.Where(filter);
-
         }
 
         return milestones;
