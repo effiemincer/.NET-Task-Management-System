@@ -18,3 +18,17 @@ class ConvertIdToContent : IValueConverter
     { throw new NotImplementedException(); 
     } 
 }
+
+class BooleanToButtonTextConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        bool isAdd = (bool)value;
+        return isAdd ? "ADD" : "UPDATE";
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}

@@ -63,7 +63,7 @@
 
         </Border>
         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Task Window" VerticalAlignment="Center" Height="20" Width="110" FontSize="16" FontWeight="Bold"/>
-
+        
     </Grid>
 
 </Window>
