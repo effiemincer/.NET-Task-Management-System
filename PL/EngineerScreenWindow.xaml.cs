@@ -34,7 +34,7 @@ namespace PL
         private void Current_Task_Button_Click(object sender, RoutedEventArgs e)
         {
             
-            new TaskWindow( new BO.Task()).Show();
+            new TaskWindow( new BO.Task(), false).Show();
         }
     }
 }

@@ -24,16 +24,50 @@ namespace Task
         private bool isAdd;
 
         private BO.Task task;
+        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+        public BO.Enums.Status TaskStatus { get; set; } = BO.Enums.Status.None;
+
         public TaskWindow(BO.Task task_, bool isAdd_ = false)
         {
+            TaskList = s_bl?.Task.ReadAll();
             InitializeComponent();
             isAdd = isAdd_;
             task = task_;
         }
 
+        public IEnumerable<BO.TaskInList> TaskList
+        {
+            get { return (IEnumerable<BO.TaskInList>)GetValue(TaskListProperty); }
+            set { SetValue(TaskListProperty, value); }
+        }
+
+        public static readonly DependencyProperty TaskListProperty =
+    DependencyProperty.Register("TaskList",
+        typeof(IEnumerable<BO.TaskInList>),
+        typeof(TaskListWindow),
+        new PropertyMetadata(null)
+    );
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             return;
+        }
+
+        private void btnAddUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (isAdd)
+            {
+                s_bl?.Task.Create(task);
+            }
+            else
+            {
+                s_bl?.Task.Update(task);
+            }
+            Close();
+        }
+
+        private void cbTaskStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TaskList = (TaskStatus == BO.Enums.Status.None) ? s_bl?.Task.ReadAll()! : s_bl?.Task.ReadAll(task => task.Status == TaskStatus)!;
         }
 
     }

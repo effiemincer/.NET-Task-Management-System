@@ -6,7 +6,7 @@
     <Application.Resources>
         <local:EngineerExperienceCollection x:Key="EngineerExperienceCollectionKey" />
         <local:StatusCollection x:Key="StatusCollectionKey" />
-        <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
-        <local:BooleanToButtonTextConverter x:Key="BooleanToButtonTextConverter" />
+        <local:ConvertIdToContent x:Key="ConvertIdToContentKey"/>
+        <!--<local:BooleanToButtonTextConverter x:Key="BooleanToButtonTextConverterKey" />-->
     </Application.Resources>
 </Application>

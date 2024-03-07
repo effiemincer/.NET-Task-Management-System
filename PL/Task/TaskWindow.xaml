@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Your Grid with a Border -->
+        <!-- Grid with a Border -->
         <Border BorderBrush="Black" Grid.Row="1" BorderThickness="2">
             <UniformGrid Rows="15" Columns="2" Width="450">
 
@@ -24,37 +24,44 @@
                 <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Date Created:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <DatePicker VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <!-- <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/> -->
 
                 <TextBlock Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Status:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <ComboBox x:Name="Status_ComboBox" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=TaskStatus, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5"/>
 
                 <TextBlock Text="Dependencies:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Milestone:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <!-- do we change this to be choosing from the list of milestones in the BL? -->
 
                 <TextBlock Text="Required Effort Time:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox Text="Edit me (hh:mm:ss)" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Actual Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <DatePicker VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Projected Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <DatePicker VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Deadline:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <DatePicker VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Actual End Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <DatePicker VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Deliverable:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <RadioButton Content="Yes/No"></RadioButton>
+                <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Remarks:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
@@ -63,7 +70,8 @@
 
         </Border>
         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Task Window" VerticalAlignment="Center" Height="20" Width="110" FontSize="16" FontWeight="Bold"/>
-        
+        <Button Grid.Row="2" Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConvertIdToContentKey}}" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Padding="5" Click="btnAddUpdate_Click" Height="43" Width="82" />
     </Grid>
 
 </Window>
+ 
