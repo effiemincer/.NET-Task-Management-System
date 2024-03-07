@@ -7,5 +7,6 @@
         <local:EngineerExperienceCollection x:Key="EngineerExperienceCollectionKey" />
         <local:StatusCollection x:Key="StatusCollectionKey" />
         <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
+        <local:BooleanToButtonTextConverter x:Key="BooleanToButtonTextConverter" />
     </Application.Resources>
 </Application>
