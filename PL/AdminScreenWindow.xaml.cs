@@ -16,32 +16,31 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Task;
 
-namespace PL
+namespace PL;
+
+/// <summary>
+/// Interaction logic for AdminScreenWindow.xaml
+/// </summary>
+public partial class AdminScreenWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for AdminScreenWindow.xaml
-    /// </summary>
-    public partial class AdminScreenWindow : Window
+    public AdminScreenWindow()
     {
-        public AdminScreenWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void Manage_Tasks_Click(object sender, RoutedEventArgs e)
-        {
-            // send IsAdmin is true
-            new TaskListWindow(true).Show();
-        }
+    private void Manage_Tasks_Click(object sender, RoutedEventArgs e)
+    {
+        // send IsAdmin is true
+        new TaskListWindow(true).Show();
+    }
 
-        private void Manage_Engineers_Click(object sender, RoutedEventArgs e)
-        {
-            new EngineerListWindow().Show();
-        }
+    private void Manage_Engineers_Click(object sender, RoutedEventArgs e)
+    {
+        new EngineerListWindow().Show();
+    }
 
-        private void Manage_Milestones_Click(object sender, RoutedEventArgs e)
-        {
-            new MilestoneListWindow().Show();
-        }
+    private void Manage_Milestones_Click(object sender, RoutedEventArgs e)
+    {
+        new MilestoneListWindow().Show();
     }
 }

@@ -12,16 +12,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Engineer
+namespace Engineer;
+
+/// <summary>
+/// Interaction logic for EngineerWindow.xaml
+/// </summary>
+public partial class EngineerWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for EngineerWindow.xaml
-    /// </summary>
-    public partial class EngineerWindow : Window
+    public EngineerWindow()
     {
-        public EngineerWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
+    private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        return;
+    }
+
 }

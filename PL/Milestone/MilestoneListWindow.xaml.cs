@@ -46,4 +46,9 @@ public partial class MilestoneListWindow : Window
     {
         MilestoneList = (MilestoneStatus == BO.Enums.Status.None) ? s_bl?.Milestone.ReadAll()! : s_bl?.Milestone.ReadAll(item => item.Status == MilestoneStatus)!;
     }
+
+    private void bcAdd_Milestone(object sender, RoutedEventArgs e)
+    {
+        new MilestoneSingleWindow(0).Show();
+    }
 }
