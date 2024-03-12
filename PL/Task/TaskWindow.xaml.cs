@@ -21,18 +21,32 @@ namespace Task
     /// </summary>
     public partial class TaskWindow : Window
     {
+        public static readonly DependencyProperty TaskListProperty =
+            DependencyProperty.Register("TaskList",
+                typeof(IEnumerable<BO.TaskInList>),
+                typeof(TaskListWindow),
+                new PropertyMetadata(null)
+            );
+
+        public static readonly DependencyProperty TaskProperty =
+            DependencyProperty.Register("CurrentTask", typeof(BO.Task), typeof(TaskWindow), new PropertyMetadata(null));
+
+        public BO.Task CurrentTask
+        {
+            get { return (BO.Task)GetValue(TaskProperty); }
+            set { SetValue(TaskProperty, value); }
+        }
+
         private bool isAdd;
 
-        private BO.Task task;
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         public BO.Enums.Status TaskStatus { get; set; } = BO.Enums.Status.None;
 
         public TaskWindow(BO.Task task_, bool isAdd_ = false)
         {
-            TaskList = s_bl?.Task.ReadAll();
             InitializeComponent();
             isAdd = isAdd_;
-            task = task_;
+            CurrentTask = task_;
         }
 
         public IEnumerable<BO.TaskInList> TaskList
@@ -41,12 +55,7 @@ namespace Task
             set { SetValue(TaskListProperty, value); }
         }
 
-        public static readonly DependencyProperty TaskListProperty =
-    DependencyProperty.Register("TaskList",
-        typeof(IEnumerable<BO.TaskInList>),
-        typeof(TaskListWindow),
-        new PropertyMetadata(null)
-    );
+        
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             return;
@@ -56,11 +65,11 @@ namespace Task
         {
             if (isAdd)
             {
-                s_bl?.Task.Create(task);
+                s_bl?.Task.Create(CurrentTask);
             }
             else
             {
-                s_bl?.Task.Update(task);
+                s_bl?.Task.Update(CurrentTask);
             }
             Close();
         }
