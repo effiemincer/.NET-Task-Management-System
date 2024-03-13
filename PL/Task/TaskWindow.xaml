@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="TaskWindow" Height="550" Width="800"
         DataContext="{Binding CurrentTask, RelativeSource={RelativeSource Self},Mode=TwoWay}"
+
         >
     <Grid>
         <Grid.RowDefinitions>
@@ -62,7 +63,7 @@
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Deliverable:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <RadioButton Content="Yes/No" IsChecked="{Binding Path=Deliverable, Mode=TwoWay}" Click="RadioButton_Click" />
+                <RadioButton Content="Yes/No" IsChecked="{Binding Path=Deliverable, Mode=TwoWay}" Checked="RB_Checked" Click="RB_Clicked" />
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Remarks:" VerticalAlignment="Center" HorizontalAlignment="Left"/>

@@ -13,7 +13,7 @@
     <ActualEndDate xsi:nil="true" />
     <IsMilestone>false</IsMilestone>
     <ActualStartDate xsi:nil="true" />
-    <Deliverable>false</Deliverable>
+    <Deliverable>true</Deliverable>
     <Inactive>false</Inactive>
   </Task>
   <Task>
