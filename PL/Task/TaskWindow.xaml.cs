@@ -21,12 +21,12 @@ namespace Task
     /// </summary>
     public partial class TaskWindow : Window
     {
-        public static readonly DependencyProperty TaskListProperty =
-            DependencyProperty.Register("TaskList",
-                typeof(IEnumerable<BO.TaskInList>),
-                typeof(TaskListWindow),
-                new PropertyMetadata(null)
-            );
+        //public static readonly DependencyProperty TaskListProperty =
+        //    DependencyProperty.Register("TaskList",
+        //        typeof(IEnumerable<BO.TaskInList>),
+        //        typeof(TaskListWindow),
+        //        new PropertyMetadata(null)
+        //    );
 
         public static readonly DependencyProperty TaskProperty =
             DependencyProperty.Register("CurrentTask", typeof(BO.Task), typeof(TaskWindow), new PropertyMetadata(null));
@@ -40,7 +40,6 @@ namespace Task
         private bool isAdd;
 
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-        public BO.Enums.Status TaskStatus { get; set; } = BO.Enums.Status.None;
 
         public TaskWindow(BO.Task task_, bool isAdd_ = false)
         {
@@ -49,11 +48,11 @@ namespace Task
             CurrentTask = task_;
         }
 
-        public IEnumerable<BO.TaskInList> TaskList
-        {
-            get { return (IEnumerable<BO.TaskInList>)GetValue(TaskListProperty); }
-            set { SetValue(TaskListProperty, value); }
-        }
+        //public IEnumerable<BO.TaskInList> TaskList
+        //{
+        //    get { return (IEnumerable<BO.TaskInList>)GetValue(TaskListProperty); }
+        //    set { SetValue(TaskListProperty, value); }
+        //}
 
         
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -76,7 +75,8 @@ namespace Task
 
         private void cbTaskStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TaskList = (TaskStatus == BO.Enums.Status.None) ? s_bl?.Task.ReadAll()! : s_bl?.Task.ReadAll(task => task.Status == TaskStatus)!;
+            //TaskList = (TaskStatus == BO.Enums.Status.None) ? s_bl?.Task.ReadAll()! : s_bl?.Task.ReadAll(task => task.Status == TaskStatus)!;
+            return;
         }
 
     }
