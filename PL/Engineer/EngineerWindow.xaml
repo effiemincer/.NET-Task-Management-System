@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Engineer"
         mc:Ignorable="d"
-        Title="EngineerWindow" Height="525" Width="800">
+        Title="EngineerWindow" Height="525" Width="800"
+        DataContext="{Binding CurrentEngineer, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
     <Grid>
 
         <Grid.RowDefinitions>
@@ -19,28 +20,28 @@
             <UniformGrid Rows="14" Columns="2" Width="450">
 
                 <TextBlock Text="Id:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged" IsEnabled="False"/>
+                <TextBox Text="{Binding Path=Id, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Name:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox Text="{Binding Path=Name, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Email:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox Text="{Binding Path=EmailAddress, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Engineer experience level:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <ComboBox x:Name="Status_ComboBox" SelectionChanged="cbEngineerStatus_SelectionChanged" SelectedValue="{Binding Path=TaskStatus, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5"/>
+                <ComboBox x:Name="Status_ComboBox" SelectionChanged="cbEngineerStatus_SelectionChanged" SelectedValue="{Binding Path=ExperienceLevel, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5"/>
 
                 <TextBlock Text="Cost per hour:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox Text="{Binding Path=CostPerHour, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Current assigned task:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged" IsEnabled="False"/>
+                <TextBox Text="{Binding Path=Task.Id, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
             </UniformGrid>
 
         </Border>
         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Engineer Window" VerticalAlignment="Center" Height="20" Width="135" FontSize="16" FontWeight="Bold"/>
-        <!--<Button Grid.Row="2" Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConvertIdToContentKey}}" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Padding="5" Click="btnAddUpdate_Click" Height="43" Width="82" />-->
+        <Button Grid.Row="2" Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConvertIdToContentKey}}" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Padding="5" Click="btnAddUpdate_EngineerClick" Height="43" Width="82" />
     </Grid>
 
 </Window>

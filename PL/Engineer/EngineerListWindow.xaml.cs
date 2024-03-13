@@ -47,6 +47,11 @@ public partial class EngineerListWindow : Window
         return;
     }
 
+    private void btnAddEngineer_Click(object sender, RoutedEventArgs e)
+    {
+        new EngineerWindow(new BO.Engineer(), true).ShowDialog();
+    }
+
     private void doubleClickEvent_UpdateEngineer(object sender, MouseButtonEventArgs e)
     {
         BO.Engineer engineer = (sender as ListView)?.SelectedItem as BO.Engineer;
