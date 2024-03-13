@@ -80,13 +80,13 @@ namespace Task
             return;
         }
 
-        private void RadioButton_Click(object sender, RoutedEventArgs e)
-        {
-            RadioButton radioButton = sender as RadioButton;
-            if (radioButton != null)
-            {
-                radioButton.IsChecked = !radioButton.IsChecked;
-            }
-        }
+        //private void RadioButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    RadioButton radioButton = sender as RadioButton;
+        //    if (radioButton != null)
+        //    {
+        //        radioButton.IsChecked = !radioButton.IsChecked;
+        //    }
+        //}
     }
 }
