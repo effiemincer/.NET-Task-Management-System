@@ -28,7 +28,7 @@
                 <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Engineer experience level:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <ComboBox x:Name="Status_ComboBox" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=TaskStatus, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5"/>
+                <ComboBox x:Name="Status_ComboBox" SelectionChanged="cbEngineerStatus_SelectionChanged" SelectedValue="{Binding Path=TaskStatus, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5"/>
 
                 <TextBlock Text="Cost per hour:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
