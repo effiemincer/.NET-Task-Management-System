@@ -72,6 +72,7 @@ namespace Task
                 s_bl?.Task.Update(CurrentTask);
             }
             Close();
+            new TaskListWindow(true).Show();
         }
 
         private void cbTaskStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)

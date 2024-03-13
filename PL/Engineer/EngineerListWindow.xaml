@@ -7,18 +7,25 @@
         mc:Ignorable="d"
         Title="EngineerListWindow" Height="650" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+    <!-- Sets the data context to itself for binding purposes. -->
     <Grid Margin="0,0,0,-16">
+        <!-- Main grid layout -->
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
+            <!-- First row for filter controls -->
             <RowDefinition Height="500*" />
+            <!-- Second row for engineer list -->
             <RowDefinition Height="Auto" />
+            <!-- Third row for add button -->
         </Grid.RowDefinitions>
         <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+            <!-- Subgrid for filter controls -->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <!-- Placeholder label -->
             <ComboBox
                 SelectionChanged="cbEngineerExperience_SelectionChanged"
                 SelectedValue="{Binding Path=EngineerExperience, Mode=TwoWay}"
@@ -26,13 +33,16 @@
                 Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
         <ListView Margin="5"  Grid.Row="1" ItemsSource="{Binding EngineerList}" MouseDoubleClick="doubleClickEvent_UpdateEngineer">
+            <!-- ListView for displaying engineer list -->
             <ListView.View>
                 <GridView>
+                    <!-- View as grid -->
                     <GridViewColumn/>
+                    <!-- Placeholder column -->
                 </GridView>
             </ListView.View>
         </ListView>
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="btnAddEngineer_Click"/>
-
+        <!-- Button for adding a new engineer -->
     </Grid>
 </Window>

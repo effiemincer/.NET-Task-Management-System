@@ -1,4 +1,4 @@
-﻿using Milestone;
+﻿using Milestone; // Importing the Milestone namespace for access to its functionalities.
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,26 +14,34 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Engineer;
+namespace Engineer; // Declaring the namespace for the Engineer class.
 
 /// <summary>
 /// Interaction logic for EngineerListWindow.xaml
 /// </summary>
 public partial class EngineerListWindow : Window
 {
-    static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+    static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Static reference to the business logic layer.
+
+    // Property to get or set the engineer's experience level.
     public BO.Enums.EngineerExperience EngineerExperience { get; set; } = BO.Enums.EngineerExperience.None;
+
+    // Constructor for EngineerListWindow class.
     public EngineerListWindow()
     {
+        // Reads all engineers from the data source and initializes the window.
         EngineerList = s_bl?.Engineer.ReadAll();
         InitializeComponent();
     }
-    public IEnumerable<BO.Engineer> EngineerList 
-    { 
+
+    // Property to bind a list of engineers to a UI element.
+    public IEnumerable<BO.Engineer> EngineerList
+    {
         get { return (IEnumerable<BO.Engineer>)GetValue(EngineerListProperty); }
         set { SetValue(EngineerListProperty, value); }
     }
 
+    // Dependency property for EngineerList.
     public static readonly DependencyProperty EngineerListProperty =
         DependencyProperty.Register("EngineerList",
             typeof(IEnumerable<BO.Engineer>),
@@ -41,21 +49,28 @@ public partial class EngineerListWindow : Window
             new PropertyMetadata(null)
         );
 
+    // Event handler for selection change in engineer experience combo box.
     private void cbEngineerExperience_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        //EngineerList = (EngineerExperience == BO.Enums.EngineerExperience.None) ? s_bl?.Engineer.ReadAll()! : s_bl?.Engineer.ReadAll(item => item.ExperienceLevel == EngineerExperience)!;
+        // Updates the EngineerList based on selected experience level.
+        EngineerList = (EngineerExperience == BO.Enums.EngineerExperience.None) ? s_bl?.Engineer.ReadAll()! : s_bl?.Engineer.ReadAll(item => item.ExperienceLevel == EngineerExperience)!;
         return;
     }
 
+    // Event handler for adding a new engineer.
     private void btnAddEngineer_Click(object sender, RoutedEventArgs e)
     {
+        // Closes the current window and opens a new EngineerWindow to add a new engineer.
+        Close();
         new EngineerWindow(new BO.Engineer(), true).ShowDialog();
     }
 
+    // Event handler for double-click event on the engineer list to update an engineer's details.
     private void doubleClickEvent_UpdateEngineer(object sender, MouseButtonEventArgs e)
     {
+        // Gets the selected engineer and opens a new EngineerWindow to update their details.
         BO.Engineer engineer = (sender as ListView)?.SelectedItem as BO.Engineer;
+        Close();
         new EngineerWindow(s_bl.Engineer.Read(engineer!.Id)!, false).ShowDialog();
     }
-
 }

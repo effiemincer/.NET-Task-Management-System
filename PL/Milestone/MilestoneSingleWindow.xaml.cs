@@ -1,5 +1,5 @@
-﻿using BO;
-using Milestone;
+﻿using BO; // Importing the BO namespace for access to its functionalities.
+using Milestone; // Importing the Milestone namespace for access to its functionalities.
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,44 +13,50 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Task;
+using Task; // Importing the Task namespace for access to its functionalities.
 
-namespace Milestone;
+namespace Milestone; // Declaring the namespace for the Milestone class.
 
 /// <summary>
 /// Interaction logic for MilestoneSingleWindow.xaml
 /// </summary>
 public partial class MilestoneSingleWindow : Window
 {
-    static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+    static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Static reference to the business logic layer.
+
+    // Property to get or set the milestone's status.
     public BO.Enums.Status MilestoneStatus { get; set; } = BO.Enums.Status.None;
 
+    // Dependency property for binding the current milestone.
     public static readonly DependencyProperty MilestoneProperty =
             DependencyProperty.Register("CurrentMilestone", typeof(BO.Milestone), typeof(MilestoneSingleWindow), new PropertyMetadata(null));
 
+    // Property to get or set the current milestone.
     public BO.Milestone CurrentMilestone
     {
         get { return (BO.Milestone)GetValue(MilestoneProperty); }
         set { SetValue(MilestoneProperty, value); }
     }
 
-    private bool isAdd;
+    private bool isAdd; // Flag to indicate whether it's adding a new milestone or updating an existing one.
+
+    // Constructor for MilestoneSingleWindow class.
     public MilestoneSingleWindow(BO.Milestone CurrentMilestone_, bool isAdd_)
     {
         InitializeComponent();
-        CurrentMilestone = CurrentMilestone_;
-        isAdd = isAdd_;
-
+        CurrentMilestone = CurrentMilestone_; // Sets the current milestone.
+        isAdd = isAdd_; // Sets the flag to indicate if it's adding or updating.
     }
 
+    // Event handler for selection change in milestone status combo box.
     private void cbMilestoneStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        return;
+        return; // Placeholder, not implemented yet.
     }
 
+    // Event handler for text changed in text boxes.
     private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
-        return;
+        return; // Placeholder, not implemented yet.
     }
 }
-

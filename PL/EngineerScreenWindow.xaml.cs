@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Task;
+using Task; // Importing the Task namespace for access to its functionalities.
 
 namespace PL
 {
@@ -20,22 +20,25 @@ namespace PL
     /// </summary>
     public partial class EngineerScreenWindow : Window
     {
+        static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Static reference to the business logic layer.
 
-        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-
+        // Constructor for EngineerScreenWindow class.
         public EngineerScreenWindow()
         {
-            InitializeComponent();
+            InitializeComponent(); // Initializes the window components.
         }
 
+        // Event handler for "Tasks" button click.
         private void Tasks_Button_Click(object sender, RoutedEventArgs e)
         {
-            // IsAdmin is false
+            // Opens the TaskListWindow with isAdmin set to false, indicating non-admin access.
             new TaskListWindow(false).Show();
         }
 
+        // Event handler for "Current Task" button click.
         private void Current_Task_Button_Click(object sender, RoutedEventArgs e)
         {
+            // Opens the TaskWindow for a specific task (ID 8001) (Hardcoded for now just to make sure it works)
             new TaskWindow(s_bl.Task.Read(8001), false).Show();
         }
     }
