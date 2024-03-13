@@ -20,6 +20,9 @@ namespace PL
     /// </summary>
     public partial class EngineerScreenWindow : Window
     {
+
+        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
         public EngineerScreenWindow()
         {
             InitializeComponent();
@@ -33,8 +36,7 @@ namespace PL
 
         private void Current_Task_Button_Click(object sender, RoutedEventArgs e)
         {
-            
-            new TaskWindow( new BO.Task(), false).Show();
+            new TaskWindow(s_bl.Task.Read(8001), false).Show();
         }
     }
 }
