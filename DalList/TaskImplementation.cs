@@ -27,7 +27,7 @@ internal class TaskImplementation : ITask
             task?.ActualEndDate,
             task?.IsMilestone ?? false,
             task?.ActualStartDate,
-            task?.Deliverable,
+            task.Deliverable,
             task?.Notes
         );
         DataSource.Tasks.Add( taskCopy );

@@ -134,8 +134,8 @@ internal class Program
                         input = Console.ReadLine();
                         DateTime? actualStart = (input == "" ? null : DateTime.Parse(input!));
 
-                        Console.WriteLine("Enter deliverable of task: ");
-                        string? deliverable = Console.ReadLine();
+                        Console.WriteLine("Enter if task is deliverable (Y/N): ");
+                        bool deliverable = (input! == "Y");
 
                         Console.WriteLine("Enter notes for the task: ");
                         string? notes = Console.ReadLine();
@@ -148,7 +148,7 @@ internal class Program
                         {
                             DO.Task task = new DO.Task(0, name, dateCreated, description, duration, deadline,
                                 projectedStart, difficulty, assignedEng, actualEnd,
-                                isMilestone, actualStart, deliverable!, notes!, inactive);
+                                isMilestone, actualStart, deliverable, notes!, inactive);
                             s_dal!.Task.Create(task);
                         }
                         catch   (Exception ex) { 
@@ -286,9 +286,9 @@ internal class Program
                                 input = Console.ReadLine();
                                 actualStart = (input == "" ? task!.ActualStartDate : DateTime.Parse(input!));
 
-                                Console.WriteLine("Enter deliverable of task: ");
+                                Console.WriteLine("Enter if task is deliverable (Y/N): ");
                                 input = Console.ReadLine();
-                                deliverable = (input == "" || input is null) ? task!.Deliverable : input;
+                                deliverable = ((input! == "") ? task!.IsMilestone : (input! == "Y"));
 
                                 Console.WriteLine("Enter notes for the task: ");
                                 input = Console.ReadLine();

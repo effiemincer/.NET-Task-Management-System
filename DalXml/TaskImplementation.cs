@@ -38,7 +38,7 @@ internal class TaskImplementation : ITask
             entity?.ActualEndDate,
             entity?.IsMilestone ?? false,
             entity?.ActualStartDate,
-            entity?.Deliverable,
+            entity.Deliverable,
             entity?.Notes
         );
 

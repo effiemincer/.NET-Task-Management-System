@@ -54,7 +54,7 @@ public partial class TaskListWindow : Window
 
     private void doubleClickEvent_UpdateTask(object sender, MouseButtonEventArgs e)
     {
-        BO.Task? taskInList = (sender as ListView)?.SelectedItem as BO.Task;
-        new TaskWindow(taskInList!, false).ShowDialog();
+        BO.TaskInList? taskInList = (sender as ListView)?.SelectedItem as BO.TaskInList;
+        new TaskWindow(s_bl.Task.Read(taskInList.Id), false).ShowDialog();
     }
 }

@@ -22,7 +22,7 @@ public class Task
     public DateTime? ProjectedStartDate { get; set; }
     public DateTime? Deadline { get; set; }
     public DateTime? ActualEndDate { get; set; }
-    public string? Deliverable { get; set; }
+    public bool Deliverable { get; set; }
     public string? Remarks { get; set; }
     public BO.EngineerInTask? Engineer { get; set; }
     public Enums.EngineerExperience? Complexity { get; set; }

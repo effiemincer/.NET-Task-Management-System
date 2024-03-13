@@ -34,7 +34,7 @@ public record Task
     DateTime? ActualEndDate = null,
     bool IsMilestone = false,
     DateTime? ActualStartDate = null,
-    string? Deliverable = null,
+    bool Deliverable = false,
     string? Notes = null,
     bool Inactive = false
 

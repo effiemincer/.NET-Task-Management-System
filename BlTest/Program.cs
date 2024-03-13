@@ -120,8 +120,8 @@ internal class Program
                         input = Console.ReadLine();
                         DateTime? actualStart = (input == "" ? null : DateTime.Parse(input!));
 
-                        Console.WriteLine("Enter deliverable of task: ");
-                        string? deliverable = Console.ReadLine();
+                        Console.WriteLine("Enter if task is deliverable (Y/N): ");
+                        bool deliverable = (input! == "Y");
 
                         Console.WriteLine("Enter notes for the task: ");
                         string? notes = Console.ReadLine();
@@ -300,7 +300,7 @@ internal class Program
 
                                 Console.WriteLine("Enter deliverable of task: ");
                                 input = Console.ReadLine();
-                                deliverable = (input == "" || input is null) ? task!.Deliverable : input;
+                                deliverable = ((input! == "") ? task!.Deliverable : (input! == "Y"));
 
                                 Console.WriteLine("Enter notes for the task: ");
                                 input = Console.ReadLine();

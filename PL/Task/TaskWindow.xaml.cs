@@ -78,5 +78,14 @@ namespace Task
             //TaskList = (TaskStatus == BO.Enums.Status.None) ? s_bl?.Task.ReadAll()! : s_bl?.Task.ReadAll(task => task.Status == TaskStatus)!;
             return;
         }
+
+        private void RadioButton_Click(object sender, RoutedEventArgs e)
+        {
+            RadioButton radioButton = sender as RadioButton;
+            if (radioButton != null)
+            {
+                radioButton.IsChecked = !radioButton.IsChecked;
+            }
+        }
     }
 }

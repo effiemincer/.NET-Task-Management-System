@@ -197,7 +197,7 @@ internal class MilestoneImplementation : IMilestone
                 ActualEndDate = calcActualEndDate(milestone),
                 IsMilestone = true,
                 ActualStartDate = calcActualStartDate(milestone),
-                Deliverable = null,
+                Deliverable = false,
                 Notes = null,
                 Inactive = false
             });
