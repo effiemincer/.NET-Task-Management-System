@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Milestone;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,24 @@ namespace Engineer;
 /// </summary>
 public partial class EngineerWindow : Window
 {
-    public EngineerWindow(BO.Engineer CurrentEngineer, bool isAdd_)
+
+    static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
+    public static readonly DependencyProperty EngineerProperty =
+        DependencyProperty.Register("CurrentEngineer", typeof(BO.Engineer), typeof(EngineerWindow), new PropertyMetadata(null));
+
+    public BO.Engineer CurrentEngineer
+    {
+        get { return (BO.Engineer)GetValue(EngineerProperty); }
+        set { SetValue(EngineerProperty, value); }
+    }
+    private bool isAdd;
+
+    public EngineerWindow(BO.Engineer CurrentEngineer_, bool isAdd_)
     {
         InitializeComponent();
+        CurrentEngineer = CurrentEngineer_;
+        isAdd = isAdd_;
     }
     private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -31,6 +47,19 @@ public partial class EngineerWindow : Window
     private void cbEngineerStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         return;
+    }
+
+    private void btnAddUpdate_EngineerClick(object sender, RoutedEventArgs e)
+    {
+        if (isAdd)
+        {
+            s_bl?.Engineer.Create(CurrentEngineer);
+        }
+        else
+        {
+            s_bl?.Engineer.Update(CurrentEngineer);
+        }
+        Close();
     }
 
 }

@@ -65,6 +65,7 @@ namespace Task
             if (isAdd)
             {
                 s_bl?.Task.Create(CurrentTask);
+                
             }
             else
             {
