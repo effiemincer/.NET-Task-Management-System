@@ -46,6 +46,7 @@ namespace Task
             InitializeComponent();
             CurrentTask = task_;
             isAdd = isAdd_;
+        }
 
         //public IEnumerable<BO.TaskInList> TaskList
         //{

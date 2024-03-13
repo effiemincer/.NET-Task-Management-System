@@ -19,7 +19,7 @@ namespace Engineer;
 /// </summary>
 public partial class EngineerWindow : Window
 {
-    public EngineerWindow()
+    public EngineerWindow(BO.Engineer CurrentEngineer, bool isAdd_)
     {
         InitializeComponent();
     }

@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Task;
 using static BO.Enums;
 
 namespace Milestone;
@@ -49,6 +50,12 @@ public partial class MilestoneListWindow : Window
 
     private void bcAdd_Milestone(object sender, RoutedEventArgs e)
     {
-        new MilestoneSingleWindow(0).Show();
+        new MilestoneSingleWindow(new BO.Milestone(), true).ShowDialog();
+    }
+
+    private void doubleClickEvent_UpdateMilestone(object sender, MouseButtonEventArgs e)
+    {
+        BO.MilestoneInList milestoneInList = (sender as ListView)?.SelectedItem as BO.MilestoneInList;
+        new MilestoneSingleWindow(s_bl.Milestone.Read(milestoneInList!.Id), false).ShowDialog();
     }
 }

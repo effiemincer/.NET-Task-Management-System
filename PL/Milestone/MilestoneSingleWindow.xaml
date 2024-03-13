@@ -20,7 +20,7 @@
             <UniformGrid Rows="14" Columns="2" Width="450">
 
                 <TextBlock Text="Id:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding CurrentMilestone.Id, Mode=OneTime}"  VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged" IsEnabled="False"/>
+                <TextBox Text="{Binding Path=Id, Mode=OneTime}"  VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged" IsEnabled="False"/>
 
                 <TextBlock Text="Alias:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
@@ -32,7 +32,7 @@
                 <DatePicker VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
 
                 <TextBlock Text="Status:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-               <!-- <ComboBox x:Name="Status_ComboBox" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=TaskStatus, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5"/>-->
+                <ComboBox x:Name="Status_ComboBox" SelectionChanged="cbMilestoneStatus_SelectionChanged" SelectedValue="{Binding Path=Status, Mode=OneTime}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5"/>
 
                 <TextBlock Text="Projected Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <DatePicker VerticalAlignment="Bottom"  Margin="0,0,0,5"/>

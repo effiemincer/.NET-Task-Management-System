@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Task;
 
 namespace Milestone;
 
@@ -23,18 +24,22 @@ public partial class MilestoneSingleWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
     public BO.Enums.Status MilestoneStatus { get; set; } = BO.Enums.Status.None;
-    BO.Milestone CurrentMilestone = new BO.Milestone();
-    private int _milestoneId;
-    public MilestoneSingleWindow(int milestoneId)
+
+    public static readonly DependencyProperty MilestoneProperty =
+            DependencyProperty.Register("CurrentMilestone", typeof(BO.Milestone), typeof(MilestoneSingleWindow), new PropertyMetadata(null));
+
+    public BO.Milestone CurrentMilestone
+    {
+        get { return (BO.Milestone)GetValue(MilestoneProperty); }
+        set { SetValue(MilestoneProperty, value); }
+    }
+
+    private bool isAdd;
+    public MilestoneSingleWindow(BO.Milestone CurrentMilestone_, bool isAdd_)
     {
         InitializeComponent();
-        _milestoneId = milestoneId;
-        if (milestoneId != 0)
-        {
-            CurrentMilestone = s_bl?.Milestone.Read(milestoneId);
-            //DataContext = CurrentMilestone;
-        }
-
+        CurrentMilestone = CurrentMilestone_;
+        isAdd = isAdd_;
 
     }
 

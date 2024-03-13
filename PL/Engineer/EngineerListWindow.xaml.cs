@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Milestone;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -42,7 +43,14 @@ public partial class EngineerListWindow : Window
 
     private void cbEngineerExperience_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        EngineerList = (EngineerExperience == BO.Enums.EngineerExperience.None) ? s_bl?.Engineer.ReadAll()! : s_bl?.Engineer.ReadAll(item => item.ExperienceLevel == EngineerExperience)!;
+        //EngineerList = (EngineerExperience == BO.Enums.EngineerExperience.None) ? s_bl?.Engineer.ReadAll()! : s_bl?.Engineer.ReadAll(item => item.ExperienceLevel == EngineerExperience)!;
+        return;
+    }
+
+    private void doubleClickEvent_UpdateEngineer(object sender, MouseButtonEventArgs e)
+    {
+        BO.Engineer engineer = (sender as ListView)?.SelectedItem as BO.Engineer;
+        new EngineerWindow(s_bl.Engineer.Read(engineer!.Id)!, false).ShowDialog();
     }
 
 }
