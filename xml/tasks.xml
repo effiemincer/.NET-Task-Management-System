@@ -9,7 +9,7 @@
     <Deadline>2024-09-16T04:01:41.0082267+03:00</Deadline>
     <ProjectedStartDate>2024-08-01T04:01:41.008227+03:00</ProjectedStartDate>
     <DegreeOfDifficulty>Proficient</DegreeOfDifficulty>
-    <AssignedEngineerId>2835081</AssignedEngineerId>
+    <AssignedEngineerId xsi:nil="true" />
     <ActualEndDate xsi:nil="true" />
     <IsMilestone>false</IsMilestone>
     <ActualStartDate xsi:nil="true" />

@@ -21,12 +21,6 @@ namespace Task
     /// </summary>
     public partial class TaskWindow : Window
     {
-        public static readonly DependencyProperty TaskListProperty =
-            DependencyProperty.Register("TaskList",
-                typeof(IEnumerable<BO.TaskInList>),
-                typeof(TaskListWindow),
-                new PropertyMetadata(null)
-            );
 
         public static readonly DependencyProperty TaskProperty =
             DependencyProperty.Register("CurrentTask", typeof(BO.Task), typeof(TaskWindow), new PropertyMetadata(null));
@@ -45,14 +39,9 @@ namespace Task
         public TaskWindow(BO.Task task_, bool isAdd_ = false)
         {
             InitializeComponent();
-            isAdd = isAdd_;
             CurrentTask = task_;
-        }
+            isAdd = isAdd_;
 
-        public IEnumerable<BO.TaskInList> TaskList
-        {
-            get { return (IEnumerable<BO.TaskInList>)GetValue(TaskListProperty); }
-            set { SetValue(TaskListProperty, value); }
         }
 
         
@@ -76,8 +65,7 @@ namespace Task
 
         private void cbTaskStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TaskList = (TaskStatus == BO.Enums.Status.None) ? s_bl?.Task.ReadAll()! : s_bl?.Task.ReadAll(task => task.Status == TaskStatus)!;
+            return;
         }
-
     }
 }

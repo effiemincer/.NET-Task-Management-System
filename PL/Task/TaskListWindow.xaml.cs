@@ -27,6 +27,7 @@ public partial class TaskListWindow : Window
 
     public TaskListWindow(bool isAdmin)
     {
+
         TaskList = s_bl?.Task.ReadAll();
         InitializeComponent();
         this.isAdmin = isAdmin;
@@ -51,4 +52,9 @@ public partial class TaskListWindow : Window
         TaskList = (TaskStatus == BO.Enums.Status.None) ? s_bl?.Task.ReadAll()! : s_bl?.Task.ReadAll(task => task.Status == TaskStatus)!;
     }
 
+    private void doubleClickEvent_UpdateTask(object sender, MouseButtonEventArgs e)
+    {
+        BO.Task? taskInList = (sender as ListView)?.SelectedItem as BO.Task;
+        new TaskWindow(taskInList!, false).ShowDialog();
+    }
 }

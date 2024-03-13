@@ -25,7 +25,7 @@
                 ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}"
                 Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
-        <ListView Margin="5"  Grid.Row="1" ItemsSource="{Binding TaskList}">
+        <ListView Margin="5"  Grid.Row="1" ItemsSource="{Binding TaskList}" MouseDoubleClick="doubleClickEvent_UpdateTask">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
