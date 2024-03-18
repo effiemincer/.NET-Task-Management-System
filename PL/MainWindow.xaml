@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button Content="Admin Page" HorizontalAlignment="Left" VerticalAlignment="Center" Height="39" Width="91" Click="Admin_Button_Click" Margin="224,0,0,0"/>
+        <TextBox Text="Engineer ID" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="466,-100,0,0" Width="91" Height="20"/>
         <Button Content="Engineer Page" HorizontalAlignment="Left" Margin="466,0,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Engineer_Button_Click"/>
 
     </Grid>

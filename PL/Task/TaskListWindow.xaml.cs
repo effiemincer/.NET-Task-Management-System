@@ -62,15 +62,19 @@ public partial class TaskListWindow : Window
     {
         // Gets the selected task and opens a new TaskWindow to update its details.
         BO.TaskInList? taskInList = (sender as ListView)?.SelectedItem as BO.TaskInList;
-        Close();
+        //Close();
         new TaskWindow(s_bl.Task.Read(taskInList.Id), false).ShowDialog();
+        TaskList = null;
+        TaskList = s_bl?.Task.ReadAll();
     }
 
     // Event handler for add task button click.
     private void btnAddTask_Click(object sender, RoutedEventArgs e)
     {
         // Closes the current window and opens a new TaskWindow to add a new task.
-        Close();
+        //Close();
         new TaskWindow(new BO.Task(), true).ShowDialog();
+        TaskList = null;
+        TaskList = s_bl?.Task.ReadAll();
     }
 }

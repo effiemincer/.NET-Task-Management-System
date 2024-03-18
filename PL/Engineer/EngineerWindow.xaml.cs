@@ -1,6 +1,7 @@
 ﻿using Milestone; // Importing the Milestone namespace for access to its functionalities.
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,7 +71,6 @@ public partial class EngineerWindow : Window
             s_bl?.Engineer.Update(CurrentEngineer);
         }
         // Shows the EngineerListWindow and closes the current window.
-        new EngineerListWindow().Show();
         Close();
     }
 

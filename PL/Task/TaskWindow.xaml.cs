@@ -73,7 +73,7 @@ namespace Task
                 s_bl?.Task.Update(CurrentTask);
             }
             Close();
-            new TaskListWindow(true).Show();
+            //new TaskListWindow(true).Show();
         }
 
         // SelectionChanged event handler for Task Status ComboBox (currently not used)

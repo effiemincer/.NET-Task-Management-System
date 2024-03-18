@@ -60,7 +60,9 @@ public partial class MilestoneListWindow : Window
     private void doubleClickEvent_UpdateMilestone(object sender, MouseButtonEventArgs e)
     {
         // Gets the selected milestone and opens a new MilestoneSingleWindow to view its details.
-        BO.MilestoneInList milestoneInList = (sender as ListView)?.SelectedItem as BO.MilestoneInList;
-        new MilestoneSingleWindow(s_bl.Milestone.Read(milestoneInList!.Id), false).ShowDialog();
+        //BO.MilestoneInList milestoneInList = (sender as ListView)?.SelectedItem as BO.MilestoneInList;
+        //new MilestoneSingleWindow(s_bl.Milestone.Read(milestoneInList!.Id), false).ShowDialog();
+        //MilestoneList = null; // Resets the MilestoneList to refresh the UI.
+        //MilestoneList = s_bl?.Milestone.ReadAll(); // Reads all milestones from the data source.
     }
 }
