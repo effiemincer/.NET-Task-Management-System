@@ -1,6 +1,7 @@
 ﻿using BO; // Importing the BO namespace for access to its functionalities.
 using Engineer; // Importing the Engineer namespace for access to its functionalities.
 using Milestone; // Importing the Milestone namespace for access to its functionalities.
+using PL.Admin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace PL; // Declaring the namespace for the PL (Presentation Layer) class.
 public partial class AdminScreenWindow : Window
 {
     // Constructor for AdminScreenWindow class.
+    private bool scheduleCreated = false;
     public AdminScreenWindow()
     {
         InitializeComponent(); // Initializes the window components.
@@ -46,7 +48,30 @@ public partial class AdminScreenWindow : Window
     // Event handler for "Manage Milestones" button click.
     private void Manage_Milestones_Click(object sender, RoutedEventArgs e)
     {
-        // Opens the MilestoneListWindow.
-        new MilestoneListWindow().Show();
+        if (scheduleCreated)
+        {
+            // Opens the MilestoneListWindow.
+            new MilestoneListWindow().Show();
+        }
+        else
+        {
+            MessageBox.Show("You must generate a schedule first in order to see milestones.", "NoScheduleGenerated", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void Gantt_Chart_Click(object sender, RoutedEventArgs e)
+    {
+        new GanttChartWindow().Show();
+    }
+
+    private void Add_Engineer_Click(object sender, RoutedEventArgs e)
+    {
+        new EngineerWindow(new BO.Engineer(), true).ShowDialog();
+    }
+    
+    private void Generate_Schedule_Click(object sender, RoutedEventArgs e)
+    {
+        //generates schedule and locks certain modifcations 
+        scheduleCreated = true;
     }
 }

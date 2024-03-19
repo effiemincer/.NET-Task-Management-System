@@ -12,4 +12,5 @@ public class Bl : IBl
 
     public IMilestone Milestone => new MilestoneImplementation();
 
+    public IConfig Config => new ConfigImplementation();
 }

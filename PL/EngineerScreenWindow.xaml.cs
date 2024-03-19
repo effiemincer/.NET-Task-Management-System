@@ -22,13 +22,15 @@ namespace PL
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Static reference to the business logic layer.
 
-        private int ID; // Field to store the ID of the user.
+        private int engID; // Field to store the ID of the user.
+        private BO.Engineer currentEng;
 
         // Constructor for EngineerScreenWindow class.
         public EngineerScreenWindow(int _id)
         {
             InitializeComponent(); // Initializes the window components.
-            this.ID = _id; // Sets the ID field to the given ID.
+            engID = _id; // Sets the ID field to the given ID.
+            currentEng = s_bl?.Engineer.Read(_id)!;
         }
 
         // Event handler for "Tasks" button click.
@@ -41,8 +43,16 @@ namespace PL
         // Event handler for "Current Task" button click.
         private void Current_Task_Button_Click(object sender, RoutedEventArgs e)
         {
-            // Opens the TaskWindow for a specific task (ID 8001) (Hardcoded for now just to make sure it works)
-            new TaskWindow(s_bl.Task.Read(ID), false).Show();
+            // Opens the TaskWindow for a specific task 
+            if (currentEng.Task is null)
+            {
+                MessageBox.Show(currentEng.Name + " does not have any currently assigned Tasks.");
+            }
+            else
+            {
+                new TaskWindow(s_bl!.Task.Read((int)currentEng.Task!.Id!)!).ShowDialog();
+            }
+           
         }
     }
 }

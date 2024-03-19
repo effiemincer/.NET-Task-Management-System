@@ -1,0 +1,18 @@
+﻿<Window x:Class="PL.AdminScreenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="AdminScreenWindow" Height="650" Width="800">
+    <Grid>
+        <Button Content="Manage Tasks" HorizontalAlignment="Left" Margin="128,158,0,0" VerticalAlignment="Top" Height="54" Width="128" Click="Manage_Tasks_Click"/>
+        <Button Content="Manage Engineers" HorizontalAlignment="Center" Margin="0,158,0,0" VerticalAlignment="Top" Height="54" Width="128" Click="Manage_Engineers_Click"/>
+        <Button Content="Manage Milesones" HorizontalAlignment="Left" Margin="534,158,0,0" VerticalAlignment="Top" Height="54" Width="128" Click="Manage_Milestones_Click"/>
+        <Button Content="Gantt Chart" HorizontalAlignment="Left" Margin="333,0,0,138" VerticalAlignment="Bottom" Height="54" Width="128" Click="Gantt_Chart_Click"/>
+        <Button Content="Add Engineer" HorizontalAlignment="Center" VerticalAlignment="Center" Height="54" Width="128" Click="Add_Engineer_Click"/>
+        <Button Content="Generate Schedule" HorizontalAlignment="Left" VerticalAlignment="Center" Height="54" Width="128" Click="Generate_Schedule_Click" Margin="534,0,0,0"/>
+
+    </Grid>
+</Window>

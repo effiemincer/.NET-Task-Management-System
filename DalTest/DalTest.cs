@@ -22,7 +22,7 @@ static public class DalTest
 
         private static readonly Random s_random = new Random();
 
-        private static void createTasks() {
+        private static void createTasksAndDependencies() {
 
             XElement root = Dal.XMLTools.LoadListFromXMLElement("data-config");
             int nextId = root.ToIntNullable("NextTaskId") ?? throw new FormatException($"can't convert id.  data-config, NextTaskId");
@@ -37,6 +37,9 @@ static public class DalTest
                 "Test Functionality", "Enhance Feature", "Review Code", "Document Change", 
                 "Deploy Update", "Discuss Solution", "Evaluate Performance"
             };
+
+            //number of total dependencies
+            int totalNumDependencies = 40, dependecyCount = 0;
 
             foreach (string var_task in TaskNames)
             {
@@ -64,10 +67,90 @@ static public class DalTest
 
                 int _assignedEngId = s_random.Next(2000000, 4000000); //Teduat zehut
 
-                s_dal!.Task.Create(new Task(0, var_task, _createdDate, _description, _duration, _deadline, _startDate, _allDifficulties[_randIndex], _assignedEngId));
+                int newestTaskId = s_dal!.Task.Create(new Task(0, var_task, _createdDate, _description, _duration, _deadline, _startDate, _allDifficulties[_randIndex], _assignedEngId));
+
+                //loop to create dependecnsies for the task
+                //creating dependencies for the task now prevents circular dependencies
+                if (dependecyCount <= totalNumDependencies)
+                {
+                    IEnumerable<DO.Task?> taskList = s_dal!.Task.ReadAll();
+
+                    //if the task list is empty then skip the rest
+                    if (taskList == null)
+                        continue;
+                    //create a random number of dependencies for this task
+                    //for (int i = 0; i < s_random.Next(0, int.Min(5, taskList.Count())) && dependecyCount <= totalNumDependencies; ++i)
+                    for (int i = 0; i < s_random.Next(0, taskList.Count()) && dependecyCount <= totalNumDependencies; ++i)
+                    {
+                        //find a random task to make this task dependent on
+                        int index = s_random.Next(0, taskList.Count() - 1);
+                        Task? task = taskList.ElementAt(index);
+
+                        IEnumerable<DO.Dependency?> dependencies = s_dal!.Dependency.ReadAll(dep => dep.DependentTaskId == newestTaskId);
+                        foreach(DO.Dependency? dep in dependencies)
+                        {
+                            if (dep != null && dep.RequisiteID == task!.Id)
+                                continue; //this task is already dependent on the task we picked
+                        }
+
+                        s_dal!.Dependency.Create(new Dependency(0, newestTaskId, task!.Id));
+                       
+                        dependecyCount++;
+                    }
+                }
 
             }
 
+        }
+
+        //private static void createDependencies()
+        //{
+        //    int numDependencies = 40;
+        //    for (int i = 0; i <= numDependencies; ++i)
+        //    {
+
+
+        //        //pick a random task and assign it to these 2 ids:
+        //        int taskID = s_random.Next(8000, 8020);
+        //        int reqID = s_random.Next(8000, 8020);
+
+        //        Task? boTask = s_dal!.Task.Read(reqID);
+
+        //        if (boTask is null)
+        //            throw new DO.DalDoesNotExistException("Task with ID=" + reqID + " does not exist");
+
+        //        IEnumerable<DO.Dependency?> dependencies = s_dal!.Dependency.ReadAll(dep => dep.DependentTaskId == boTask.Id);
+
+        //        while (reqID == taskID || isCircularDep(taskID, reqID, i, dependencies))
+        //        {
+        //            taskID = s_random.Next(8000, 8020);
+        //        }
+
+        //        s_dal!.Dependency.Create(new Dependency(0, taskID, reqID));
+        //    }
+
+        //}
+        private static bool isCircularDep(int depId, int reqId, int n, IEnumerable<DO.Dependency?> dependencies)
+        {
+            if (n == 0)
+                return false;
+
+            if (dependencies == null)
+                return false;
+
+            foreach (DO.Dependency? dep in dependencies)
+            {
+                if (dep != null && dep.DependentTaskId == depId)
+                    return true;
+            }
+
+            //foreach (DO.Dependency? dep in dependencies)
+            // {
+            if (isCircularDep(depId, reqId, n - 1, dependencies))
+                return true;
+            //}
+
+            return false;
         }
 
         private static void createEngineers()
@@ -94,6 +177,7 @@ static public class DalTest
 
             };
 
+            int taskId = s_random.Next(8000,8015);
             for (int i = 0; i < EngineerNames.Length; ++i) {
 
                 double _cost  = s_random.Next(30, 60);
@@ -102,57 +186,16 @@ static public class DalTest
                 Enums.EngineerExperience[] _allLevels = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
                 int _randIndex = s_random.Next(0, _allLevels.Length);
 
-                s_dal!.Engineer.Create(new Engineer(Convert.ToInt32(IdentityNumbers[i]), EngineerNames[i], EmailAddresses[i], _cost, _allLevels[_randIndex] ));
-            }
-        }
+                DO.Task? task = s_dal!.Task.Read(taskId);
 
-        private static void createDependencies()
-        {
-            int numDependencies = 40;
-            for (int i = 0; i <= numDependencies; ++i) {
-
+                s_dal!.Engineer.Create(new Engineer(Convert.ToInt32(IdentityNumbers[i]), EngineerNames[i], EmailAddresses[i], _cost, task!.DegreeOfDifficulty));
                 
-                //pick a random task and assign it to these 2 ids:
-                int taskID = s_random.Next(8000, 8020);
-                int reqID = s_random.Next(8000, 8020);
+                s_dal!.Task.Update(new Task(taskId,task.Alias, task.DateCreated, task.Description, task.Duration, task.Deadline, task.ProjectedStartDate, task.DegreeOfDifficulty, Convert.ToInt32(IdentityNumbers[i])));
+                taskId++;
 
-                Task? boTask = s_dal!.Task.Read(reqID);
-
-                if (boTask is null)
-                    throw new DO.DalDoesNotExistException("Task with ID=" + reqID + " does not exist");
-
-                IEnumerable<DO.Dependency?> dependencies = s_dal!.Dependency.ReadAll(dep => dep.DependentTaskId == boTask.Id);
-                while (reqID == taskID || isCircularDep(taskID, reqID, i, dependencies))
-                {
-                    taskID = s_random.Next(8000, 8020);
-                }
-
-                s_dal!.Dependency.Create(new Dependency(0, taskID, reqID));
             }
-
         }
-        private static bool isCircularDep(int depId, int reqId, int n, IEnumerable<DO.Dependency?> dependencies)
-        {
-            if (n == 0)
-                return false;
 
-            if (dependencies == null)
-                return false;
-
-            foreach (DO.Dependency? dep in dependencies)
-            {
-                if (dep != null && dep.Id == depId)
-                    return true;
-            }
-
-            //foreach (DO.Dependency? dep in dependencies)
-           // {
-                if (isCircularDep(depId, reqId, n - 1, dependencies))
-                    return true;
-            //}
-
-            return false;
-        }
 
         private static void createStartAndEndDateForProject()
         {
@@ -194,9 +237,9 @@ static public class DalTest
             reset();
 
             createStartAndEndDateForProject();
-            createTasks();
+            createTasksAndDependencies();
             createEngineers();
-            createDependencies();
+            //createDependencies();
         }
     }
 }

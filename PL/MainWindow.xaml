@@ -8,10 +8,11 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button Content="Admin Page" HorizontalAlignment="Left" VerticalAlignment="Center" Height="39" Width="91" Click="Admin_Button_Click" Margin="224,0,0,0"/>
-        <TextBox x:Name="engineerID" Text="Engineer ID" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="466,-100,0,0" Width="91" Height="20" />
+        <Label Content="Enter engineer ID below:" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="220,-150,0,0"/>
+        <TextBox x:Name="engineerID" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="466,-100,0,0" Width="91" Height="20"/>
         <Button Content="Engineer Page" HorizontalAlignment="Left" Margin="466,0,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Engineer_Button_Click"/>
-
-        <Button Content="Initialize Data" HorizontalAlignment="Left" Margin="466,200,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Initialize_Data_Button_Click"/>
+        <Button Content="Reset All Data" HorizontalAlignment="Left" Margin="224,200,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Reset_Data_Button_Click"/>
+        <Button x:Name="initializeDataButton"  Content="Initialize Data" HorizontalAlignment="Left" Margin="466,200,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Initialize_Data_Button_Click"/>
 
     </Grid>
 </Window>
