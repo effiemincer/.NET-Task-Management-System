@@ -59,4 +59,10 @@ public partial class MilestoneSingleWindow : Window
     {
         return; // Placeholder, not implemented yet.
     }
+
+    private void btnUpdate_Milestone(object sender, RoutedEventArgs e)
+    {
+        s_bl?.Milestone.Update(CurrentMilestone.Id, _alias.Text, _description.Text, _remarks.Text); // Adds the milestone to the database.
+        Close(); // Closes the window.
+    }
 }

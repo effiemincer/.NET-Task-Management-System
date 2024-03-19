@@ -322,7 +322,7 @@
   </Task>
   <Task>
     <Id>8020</Id>
-    <Alias>m1</Alias>
+    <Alias>M1</Alias>
     <DateCreated>2024-03-19T00:44:44.155399+02:00</DateCreated>
     <Description />
     <Duration>P3DT8M2S</Duration>
@@ -334,6 +334,7 @@
     <IsMilestone>true</IsMilestone>
     <ActualStartDate xsi:nil="true" />
     <Deliverable>false</Deliverable>
+    <Notes>this is not the start milestone</Notes>
     <Inactive>false</Inactive>
   </Task>
   <Task>

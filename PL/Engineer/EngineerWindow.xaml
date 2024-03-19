@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Engineer"
         mc:Ignorable="d"
-        Title="EngineerWindow" Height="525" Width="800"
+        Title="EngineerWindow" Height="550" Width="800"
         DataContext="{Binding CurrentEngineer, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
     <Grid>
         <!-- Main grid layout -->

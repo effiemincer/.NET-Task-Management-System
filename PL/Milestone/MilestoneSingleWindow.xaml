@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Milestone"
         mc:Ignorable="d"
-        Title="MilestoneSingleWindow" Height="500" Width="800"
+        Title="MilestoneSingleWindow" Height="525" Width="800"
         DataContext="{Binding CurrentMilestone, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
     <!-- Sets the data context to CurrentMilestone for two-way binding. -->
     <Grid>
@@ -30,11 +30,11 @@
                 <!-- Textbox for displaying Id, one-time binding and disabled for editing -->
 
                 <TextBlock Text="Alias:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding Path=Alias, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox x:Name="_alias" Text="{Binding Path=Alias, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
                 <!-- Textbox for displaying Alias -->
 
                 <TextBlock Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding Path=Description, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox x:Name="_description" Text="{Binding Path=Description, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
                 <!-- Textbox for displaying Description -->
 
                 <TextBlock Text="Date Created:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
@@ -62,7 +62,7 @@
                 <!-- Textbox for displaying CompletionPercentage -->
 
                 <TextBlock Text="Remarks:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding Path=Remarks, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox x:Name="_remarks" Text="{Binding Path=Remarks, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
                 <!-- Textbox for displaying Remarks -->
 
                 <TextBlock Text="Tasks that this milestone depends on:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
@@ -73,6 +73,7 @@
 
         </Border>
         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Milestone Window" VerticalAlignment="Center" Height="20" Width="150" FontSize="16" FontWeight="Bold"/>
+        <Button Grid.Row="2" Content="Update" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Padding="5" Click="btnUpdate_Milestone" Height="43" Width="82" />
         <!-- Header for the window -->
     </Grid>
 </Window>
