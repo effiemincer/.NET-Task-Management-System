@@ -25,6 +25,8 @@ internal class MilestoneImplementation : IMilestone
     /// </summary>
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
+    private static TimeSpan ProjectDuration = TimeSpan.Zero;
+
     private readonly Bl _bl; 
     internal MilestoneImplementation(Bl bl) => _bl = bl;
 
@@ -433,11 +435,29 @@ internal class MilestoneImplementation : IMilestone
             if (taskMilestone.Duration > taskMilestone.Deadline - taskMilestone.ProjectedStartDate && !MilestoneDict[taskMilestone.Id].isStart)
                 throw new BO.BlBadInputDataException($"Milestone with id={taskMilestone.Id} has an impossible duration!");
             
-            projectTimeSpan += taskMilestone.Duration;
+            if (!MilestoneDict[taskMilestone.Id].isStart)
+            {
+                projectTimeSpan += taskMilestone.Duration;
+            }
         }
         if(projectTimeSpan > endDate - startDate)
             throw new BO.BlBadInputDataException("Project cannot fit within the given schedule!");
+
+        ProjectDuration = (TimeSpan)projectTimeSpan;
+
         return "all milestones and the project fit within the schedule!";
+    }
+    
+    /// <summary>
+    /// Getter for Project Duration
+    /// </summary>
+    /// <returns> a Timespan </returns>
+    /// <exception cref="Exception"></exception>
+    public TimeSpan getProjectDuration()
+    {
+        if (initialized && ProjectDuration != TimeSpan.Zero)
+            return ProjectDuration;
+        else throw new Exception("Can't get Project Duration because project schedule is not yet initialized");
     }
 
     /// <summary>

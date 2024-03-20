@@ -38,4 +38,6 @@ public interface IMilestone
     /// </summary>
     /// <returns> all milestones </returns>
     public IEnumerable<MilestoneInList> ReadAll(Func<BO.MilestoneInList, bool>? filter = null);
+
+    public TimeSpan getProjectDuration();
 }
