@@ -46,7 +46,9 @@ public partial class MilestoneSingleWindow : Window
         InitializeComponent();
         CurrentMilestone = CurrentMilestone_; // Sets the current milestone.
         isAdd = isAdd_; // Sets the flag to indicate if it's adding or updating.
+        _dependenciesListDisplayTextBlock.Text = DependenciesListDisplay;
     }
+
 
     // Event handler for selection change in milestone status combo box.
     private void cbMilestoneStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -64,5 +66,22 @@ public partial class MilestoneSingleWindow : Window
     {
         s_bl?.Milestone.Update(CurrentMilestone.Id, _alias.Text, _description.Text, _remarks.Text); // Adds the milestone to the database.
         Close(); // Closes the window.
+    }
+
+    public string DependenciesListDisplay
+    {
+        get
+        {
+            StringBuilder sb = new StringBuilder();
+            int count = CurrentMilestone.Dependencies.Count;
+            foreach (BO.TaskInList task in CurrentMilestone.Dependencies)
+            {
+                sb.Append(task.Id.ToString());
+                if (--count > 0)
+                    sb.Append(", ");
+            }
+            return sb.ToString();
+            
+        }
     }
 }

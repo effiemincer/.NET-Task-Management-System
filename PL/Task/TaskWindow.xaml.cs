@@ -52,6 +52,7 @@ namespace Task
             CurrentTask = task_; // Initialize current task
             isAdd = isAdd_; // Initialize flag for adding a task
             isDeliverableFirstRun = task_.Deliverable; // Initialize flag for deliverable property
+            _dependenciesListDisplayTextBlock.Text = DependenciesListDisplay;
         }
 
         // TextChanged event handler for TextBox (currently not used)
@@ -143,6 +144,23 @@ namespace Task
             if ((bool)s.IsChecked)
                 s.IsChecked = false;
 
+        }
+
+        private string DependenciesListDisplay
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                int count = CurrentTask.Dependencies.Count;
+                foreach (BO.TaskInList task in CurrentTask.Dependencies)
+                {
+                    sb.Append(task.Id.ToString());
+                    if (--count > 0)
+                        sb.Append(", ");
+                }
+                return sb.ToString();
+
+            }
         }
     }
 }

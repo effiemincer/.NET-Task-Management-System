@@ -75,7 +75,16 @@ public partial class AdminScreenWindow : Window
 
     private void Gantt_Chart_Click(object sender, RoutedEventArgs e)
     {
-        new GanttChartWindow().Show();
+        if (scheduleCreated)
+        {
+            // Opens the Gantt Chart Window.
+            new GanttChartWindow().Show();
+        }
+        else
+        {
+            MessageBox.Show("You must generate a schedule first in order to see the gantt chart view.", "NoScheduleGenerated", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        
     }
 
     private void Add_Engineer_Click(object sender, RoutedEventArgs e)
@@ -86,7 +95,17 @@ public partial class AdminScreenWindow : Window
     private void Generate_Schedule_Click(object sender, RoutedEventArgs e)
     {
         //generates schedule and locks certain modifcations 
-        scheduleCreated = true;
+        try
+        {
+            //need to put in actual dates here probably prompt the user or something 
+            s_bl.Milestone.CreateSchedule(DateTime.MinValue, DateTime.MaxValue);
+            scheduleCreated = true;
+        }
+        catch (Exception ex) {
+            MessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        
+
     }
 
     private void Travel_Forwards_Day_Click(object sender, RoutedEventArgs e)
