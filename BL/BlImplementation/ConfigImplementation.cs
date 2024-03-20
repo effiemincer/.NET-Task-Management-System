@@ -20,6 +20,7 @@ internal class ConfigImplementation : BlApi.IConfig
     public void Reset()
     {
         s_dal?.Config.Reset();
+
     }
 
     public void SetProjectEndDate(DateTime newEndDate)

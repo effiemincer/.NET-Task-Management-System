@@ -92,7 +92,7 @@ public partial class AdminScreenWindow : Window
         new EngineerWindow(new BO.Engineer(), true).ShowDialog();
     }
     
-    private void Generate_Schedule_Click(object sender, RoutedEventArgs e)
+    private void Generate_Schedule_Terminate_Project_Click(object sender, RoutedEventArgs e)
     {
         //generates schedule and locks certain modifcations 
         try
