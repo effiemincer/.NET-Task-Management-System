@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Task"
         mc:Ignorable="d"
-        Title="TaskListWindow" Height="450" Width="800"
+        Title="TaskListWindow" Height="600" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <!-- Sets the data context to itself for binding purposes. -->
     <Grid Margin="0,0,0,-16">
@@ -13,7 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <!-- First row for filter controls -->
-            <RowDefinition Height="500*" />
+            <RowDefinition Height="460" />
             <!-- Second row for task list -->
             <RowDefinition Height="Auto" />
             <!-- Third row for footer -->
@@ -32,7 +32,7 @@
                 ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}"
                 Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
-        <ListView Margin="5"  Grid.Row="1" ItemsSource="{Binding TaskList}" MouseDoubleClick="doubleClickEvent_UpdateTask">
+        <ListView Margin="5,5,5,0"  Grid.Row="1" ItemsSource="{Binding TaskList}" MouseDoubleClick="doubleClickEvent_UpdateTask">
             <!-- ListView for displaying task list -->
             <ListView.View>
                 <GridView>
@@ -42,7 +42,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="btnAddTask_Click"/>
+        <Button Content="Add" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Height="35" Width="70" Click="btnAddTask_Click" Margin="0,15,0,0" />
         <!-- Button for adding a new task -->
     </Grid>
 </Window>

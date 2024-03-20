@@ -70,10 +70,39 @@ namespace Task
             }
             else
             {
-                s_bl?.Task.Update(CurrentTask);
+
+                try
+                {
+                    TimeSpan? timeSpan = TimeSpan.Parse(_requiredEffort.Text);
+                    BO.Task updatedTask = new BO.Task
+                    {
+                        Id = CurrentTask!.Id,
+                        Alias = _alias.Text,
+                        Description = _description.Text,
+                        Deadline = _deadline.SelectedDate,
+                        Status = CurrentTask!.Status,
+                        Engineer = CurrentTask!.Engineer,
+                        DateCreated = CurrentTask!.DateCreated,
+                        ActualEndDate = _actualEndDate.SelectedDate,
+                        ActualStartDate = _actualStartDate.SelectedDate,
+                        Complexity = (BO.Enums.EngineerExperience?)Complexity_ComboBox.SelectedValue,
+                        Deliverable = (bool)_deliverable.IsChecked!,
+                        Dependencies = CurrentTask!.Dependencies,
+                        Milestone = CurrentTask!.Milestone,
+                        ProjectedStartDate = _projectedStart.SelectedDate,
+                        Remarks = _remarks.Text,
+                        RequiredEffortTime = timeSpan
+                    };
+                    s_bl?.Task.Update(updatedTask);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Invalid time format. Please enter time in the format HH:MM:SS", "Invalid Time Format", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                
             }
             Close();
-            //new TaskListWindow(true).Show();
         }
 
         // SelectionChanged event handler for Task Status ComboBox (currently not used)

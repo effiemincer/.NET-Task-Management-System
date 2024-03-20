@@ -74,6 +74,8 @@ public partial class EngineerListWindow : Window
     {
         // Gets the selected engineer and opens a new EngineerWindow to update their details.
         BO.Engineer engineer = (sender as ListView)?.SelectedItem as BO.Engineer;
+        if (engineer is null)
+            return;
         new EngineerWindow(s_bl.Engineer.Read(engineer!.Id)!, false).ShowDialog();
         EngineerList = null;
         EngineerList = s_bl?.Engineer.ReadAll();

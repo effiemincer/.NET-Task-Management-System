@@ -61,6 +61,8 @@ public partial class MilestoneListWindow : Window
     {
         // Gets the selected milestone and opens a new MilestoneSingleWindow to view its details.
         BO.MilestoneInList milestoneInList = (sender as ListView)?.SelectedItem as BO.MilestoneInList;
+        if (milestoneInList is null)
+            return;
         new MilestoneSingleWindow(s_bl.Milestone.Read(milestoneInList!.Id), false).ShowDialog();
         MilestoneList = null; // Resets the MilestoneList to refresh the UI.
         MilestoneList = s_bl?.Milestone.ReadAll(); // Reads all milestones from the data source.

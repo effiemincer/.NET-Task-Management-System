@@ -24,50 +24,54 @@
                 <TextBlock Text="{Binding Path=Id, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
 
                 <TextBlock Text="Alias:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding Path=Alias, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox x:Name="_alias" Text="{Binding Alias, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Date Created:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding Path=DateCreated, Mode=OneTime, StringFormat='dd/MM/yy'}" />
+                <TextBlock VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding DateCreated, Mode=OneTime, StringFormat='dd/MM/yy'}" />
                 <!-- <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/> -->
 
                 <TextBlock Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding Path=Description, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox x:Name="_description" Text="{Binding Path=Description, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Status:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <ComboBox x:Name="Status_ComboBox" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5"/>
+                <TextBlock Text="{Binding Status}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <!--<ComboBox x:Name="Status_ComboBox" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="False" SelectedIndex="5"/>-->
 
-                <!--<TextBlock Text="Dependencies:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding Path=Dependencies}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
+                <TextBlock Text="Dependencies:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding Path=Dependencies}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
 
                 <TextBlock Text="Milestone:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Path=Milestone.Id, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
+                <TextBlock Text="{Binding Milestone.Id, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
                 <!-- do we change this to be choosing from the list of milestones in the BL? -->
 
                 <TextBlock Text="Required Effort Time:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock  Text="{Binding Path=RequiredEffortTime, Mode=OneTime, StringFormat='hh\\:mm\\:ss'}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
+                <TextBox x:Name="_requiredEffort" Text="{Binding RequiredEffortTime, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
+
+                <TextBlock Text="Complexity:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <ComboBox x:Name="Complexity_ComboBox" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Complexity, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5"/>
 
                 <TextBlock Text="Actual Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding Path=ActualStartDate, Mode=OneTime, StringFormat='dd/MM/yy'}"/>
+                <DatePicker x:Name="_actualStartDate" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding ActualStartDate, Mode=OneWay}"/>
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
-                <TextBlock Text="Projected Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker VerticalAlignment="Bottom"  Margin="0,0,0,5"  SelectedDate="{Binding Path=ProjectedStartDate, Mode=TwoWay}"/>
+                <TextBlock Text="Computer Suggested Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <DatePicker x:Name="_projectedStart" VerticalAlignment="Bottom"  Margin="0,0,0,5"  Text="{Binding ProjectedStartDate, Mode=OneWay}"/>
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Deadline:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding Path=Deadline, Mode=OneTime, StringFormat='dd/MM/yy'}" />
+                <DatePicker x:Name="_deadline" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding Deadline, Mode=OneWay}" />
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Actual End Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding Path=ActualEndDate, Mode=OneTime, StringFormat='dd/MM/yy'}" />
+                <DatePicker x:Name="_actualEndDate" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding ActualEndDate, Mode=OneTime}" />
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Deliverable:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <RadioButton Content="Yes/No" IsChecked="{Binding Path=Deliverable, Mode=TwoWay}" Checked="RB_Checked" Click="RB_Clicked" />
+                <RadioButton x:Name="_deliverable" Content="Yes/No" IsChecked="{Binding Path=Deliverable, Mode=TwoWay}" Checked="RB_Checked" Click="RB_Clicked" />
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Remarks:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding Path=Remarks, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox x:Name="_remarks" Text="{Binding Path=Remarks, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
             </UniformGrid>
 

@@ -230,11 +230,26 @@ namespace BlImplementation
             if (doTask == null)
                 throw new BO.BlBadInputDataException("Task with ID=" + boTask.Id + " does not exist ");
 
-            // Check if Task has name
+            // Check if Task has a name
             if (string.IsNullOrEmpty(doTask.Alias))
                 throw new BO.BlBadInputDataException("Task with ID=" + boTask.Id + " has no name ");
 
-            // CVheck if the Task is a milestone
+            //reassing engineer to the new task
+            IEnumerable<DO.Task?> tasks = _dal.Task.ReadAll();
+            foreach (DO.Task? task in tasks)
+            {
+                if (task?.AssignedEngineerId == boTask.Engineer?.Id)
+                {
+                    //removes the engineer ID from the old task and let's it be placed in the new task
+                    DO.Task updatedTask = new DO.Task { Id = task!.Id, Alias = task!.Alias, Description = task!.Description, Deadline = task!.Deadline, AssignedEngineerId = null, 
+                        DateCreated = task!.DateCreated, ActualEndDate = task!.ActualEndDate, ActualStartDate = task!.ActualStartDate, DegreeOfDifficulty = task!.DegreeOfDifficulty, 
+                        Deliverable = task!.Deliverable, Duration = task!.Duration, Inactive = task!.Inactive, IsMilestone = task!.IsMilestone, Notes = task!.Notes, ProjectedStartDate = task!.ProjectedStartDate };
+                    _dal.Task.Update(updatedTask);
+
+                }
+            }
+
+            // Check if the Task is a milestone
             bool hasMilestone = (boTask.Milestone is not null);
 
             try

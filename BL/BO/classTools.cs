@@ -57,8 +57,10 @@ public static class classTools
             return BO.Enums.Status.Scheduled;
         else if (task.ActualStartDate is not null && (task.ActualStartDate + task.Duration) <= task.Deadline)
             return BO.Enums.Status.OnTrack;
-        else if (task.ActualEndDate is not null && (task.ActualStartDate + task.Duration) > task.Deadline)
+        else if (task.ActualStartDate is not null && (task.ActualStartDate + task.Duration) > task.Deadline)
             return BO.Enums.Status.InJeopardy;
+        else if (task.ActualStartDate is not null && task.Deadline is null)
+            return BO.Enums.Status.OnTrack;
         else
             throw new BlBadInputDataException("Status could not be calculated for task with ID=" + task.Id);
     }
