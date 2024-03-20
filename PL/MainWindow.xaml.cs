@@ -25,8 +25,9 @@ public partial class MainWindow : Window
     }
 
     private void Admin_Button_Click(object sender, RoutedEventArgs e)
-    {
+    { 
         new AdminScreenWindow().Show();
+        Close();
     }
 
     private void Engineer_Button_Click(object sender, RoutedEventArgs e)
@@ -51,8 +52,9 @@ public partial class MainWindow : Window
             }
             else
             {
-                MessageBox.Show("Welcome " + eng.Name + "!", "Welcome", MessageBoxButton.OK);
+               // MessageBox.Show("Welcome " + eng.Name + "!", "Welcome", MessageBoxButton.OK);
                 new EngineerScreenWindow(eng.Id).Show();
+                Close();
             }
         }
         catch (BO.BlDoesNotExistException)

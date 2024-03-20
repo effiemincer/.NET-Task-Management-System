@@ -59,13 +59,15 @@ static public class DalTest
                 int _deadlineAddition = s_random.Next(366, 1459);
                _deadline.AddDays(_deadlineAddition);               //sets deadline in the future
 
-                DateTime _startDate= DateTime.Now.AddDays(s_random.Next(365, _deadlineAddition));     //sets projected start date less than deadline
+                //DateTime _startDate= DateTime.Now.AddDays(s_random.Next(365, _deadlineAddition));     //sets projected start date less than deadline
+                DateTime? _startDate = null;
 
                 //picks a random difficulty level from the enum
                 Enums.EngineerExperience[] _allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
                 int _randIndex = s_random.Next(0, _allDifficulties.Length);
 
-                int _assignedEngId = s_random.Next(2000000, 4000000); //Teduat zehut
+                //int _assignedEngId = s_random.Next(2000000, 4000000); //Teduat zehut
+                int? _assignedEngId = null;
 
                 int newestTaskId = s_dal!.Task.Create(new Task(0, var_task, _createdDate, _description, _duration, _deadline, _startDate, _allDifficulties[_randIndex], _assignedEngId));
 
@@ -176,8 +178,6 @@ static public class DalTest
                 "michael.davis@example.com",
 
             };
-
-            int taskId = s_random.Next(8000,8015);
             for (int i = 0; i < EngineerNames.Length; ++i) {
 
                 double _cost  = s_random.Next(30, 60);
@@ -186,12 +186,8 @@ static public class DalTest
                 Enums.EngineerExperience[] _allLevels = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
                 int _randIndex = s_random.Next(0, _allLevels.Length);
 
-                DO.Task? task = s_dal!.Task.Read(taskId);
 
-                s_dal!.Engineer.Create(new Engineer(Convert.ToInt32(IdentityNumbers[i]), EngineerNames[i], EmailAddresses[i], _cost, task!.DegreeOfDifficulty));
-                
-                s_dal!.Task.Update(new Task(taskId,task.Alias, task.DateCreated, task.Description, task.Duration, task.Deadline, task.ProjectedStartDate, task.DegreeOfDifficulty, Convert.ToInt32(IdentityNumbers[i])));
-                taskId++;
+                s_dal!.Engineer.Create(new Engineer(Convert.ToInt32(IdentityNumbers[i]), EngineerNames[i], EmailAddresses[i], _cost, _allLevels[_randIndex]));
 
             }
         }
@@ -199,10 +195,10 @@ static public class DalTest
 
         private static void createStartAndEndDateForProject()
         {
-            int startDateAdd = s_random.Next(1, 365);
+            //int startDateAdd = s_random.Next(1, 365);
             int endDateAdd = s_random.Next(1460, 1785); //4 to 5 years after today
 
-            DateTime startDate = DateTime.Now.AddDays(startDateAdd);  
+            DateTime startDate = DateTime.Now; //.AddDays(startDateAdd);  
             DateTime endDate = DateTime.Now.AddDays(endDateAdd);
 
             s_dal!.Config.SetProjectStartDate(startDate);

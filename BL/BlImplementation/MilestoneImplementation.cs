@@ -25,6 +25,9 @@ internal class MilestoneImplementation : IMilestone
     /// </summary>
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
+    private readonly Bl _bl; 
+    internal MilestoneImplementation(Bl bl) => _bl = bl;
+
     /// <summary>
     /// MilestoneDictItem is a class to store the data of the MilestoneDict
     /// </summary>
@@ -187,7 +190,7 @@ internal class MilestoneImplementation : IMilestone
             {
                 Id = milestone.Key,
                 Alias = "m" + milestone.Key,
-                DateCreated = DateTime.Now,
+                DateCreated = _bl.Clock,
                 Description = calcDescription(milestone),
                 Duration = calcDuration(milestone),
                 Deadline = calcDeadline(milestone),

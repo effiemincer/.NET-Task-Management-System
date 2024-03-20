@@ -26,9 +26,23 @@ public partial class AdminScreenWindow : Window
 {
     // Constructor for AdminScreenWindow class.
     private bool scheduleCreated = false;
+    static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
+    // Dependency property for binding the current engineer.
+    public static readonly DependencyProperty TimeProperty =
+        DependencyProperty.Register("CurrentTime", typeof(DateTime), typeof(AdminScreenWindow), new PropertyMetadata(null));
+
+    // Property to get or set the current engineer.
+    public DateTime CurrentTime
+    {
+        get { return (DateTime)GetValue(TimeProperty); }
+        set { SetValue(TimeProperty, s_bl.Clock); }
+    }
+
     public AdminScreenWindow()
     {
         InitializeComponent(); // Initializes the window components.
+        CurrentTime = s_bl.Clock; // Sets the current time.    
     }
 
     // Event handler for "Manage Tasks" button click.
@@ -73,5 +87,41 @@ public partial class AdminScreenWindow : Window
     {
         //generates schedule and locks certain modifcations 
         scheduleCreated = true;
+    }
+
+    private void Travel_Forwards_Day_Click(object sender, RoutedEventArgs e)
+    {
+        s_bl.travelForwardsDay();
+        CurrentTime = s_bl.Clock;
+    }
+
+    private void Travel_Forwards_Hour_Click(object sender, RoutedEventArgs e)
+    {
+        s_bl.travelForwardsHour();
+        CurrentTime = s_bl.Clock;
+    }
+
+    private void Travel_Backwards_Day_Click(object sender, RoutedEventArgs e)
+    {
+        s_bl.travelBackwardDay();
+        CurrentTime = s_bl.Clock;
+    }
+
+    private void Travel_Backwards_Hour_Click(object sender, RoutedEventArgs e)
+    {
+        s_bl.travelBackwardHour();
+        CurrentTime = s_bl.Clock;
+    }
+
+    private void Reset_Clock_Click(object sender, RoutedEventArgs e)
+    {
+        s_bl.resetClock();
+        CurrentTime = s_bl.Clock;
+    }
+
+    private void Back_Click(object sender, RoutedEventArgs e)
+    {
+        new MainWindow().Show();
+        Close();
     }
 }

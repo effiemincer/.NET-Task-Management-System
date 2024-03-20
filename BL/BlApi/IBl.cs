@@ -13,4 +13,11 @@ public interface IBl
     public ITask Task { get; }
     public IMilestone Milestone { get; }
     public IConfig Config { get; }
+    public DateTime Clock { get; }
+    public void travelForwardsDay();
+    public void travelForwardsHour();
+    public void travelBackwardDay();
+    public void travelBackwardHour();
+    public void resetClock();
+
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engineer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,14 +24,24 @@ namespace PL
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Static reference to the business logic layer.
 
         private int engID; // Field to store the ID of the user.
-        private BO.Engineer currentEng;
+
+        // Dependency property for binding the current engineer.
+        public static readonly DependencyProperty EngineerProperty =
+            DependencyProperty.Register("CurrentEng", typeof(BO.Engineer), typeof(EngineerScreenWindow), new PropertyMetadata(null));
+
+        // Property to get or set the current engineer.
+        public BO.Engineer CurrentEng
+        {
+            get { return (BO.Engineer)GetValue(EngineerProperty); }
+            set { SetValue(EngineerProperty, value); }
+        }
 
         // Constructor for EngineerScreenWindow class.
         public EngineerScreenWindow(int _id)
         {
             InitializeComponent(); // Initializes the window components.
             engID = _id; // Sets the ID field to the given ID.
-            currentEng = s_bl?.Engineer.Read(_id)!;
+            CurrentEng = s_bl?.Engineer.Read(_id)!;
         }
 
         // Event handler for "Tasks" button click.
@@ -44,15 +55,21 @@ namespace PL
         private void Current_Task_Button_Click(object sender, RoutedEventArgs e)
         {
             // Opens the TaskWindow for a specific task 
-            if (currentEng.Task is null)
+            if (CurrentEng.Task is null)
             {
-                MessageBox.Show(currentEng.Name + " does not have any currently assigned Tasks.");
+                MessageBox.Show(CurrentEng.Name + " does not have any currently assigned Tasks.", "EngNoTask", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                new TaskWindow(s_bl!.Task.Read((int)currentEng.Task!.Id!)!).ShowDialog();
+                new TaskWindow(s_bl!.Task.Read((int)CurrentEng.Task!.Id!)!).ShowDialog();
             }
            
+        }
+
+        private void Back_Button_Click(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show();
+            Close();
         }
     }
 }

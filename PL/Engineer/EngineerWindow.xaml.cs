@@ -65,10 +65,33 @@ public partial class EngineerWindow : Window
             // Calls the business logic layer to create the current engineer.
             s_bl?.Engineer.Create(CurrentEngineer);
         }
+
+        //update engineer
         else
         {
-            // Calls the business logic layer to update the current engineer.
-            s_bl?.Engineer.Update(CurrentEngineer);
+            try
+            {
+                BO.Task? task = s_bl?.Task.Read(int.Parse(_task.Text));
+                if (task == null)
+                {
+                    MessageBox.Show("Task not found", "TaskNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                BO.Engineer updatedEng = new BO.Engineer { Id = CurrentEngineer.Id, Name = _name.Text, EmailAddress = _email.Text, ExperienceLevel = (BO.Enums.EngineerExperience?)Status_ComboBox.SelectedValue, CostPerHour = int.Parse(_cost.Text), Task = new BO.TaskInEngineer(task!.Id, task!.Alias) };
+                BO.Task updatedTask = new BO.Task { Id = task!.Id, Alias = task!.Alias, Description = task!.Description, Deadline = task!.Deadline, Status = task!.Status, Engineer = new BO.EngineerInTask(updatedEng.Id, updatedEng.Name) };
+                // Calls the business logic layer to update the current engineer.
+                s_bl?.Engineer.Update(updatedEng);
+                s_bl?.Task.Update(updatedTask);
+
+            }
+            catch (BO.BlDoesNotExistException)
+            {
+                MessageBox.Show("Task not found", "TaskNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+
         }
         // Shows the EngineerListWindow and closes the current window.
         Close();

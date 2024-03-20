@@ -5,10 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="EngineerScreenWindow" Height="650" Width="800">
+        Title="EngineerScreenWindow" Height="650" Width="800"
+        DataContext="{Binding CurrentEng, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
     <Grid>
+        <TextBlock  Text="{Binding Name}"  HorizontalAlignment="Center" Margin="0,40,0,0" VerticalAlignment="Top" Height="61" Width="450" FontSize="24" FontWeight="Bold" TextAlignment="Center"/>
         <Button Content="All Tasks" HorizontalAlignment="Left" Margin="190,214,0,0" VerticalAlignment="Top" Height="61" Width="109" Click="Tasks_Button_Click"/>
         <Button Content="Current Task" HorizontalAlignment="Left" Margin="473,214,0,0" VerticalAlignment="Top" Height="61" Width="109" Click="Current_Task_Button_Click"/>
+        <Button Content="Back" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="27" Width="55" Click="Back_Button_Click"/>
 
     </Grid>
 </Window>

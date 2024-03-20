@@ -16,6 +16,8 @@ namespace BlImplementation
         /// </summary>
         private DalApi.IDal _dal = DalApi.Factory.Get;
 
+        private readonly Bl _bl; 
+        internal TaskImplementation(Bl bl) => _bl = bl;
         /// <summary>
         /// Create a new Task
         /// </summary>
@@ -62,8 +64,8 @@ namespace BlImplementation
                         if (_dal.Task.Read(dep.Id) is null)
                             throw new BO.BlBadInputDataException($"Task with ID={dep.Id} does not exist");
 
-                        if (IsCircularDep(dep.Id, boTask.Id, 40))
-                            throw new BO.BlBadInputDataException($"Task with ID={dep.Id} has a circular dependency");
+                        //if (IsCircularDep(dep.Id, boTask.Id, 40))
+                        //    throw new BO.BlBadInputDataException($"Task with ID={dep.Id} has a circular dependency");
                     }
 
                     foreach (BO.TaskInList dep in boTask.Dependencies)
@@ -82,7 +84,7 @@ namespace BlImplementation
                 (
                     boTask.Id,
                     boTask.Alias ?? "",
-                    boTask.DateCreated,
+                    _bl.Clock,
                     boTask.Description ?? "",
                     boTask.RequiredEffortTime,
                     boTask.Deadline,
