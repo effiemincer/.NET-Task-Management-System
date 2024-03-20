@@ -1,4 +1,5 @@
-﻿using BO; // Importing the BO namespace for access to its functionalities.
+﻿using BlApi;
+using BO; // Importing the BO namespace for access to its functionalities.
 using Engineer; // Importing the Engineer namespace for access to its functionalities.
 using Milestone; // Importing the Milestone namespace for access to its functionalities.
 using PL.Admin;
@@ -46,7 +47,13 @@ public partial class AdminScreenWindow : Window
         InitializeComponent(); // Initializes the window components.
         CurrentTime = s_bl.Clock; // Sets the current time.    
         ScheduleCreated = s_bl.Config.GetIsScheduleGenerated();
-        if (ScheduleCreated is null) { return; }
+        if (ScheduleCreated is null) {
+            _milestones.IsEnabled = false;
+            _gantt.IsEnabled = false;
+            _generate.IsEnabled = true;
+            _terminate.IsEnabled = false;
+
+        }
         else if (!(bool)ScheduleCreated)
         {
             _generate.IsEnabled = true; 
@@ -118,14 +125,14 @@ public partial class AdminScreenWindow : Window
     {
 
         //Button button = sender as Button;
-
-        if (ScheduleCreated is null)
+        IEnumerable<BO.TaskInList?> taskInLists = s_bl.Task.ReadAll();
+        if (taskInLists is null)
         {
             MessageBox.Show("You must initialize data.", "NoIsScheduleGeneratedInXML", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         //generate schedule
-        else if (!(bool)ScheduleCreated)
+        else if (ScheduleCreated is null || (bool)ScheduleCreated )
         {   
             //generates schedule and locks certain modifcations 
             try
@@ -136,6 +143,8 @@ public partial class AdminScreenWindow : Window
                 s_bl.Config.SetIsScheduleGenerated(true);
                 _generate.IsEnabled = false;
                 _terminate.IsEnabled = true;
+                _gantt.IsEnabled = true;
+                _milestones.IsEnabled = true;
 
                 MessageBox.Show("Schedule has been generated.", "GenerationSuccess", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -154,6 +163,8 @@ public partial class AdminScreenWindow : Window
             s_bl.Config.SetIsScheduleGenerated(false);
             _generate.IsEnabled = true;
             _terminate.IsEnabled = false;
+            _gantt.IsEnabled = false;
+            _milestones.IsEnabled = false;
 
             MessageBox.Show("Schedule has been terminated.", "TerminationSuccess", MessageBoxButton.OK, MessageBoxImage.Information);
         }

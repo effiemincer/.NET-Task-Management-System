@@ -1,2 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Task>
+    <Id>8035</Id>
+    <Alias>test1</Alias>
+    <DateCreated>2024-03-20T17:25:53.4692748+02:00</DateCreated>
+    <Description>test1</Description>
+    <Duration xsi:nil="true" />
+    <Deadline xsi:nil="true" />
+    <ProjectedStartDate xsi:nil="true" />
+    <DegreeOfDifficulty xsi:nil="true" />
+    <AssignedEngineerId xsi:nil="true" />
+    <ActualEndDate xsi:nil="true" />
+    <IsMilestone>false</IsMilestone>
+    <ActualStartDate xsi:nil="true" />
+    <Deliverable>false</Deliverable>
+    <Inactive>false</Inactive>
+  </Task>
+  <Task>
+    <Id>8036</Id>
+    <Alias>test1</Alias>
+    <DateCreated>2024-03-20T17:34:12.8951368+02:00</DateCreated>
+    <Description>test2</Description>
+    <Duration xsi:nil="true" />
+    <Deadline xsi:nil="true" />
+    <ProjectedStartDate xsi:nil="true" />
+    <DegreeOfDifficulty xsi:nil="true" />
+    <AssignedEngineerId xsi:nil="true" />
+    <ActualEndDate xsi:nil="true" />
+    <IsMilestone>false</IsMilestone>
+    <ActualStartDate xsi:nil="true" />
+    <Deliverable>false</Deliverable>
+    <Inactive>false</Inactive>
+  </Task>
+</ArrayOfTask>

@@ -46,6 +46,8 @@ namespace Task
 
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Reference to business logic instance
 
+        private bool? scheduleCreated = s_bl.Config.GetIsScheduleGenerated();
+
         // Constructor
         public TaskWindow(BO.Task task_, bool isAdd_ = false)
         {
@@ -54,6 +56,22 @@ namespace Task
             isAdd = isAdd_; // Initialize flag for adding a task
             isDeliverableFirstRun = task_.Deliverable; // Initialize flag for deliverable property
             _dependenciesListDisplayTextBlock.Text = DependenciesListDisplay;
+
+            //allowing adding depenedencies
+            if (isAdd)
+            {
+                if (scheduleCreated is null) {
+                    _dependenciesListDisplayTextBlock.IsEnabled = true;
+                }
+                else if ( !(bool)scheduleCreated)
+                {
+                    _dependenciesListDisplayTextBlock.IsEnabled = true;
+                }
+                else
+                {
+                    _dependenciesListDisplayTextBlock.IsEnabled = false;
+                }
+            }
         }
 
         // TextChanged event handler for TextBox (currently not used)
@@ -66,6 +84,8 @@ namespace Task
         private void btnAddUpdate_Click(object sender, RoutedEventArgs e)
         {
             // Add or update task based on isAdd flag
+
+            //add
             if (isAdd)
             {
                 try { s_bl?.Task.Create(CurrentTask); }
@@ -76,6 +96,8 @@ namespace Task
                 }
                 
             }
+
+            //update
             else
             {
 
