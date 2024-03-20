@@ -316,12 +316,8 @@ internal class MilestoneImplementation : IMilestone
     {
         TimeSpan? res = TimeSpan.Zero;
         if (milestone.Value.isStart) return null;
-        foreach (var id in milestone.Value.milestoneDef)
-        {
-            res += _dal.Task.Read(id).Duration ?? TimeSpan.Zero;
-        }
-        
-        return res;
+                
+        return calcDeadline(milestone) - calcProjectedStartDate(milestone) ;
     }
 
     /// <summary>
@@ -583,5 +579,10 @@ internal class MilestoneImplementation : IMilestone
         }
 
         return milestones;
+    }
+
+    public void Reset()
+    {
+
     }
 }

@@ -40,4 +40,6 @@ public interface IMilestone
     public IEnumerable<MilestoneInList> ReadAll(Func<BO.MilestoneInList, bool>? filter = null);
 
     public TimeSpan getProjectDuration();
+
+    public void Reset();
 }

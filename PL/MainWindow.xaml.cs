@@ -104,6 +104,7 @@ public partial class MainWindow : Window
         if (res == MessageBoxResult.Yes)
         {
             s_bl!.Config.Reset();
+            s_bl.Milestone.Reset();
             dataInitialized = false;
             MessageBox.Show("Reset complete!", "Reset Successful", MessageBoxButton.OK, MessageBoxImage.Information);
         }
