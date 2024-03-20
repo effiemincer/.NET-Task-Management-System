@@ -1,12 +1,13 @@
-﻿<Window x:Class="Task.TaskWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Task"
+        xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="Task.TaskWindow"
         mc:Ignorable="d"
         Title="TaskWindow" Height="550" Width="800"
-        DataContext="{Binding CurrentTask, RelativeSource={RelativeSource Self},Mode=TwoWay}"
+        DataContext="{Binding CurrentTask, Mode=TwoWay, RelativeSource={RelativeSource Mode=Self}}"
 
         >
     <Grid>
@@ -21,25 +22,22 @@
             <UniformGrid Rows="15" Columns="2" Width="450">
 
                 <TextBlock Text="Id:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Path=Id, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
+                <TextBlock Text="{Binding Id, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
 
                 <TextBlock Text="Alias:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBox x:Name="_alias" Text="{Binding Alias, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Date Created:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding DateCreated, Mode=OneTime, StringFormat='dd/MM/yy'}" />
+                <TextBlock VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding DateCreated, Mode=OneTime, StringFormat=dd/MM/yy}" />
                 <!-- <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/> -->
 
                 <TextBlock Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox x:Name="_description" Text="{Binding Path=Description, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox x:Name="_description" Text="{Binding Description, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Status:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBlock Text="{Binding Status}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
                 <!--<ComboBox x:Name="Status_ComboBox" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="False" SelectedIndex="5"/>-->
-
-                <TextBlock Text="Dependencies:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Path=Dependencies}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
-
+                
                 <TextBlock Text="Milestone:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBlock Text="{Binding Milestone.Id, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
                 <!-- do we change this to be choosing from the list of milestones in the BL? -->
@@ -67,17 +65,30 @@
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Deliverable:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <RadioButton x:Name="_deliverable" Content="Yes/No" IsChecked="{Binding Path=Deliverable, Mode=TwoWay}" Checked="RB_Checked" Click="RB_Clicked" />
+                <RadioButton x:Name="_deliverable" Content="Yes/No" IsChecked="{Binding Deliverable, Mode=TwoWay}" Checked="RB_Checked" Click="RB_Clicked" />
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Remarks:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox x:Name="_remarks" Text="{Binding Path=Remarks, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox x:Name="_remarks" Text="{Binding Remarks, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+
+                <TextBlock Text="Dependencies:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <ListView Grid.Row="1" ItemsSource="{Binding Dependencies}" Margin="0,0,0,5">
+                    <ListView.View>
+                        <GridView>
+                            <!-- View as grid -->
+                            <GridViewColumn/>
+                            <!-- Placeholder column -->
+                        </GridView>
+                    </ListView.View>
+
+                </ListView>
+
 
             </UniformGrid>
 
         </Border>
         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Task Window" VerticalAlignment="Center" Height="20" Width="110" FontSize="16" FontWeight="Bold"/>
-        <Button Grid.Row="2" Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConvertIdToContentKey}}" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Padding="5" Click="btnAddUpdate_Click" Height="43" Width="82" />
+        <Button Grid.Row="2" Content="{Binding Id, Converter={StaticResource ConvertIdToContentKey}, Mode=OneTime}" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Padding="5" Click="btnAddUpdate_Click" Height="43" Width="82" />
     </Grid>
 
 </Window>

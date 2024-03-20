@@ -14,6 +14,8 @@
         <Button Content="Gantt Chart" HorizontalAlignment="Left" Margin="333,0,0,138" VerticalAlignment="Bottom" Height="54" Width="128" Click="Gantt_Chart_Click"/>
         <Button Content="Add Engineer" HorizontalAlignment="Center" VerticalAlignment="Center" Height="54" Width="128" Click="Add_Engineer_Click"/>
         <Button Content="Generate Schedule" HorizontalAlignment="Left" VerticalAlignment="Center" Height="54" Width="128" Click="Generate_Schedule_Click" Margin="534,0,0,0"/>
+        
+        <!-- Current Date and Hour-->
         <Label Content="{Binding Date}" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="110" Margin="540,273,0,0" FontSize="12"/>
         <Label Content="{Binding Hour}" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="110" Margin="540,325,0,0" FontSize="12"/>
         <Button Content="+1 Day" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="54" Click="Travel_Forwards_Day_Click" Margin="650,273,0,0"/>

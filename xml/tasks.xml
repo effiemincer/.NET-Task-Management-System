@@ -9,11 +9,11 @@
     <Deadline>2024-03-20T03:43:25</Deadline>
     <ProjectedStartDate xsi:nil="true" />
     <DegreeOfDifficulty>Expert</DegreeOfDifficulty>
-    <AssignedEngineerId>346291982</AssignedEngineerId>
+    <AssignedEngineerId xsi:nil="true" />
     <ActualEndDate>2024-03-19T00:00:00</ActualEndDate>
     <IsMilestone>false</IsMilestone>
     <ActualStartDate>2024-03-19T00:00:00</ActualStartDate>
-    <Deliverable>true</Deliverable>
+    <Deliverable>false</Deliverable>
     <Notes />
     <Inactive>false</Inactive>
   </Task>

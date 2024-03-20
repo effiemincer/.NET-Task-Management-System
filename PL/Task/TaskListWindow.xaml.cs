@@ -24,18 +24,6 @@ public partial class TaskListWindow : Window
     private bool isAdmin; // Flag to indicate whether the user is an admin or not.
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Static reference to the business logic layer.
 
-    // Property to get or set the task's status.
-    public BO.Enums.Status TaskStatus { get; set; } = BO.Enums.Status.None;
-
-    // Constructor for TaskListWindow class.
-    public TaskListWindow(bool isAdmin)
-    {
-        TaskList = s_bl?.Task.ReadAll(); // Reads all tasks from the data source.
-        InitializeComponent();
-        this.isAdmin = isAdmin; // Sets the isAdmin flag.
-    }
-
-    // Property to bind a list of tasks to a UI element.
     public IEnumerable<BO.TaskInList> TaskList
     {
         get { return (IEnumerable<BO.TaskInList>)GetValue(TaskListProperty); }
@@ -49,6 +37,20 @@ public partial class TaskListWindow : Window
             typeof(TaskListWindow),
             new PropertyMetadata(null)
         );
+
+    // Property to get or set the task's status.
+    public BO.Enums.Status TaskStatus { get; set; } = BO.Enums.Status.None;
+
+    // Constructor for TaskListWindow class.
+    public TaskListWindow(bool isAdmin)
+    {
+        TaskList = s_bl?.Task.ReadAll(); // Reads all tasks from the data source.
+        InitializeComponent();
+        this.isAdmin = isAdmin; // Sets the isAdmin flag.
+    }
+
+    // Property to bind a list of tasks to a UI element.
+
 
     // Event handler for selection change in task status combo box.
     private void cbTaskStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
