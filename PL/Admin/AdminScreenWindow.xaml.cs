@@ -25,8 +25,10 @@ namespace PL; // Declaring the namespace for the PL (Presentation Layer) class.
 public partial class AdminScreenWindow : Window
 {
     // Constructor for AdminScreenWindow class.
-    private bool scheduleCreated = false;
+    
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
+    private bool? ScheduleCreated = s_bl.Config.GetIsScheduleGenerated();
 
     // Dependency property for binding the current engineer.
     public static readonly DependencyProperty TimeProperty =
@@ -43,6 +45,18 @@ public partial class AdminScreenWindow : Window
     {
         InitializeComponent(); // Initializes the window components.
         CurrentTime = s_bl.Clock; // Sets the current time.    
+        ScheduleCreated = s_bl.Config.GetIsScheduleGenerated();
+        if (ScheduleCreated is null) { return; }
+        else if (!(bool)ScheduleCreated)
+        {
+            _generate.IsEnabled = true; 
+            _terminate.IsEnabled = false;
+        }
+        else
+        {
+            _generate.IsEnabled= false;
+            _terminate.IsEnabled= true;
+        }
     }
 
     // Event handler for "Manage Tasks" button click.
@@ -62,7 +76,11 @@ public partial class AdminScreenWindow : Window
     // Event handler for "Manage Milestones" button click.
     private void Manage_Milestones_Click(object sender, RoutedEventArgs e)
     {
-        if (scheduleCreated)
+        if (ScheduleCreated is null)
+        {
+            MessageBox.Show("You must initialize data.", "NoIsScheduleGeneratedInXML", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        else if ((bool)ScheduleCreated)
         {
             // Opens the MilestoneListWindow.
             new MilestoneListWindow().Show();
@@ -75,7 +93,11 @@ public partial class AdminScreenWindow : Window
 
     private void Gantt_Chart_Click(object sender, RoutedEventArgs e)
     {
-        if (scheduleCreated)
+        if (ScheduleCreated is null)
+        {
+            MessageBox.Show("You must initialize data.", "NoIsScheduleGeneratedInXML", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        else if ((bool)ScheduleCreated)
         {
             // Opens the Gantt Chart Window.
             new GanttChartWindow().Show();
@@ -94,15 +116,46 @@ public partial class AdminScreenWindow : Window
     
     private void Generate_Schedule_Terminate_Project_Click(object sender, RoutedEventArgs e)
     {
-        //generates schedule and locks certain modifcations 
-        try
+
+        //Button button = sender as Button;
+
+        if (ScheduleCreated is null)
         {
-            //need to put in actual dates here probably prompt the user or something 
-            s_bl.Milestone.CreateSchedule(DateTime.MinValue, DateTime.MaxValue);
-            scheduleCreated = true;
+            MessageBox.Show("You must initialize data.", "NoIsScheduleGeneratedInXML", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        catch (Exception ex) {
-            MessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+
+        //generate schedule
+        else if (!(bool)ScheduleCreated)
+        {   
+            //generates schedule and locks certain modifcations 
+            try
+            {
+                //need to put in actual dates here probably prompt the user or something 
+                s_bl.Milestone.CreateSchedule(DateTime.MinValue, DateTime.MaxValue);
+                ScheduleCreated = true;
+                s_bl.Config.SetIsScheduleGenerated(true);
+                _generate.IsEnabled = false;
+                _terminate.IsEnabled = true;
+
+                MessageBox.Show("Schedule has been generated.", "GenerationSuccess", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        //terminate schedule
+        else
+        {
+            //terminate program was pressed
+            //s_bl.Config.SetProjectStartDate(null);
+            //s_bl.Config.SetProjectEndDate();
+            ScheduleCreated = false;
+            s_bl.Config.SetIsScheduleGenerated(false);
+            _generate.IsEnabled = true;
+            _terminate.IsEnabled = false;
+
+            MessageBox.Show("Schedule has been terminated.", "TerminationSuccess", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         
 

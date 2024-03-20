@@ -7,14 +7,16 @@
         mc:Ignorable="d"
         Title="AdminScreenWindow" Height="650" Width="800"
         DataContext="{Binding CurrentTime, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
+
     <Grid>
         <Button Content="Manage Tasks" HorizontalAlignment="Left" Margin="128,158,0,0" VerticalAlignment="Top" Height="54" Width="128" Click="Manage_Tasks_Click"/>
         <Button Content="Manage Engineers" HorizontalAlignment="Center" Margin="0,158,0,0" VerticalAlignment="Top" Height="54" Width="128" Click="Manage_Engineers_Click"/>
         <Button Content="Manage Milesones" HorizontalAlignment="Left" Margin="534,158,0,0" VerticalAlignment="Top" Height="54" Width="128" Click="Manage_Milestones_Click"/>
         <Button Content="Gantt Chart" HorizontalAlignment="Left" Margin="333,0,0,138" VerticalAlignment="Bottom" Height="54" Width="128" Click="Gantt_Chart_Click"/>
         <Button Content="Add Engineer" HorizontalAlignment="Center" VerticalAlignment="Center" Height="54" Width="128" Click="Add_Engineer_Click"/>
-        <Button Content="Generate Schedule" HorizontalAlignment="Left" VerticalAlignment="Center" Height="54" Width="128" Click="Generate_Schedule_Terminate_Project_Click" Margin="534,0,0,0"/>
-        
+        <Button x:Name="_generate" Content="Generate Schedule" HorizontalAlignment="Left" VerticalAlignment="Center" Height="54" Width="128" Click="Generate_Schedule_Terminate_Project_Click" Margin="534,0,0,0"/>
+        <Button x:Name="_terminate" Content="Terminate Schedule" HorizontalAlignment="Left" VerticalAlignment="Center" Height="54" Width="128" Click="Generate_Schedule_Terminate_Project_Click" Margin="128,0,0,0"/>
+
         <!-- Current Date and Hour-->
         <Label Content="{Binding Date}" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="110" Margin="540,273,0,0" FontSize="12"/>
         <Label Content="{Binding Hour}" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="110" Margin="540,325,0,0" FontSize="12"/>
