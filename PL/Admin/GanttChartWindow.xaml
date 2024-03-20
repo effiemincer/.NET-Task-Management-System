@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:PL.Admin"
         mc:Ignorable="d"
         Title="GanttChartWindow" Height="450" Width="800">
-    <Grid x:Name="dynamicGrid">
-        <!-- Dynamic rows and columns will be added here -->
-    </Grid>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid x:Name="dynamicGrid" Margin="20, 5, 20, 5" >
+            <!-- Dynamic rows and columns will be added here -->
+        </Grid>
+    </ScrollViewer>
 </Window>
