@@ -46,7 +46,8 @@ internal class Program
                     "d. Display the object list - ReadAll()\n" +
                     "e. Update an object - Update()\n" +
                     "f. Delete an object from the object list – Delete()\n" +
-                    "g. Update a Projected Start date of a task - UpdateProjectedStartDate()\n");
+                    "g. Update a Projected Start date of a task - Update
+                    ()\n");
                      
 
                 //take in user input

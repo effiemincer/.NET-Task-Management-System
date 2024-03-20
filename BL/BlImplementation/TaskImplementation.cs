@@ -50,8 +50,8 @@ namespace BlImplementation
                     throw new BO.BlDoesNotExistException("Engineer with ID=" + boTask.Engineer.Id + " does not exist");
             }
 
-            // Check if the Task can be completed within the deadline
-            if (boTask.Deadline < boTask.ProjectedStartDate + boTask.RequiredEffortTime)
+            // Check if the Task can be completed within the deadline and end date
+            if (boTask.Deadline < boTask.ProjectedStartDate + boTask.RequiredEffortTime && boTask.ProjectedStartDate < _bl.Config.GetProjectEndDate() && boTask.ProjectedStartDate + boTask.RequiredEffortTime < _bl.Config.GetProjectEndDate())
                 throw new BO.BlBadInputDataException("Task with ID=" + boTask.Id + " cannot be completed within the deadline");
 
             try

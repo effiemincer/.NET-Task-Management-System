@@ -19,5 +19,8 @@ public interface IConfig
     //reset everything
     void Reset();
 
+    public void SetIsScheduleGenerated(bool isScheduleGenerated=false);
+    public bool? GetIsScheduleGenerated();
+
 }
 

@@ -101,6 +101,52 @@ internal class ConfigImplementation : IConfig
         }
     }
 
+
+    public void SetIsScheduleGenerated(bool isSet=false)
+    {
+        XElement configXML = XMLTools.LoadListFromXMLElement(s_data_config_xml);
+
+        XElement? isSchedGen = configXML.Element("IsScheduleGenerated");
+
+        if (isSchedGen is null)
+        {
+            // "IsScheduleGenerated" element doesn't exist, so create and add it to the XML
+            XElement addIsScheduleGenerated = new XElement("IsScheduleGenerated", isSet);
+            configXML.Add(addIsScheduleGenerated);
+        }
+        else
+        {
+            // "IsScheduleGenerated" element already exists, update its value
+            isSchedGen.SetValue(isSet) ;
+        }
+
+        XMLTools.SaveListToXMLElement(configXML, s_data_config_xml);
+
+    }
+
+    public bool? GetIsScheduleGenerated()
+    {
+
+        // Extract the ProjectStartDate element value
+        XElement configXML = XMLTools.LoadListFromXMLElement(s_data_config_xml);
+
+        XElement? isSchedGen = configXML.Element("IsScheduleGenerated");
+
+
+        if (isSchedGen is not null)
+        {
+            if (isSchedGen.Value == "True" || isSchedGen.Value == "true")
+                return true;
+            else
+                return false;
+        }
+        else
+        {
+            // Handle the case where the ProjectStartDate element is missing or not in the correct format
+            throw new InvalidOperationException("Unable to retrieve or parse IsScheduleGenerated from the XML.");
+        }
+    }
+
     public void Reset()
     {
         //-----------Dependencies----------------
@@ -126,6 +172,11 @@ internal class ConfigImplementation : IConfig
 
         if (configXML.Element("ProjectEndDate") is not null)
             configXML.Element("ProjectEndDate")!.Remove();
+
+        if (configXML.Element("IsScheduleGenerated") is not null)
+            configXML.Element("IsScheduleGenerated")!.Remove();
+
         XMLTools.SaveListToXMLElement(configXML, s_data_config_xml);
     }
+
 }

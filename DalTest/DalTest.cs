@@ -50,17 +50,19 @@ static public class DalTest
                 string _description = "This is the description for task " + var_task;
 
 
-                int hours = s_random.Next(0, 24);
+                int hours = s_random.Next(0, 100);
                 int mins = s_random.Next(0, 60);
                 int secs = s_random.Next(0, 60);
                 TimeSpan _duration = new TimeSpan(hours, mins, secs);
 
-                DateTime _deadline = DateTime.Now;
-                int _deadlineAddition = s_random.Next(366, 1459);
-               _deadline.AddDays(_deadlineAddition);               //sets deadline in the future
+                DateTime? _startDate = s_dal?.Config.GetProjectStartDate() + TimeSpan.FromDays(s_random.Next(0,10));     //sets projected start date less than deadline
 
-                //DateTime _startDate= DateTime.Now.AddDays(s_random.Next(365, _deadlineAddition));     //sets projected start date less than deadline
-                DateTime? _startDate = null;
+                DateTime? _deadline = _startDate + _duration;            
+
+              // _deadline.AddDays(_deadlineAddition);               //sets deadline in the future
+
+                
+                //DateTime? _startDate = null;
 
                 //picks a random difficulty level from the enum
                 Enums.EngineerExperience[] _allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
@@ -75,7 +77,7 @@ static public class DalTest
                 //creating dependencies for the task now prevents circular dependencies
                 if (dependecyCount <= totalNumDependencies)
                 {
-                    IEnumerable<DO.Task?> taskList = s_dal!.Task.ReadAll();
+                    IEnumerable<DO.Task?> taskList = s_dal!.Task.ReadAll(task => task.Id != newestTaskId);
 
                     //if the task list is empty then skip the rest
                     if (taskList == null)
@@ -89,15 +91,26 @@ static public class DalTest
                         Task? task = taskList.ElementAt(index);
 
                         IEnumerable<DO.Dependency?> dependencies = s_dal!.Dependency.ReadAll(dep => dep.DependentTaskId == newestTaskId);
+                        bool depAlreadyExists = false;
                         foreach(DO.Dependency? dep in dependencies)
                         {
                             if (dep != null && dep.RequisiteID == task!.Id)
-                                continue; //this task is already dependent on the task we picked
+                            {
+                                depAlreadyExists = true; //this task is already dependent on the task we picked
+                                break;
+                            }
                         }
-
-                        s_dal!.Dependency.Create(new Dependency(0, newestTaskId, task!.Id));
-                       
-                        dependecyCount++;
+                        //if it doesn't already exist then make a new one
+                        if (!depAlreadyExists)
+                        {
+                            s_dal!.Dependency.Create(new Dependency(0, newestTaskId, task!.Id));
+                            dependecyCount++;
+                        }
+                        else
+                        {
+                            i--; 
+                            continue;
+                        }
                     }
                 }
 
@@ -195,14 +208,15 @@ static public class DalTest
 
         private static void createStartAndEndDateForProject()
         {
-            //int startDateAdd = s_random.Next(1, 365);
-            int endDateAdd = s_random.Next(1460, 1785); //4 to 5 years after today
+            int startDateAdd = s_random.Next(1, 365);
+            int endDateAdd = s_random.Next(29, 31); 
 
-            DateTime startDate = DateTime.Now; //.AddDays(startDateAdd);  
-            DateTime endDate = DateTime.Now.AddDays(endDateAdd);
+            DateTime startDate = DateTime.Now.AddDays(startDateAdd);  
+            DateTime endDate = DateTime.Now.AddDays(endDateAdd+startDateAdd);
 
             s_dal!.Config.SetProjectStartDate(startDate);
             s_dal!.Config.SetProjectEndDate(endDate);
+            s_dal!.Config.SetIsScheduleGenerated();
 
         }
 

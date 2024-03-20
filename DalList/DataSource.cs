@@ -9,6 +9,7 @@ static internal class DataSource
         //Project start and end dates
         internal static DateTime? kickstartDate { get; set; } = null;
         internal static DateTime? endDate { get; set; } = null;
+        internal static bool? isScheduleGenerated { get; set; } = null;
 
         
         // Dependency

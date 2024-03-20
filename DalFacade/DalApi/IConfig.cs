@@ -17,7 +17,10 @@ public interface IConfig
     public DateTime? GetProjectEndDate();
 
     //reset everything
-    void Reset();
+    public void Reset();
+
+    public void SetIsScheduleGenerated(bool isSet=false);
+    public bool? GetIsScheduleGenerated();
 
 }
 

@@ -42,29 +42,29 @@
                 <TextBlock x:Name="_dependenciesListDisplayTextBlock" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
 
                 <TextBlock Text="Milestone:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Milestone.Id, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
+                <TextBlock Text="{Binding Milestone.Id}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
                 <!-- do we change this to be choosing from the list of milestones in the BL? -->
 
                 <TextBlock Text="Required Effort Time:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox x:Name="_requiredEffort" Text="{Binding RequiredEffortTime, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
+                <TextBox x:Name="_requiredEffort" Text="{Binding RequiredEffortTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
 
                 <TextBlock Text="Complexity:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <ComboBox x:Name="Complexity_ComboBox" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Complexity, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5"/>
 
                 <TextBlock Text="Actual Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker x:Name="_actualStartDate" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding ActualStartDate, Mode=OneWay}"/>
+                <DatePicker x:Name="_actualStartDate" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding ActualStartDate}"/>
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
-                <TextBlock Text="Computer Suggested Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker x:Name="_projectedStart" VerticalAlignment="Bottom"  Margin="0,0,0,5"  Text="{Binding ProjectedStartDate, Mode=OneWay}"/>
+                <TextBlock Text="Projected Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <DatePicker x:Name="_projectedStart" VerticalAlignment="Bottom"  Margin="0,0,0,5"  Text="{Binding ProjectedStartDate}"/>
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Deadline:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker x:Name="_deadline" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding Deadline, Mode=OneWay}" />
+                <DatePicker x:Name="_deadline" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding Deadline}" />
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Actual End Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker x:Name="_actualEndDate" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding ActualEndDate, Mode=OneTime}" />
+                <DatePicker x:Name="_actualEndDate" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding ActualEndDate}" />
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
                 <TextBlock Text="Deliverable:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
@@ -73,9 +73,6 @@
 
                 <TextBlock Text="Remarks:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBox x:Name="_remarks" Text="{Binding Remarks, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
-
-
-
 
             </UniformGrid>
 

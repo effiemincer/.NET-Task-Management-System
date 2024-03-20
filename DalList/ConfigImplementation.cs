@@ -47,6 +47,17 @@ public class ConfigImplementation : IConfig
         DataSource.Dependencies.Clear();
         DataSource.Config.kickstartDate = null;
         DataSource.Config.endDate = null;
+        DataSource.Config.isScheduleGenerated = null;
         //clear start and end dates
+    }
+
+    void IConfig.SetIsScheduleGenerated(bool isSet)
+    {
+        DataSource.Config.isScheduleGenerated = isSet;
+    }
+
+    bool? IConfig.GetIsScheduleGenerated()
+    {
+        return DataSource.Config.isScheduleGenerated;
     }
 }

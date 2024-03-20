@@ -31,4 +31,14 @@ internal class ConfigImplementation : BlApi.IConfig
     {
         s_dal?.Config.SetProjectStartDate(newStartDate);
     }
+
+    public bool? GetIsScheduleGenerated()
+    {
+        return s_dal?.Config?.GetIsScheduleGenerated();
+    }
+
+    public void SetIsScheduleGenerated(bool isScheduleGenerated=false)
+    {
+        s_dal?.Config.SetIsScheduleGenerated(isScheduleGenerated);
+    }
 }

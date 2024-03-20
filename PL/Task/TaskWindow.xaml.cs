@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -67,7 +68,13 @@ namespace Task
             // Add or update task based on isAdd flag
             if (isAdd)
             {
-                s_bl?.Task.Create(CurrentTask);
+                try { s_bl?.Task.Create(CurrentTask); }
+                catch(BlNullPropertyException ex)
+                {
+                    MessageBox.Show(ex.Message, "BadDataInput", MessageBoxButton.OK, MessageBoxImage.Error); 
+                    return;
+                }
+                
             }
             else
             {
@@ -151,6 +158,8 @@ namespace Task
             get
             {
                 StringBuilder sb = new StringBuilder();
+                if (CurrentTask.Dependencies is null)
+                    return "";
                 int count = CurrentTask.Dependencies.Count;
                 foreach (BO.TaskInList task in CurrentTask.Dependencies)
                 {
