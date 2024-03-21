@@ -14,12 +14,12 @@ internal class MilestoneImplementation : IMilestone
     /// Dal instance to be used by the class
     /// </summary>
     private static Dictionary<int, MilestoneDictItem> MilestoneDict = new Dictionary<int, MilestoneDictItem>();
-    
+
     /// <summary>
     /// initialized is a flag to check if the MilestoneDict has been initialized
     /// </summary>
     private static bool initialized = false;
-    
+
     /// <summary>
     /// Dal instance to be used by the class
     /// </summary>
@@ -27,23 +27,23 @@ internal class MilestoneImplementation : IMilestone
 
     private static TimeSpan ProjectDuration = TimeSpan.Zero;
 
-    private readonly Bl _bl; 
+    private readonly Bl _bl;
     internal MilestoneImplementation(Bl bl) => _bl = bl;
 
     /// <summary>
     /// MilestoneDictItem is a class to store the data of the MilestoneDict
     /// </summary>
     private class MilestoneDictItem
-    { 
+    {
         /// <summary>
         /// IdList is a list of task ids that this milestone points to
         /// </summary>
-        public List<int> idList {  get; set; } 
+        public List<int> idList { get; set; }
 
         /// <summary>
         /// milestoneDef is a list of task ids that point to this milestone
         /// </summary>
-        public List<int> milestoneDef {  get; set; }
+        public List<int> milestoneDef { get; set; }
 
         /// <summary>
         /// is the milestone a start milestone
@@ -54,7 +54,7 @@ internal class MilestoneImplementation : IMilestone
         /// is the milestone an end milestone
         /// </summary>
         public bool isEnd { get; set; }
-    }   
+    }
 
     /// <summary>
     /// Create Dependency Groups
@@ -67,7 +67,7 @@ internal class MilestoneImplementation : IMilestone
         IEnumerable<DO.Dependency>? dependencies = _dal.Dependency.ReadAll();
         Dictionary<int, List<int>> depGroups = new Dictionary<int, List<int>>();
 
-        if (dependencies.Count() <= 0 )
+        if (dependencies.Count() <= 0)
         {
             throw new BO.BlBadInputDataException("no dependencies!");
         }
@@ -81,7 +81,7 @@ internal class MilestoneImplementation : IMilestone
                 depGroups[(int)dep.DependentTaskId] = new List<int>();
                 depGroups[(int)dep.DependentTaskId].Add((int)dep.RequisiteID);
             }
-           else
+            else
             {
                 depGroups[(int)dep.DependentTaskId].Add((int)dep.RequisiteID);
                 depGroups[(int)dep.DependentTaskId] = sortList(depGroups[(int)dep.DependentTaskId]);
@@ -220,7 +220,7 @@ internal class MilestoneImplementation : IMilestone
     /// </summary>
     /// <param name="list"></param>
     /// <returns></returns>
-    private List<int> sortList (List<int> list)
+    private List<int> sortList(List<int> list)
     {
         List<int> sortedList = new List<int>(list);
 
@@ -270,10 +270,10 @@ internal class MilestoneImplementation : IMilestone
     private List<TaskInList> getTasks(List<int> list)
     {
         List<TaskInList> res = new List<TaskInList>();
-        
+
         foreach (var id in list) {
             DO.Task? task = _dal.Task.Read(id);
-            if (task == null) throw new BO.BlDoesNotExistException("task does not exist"); 
+            if (task == null) throw new BO.BlDoesNotExistException("task does not exist");
             res.Add(new TaskInList() {
                 Id = task.Id,
                 Description = task.Description,
@@ -282,7 +282,7 @@ internal class MilestoneImplementation : IMilestone
             });
 
         }
-        
+
         return res;
     }
 
@@ -299,8 +299,8 @@ internal class MilestoneImplementation : IMilestone
         {
             res += "This milestone is a start ";
         }
-        
-        if ( milestone.Value.isEnd)
+
+        if (milestone.Value.isEnd)
         {
             res += "This milestone is an end ";
         }
@@ -312,12 +312,12 @@ internal class MilestoneImplementation : IMilestone
     /// </summary>
     /// <param name="milestone"></param>
     /// <returns></returns>
-    private TimeSpan? calcDuration(KeyValuePair<int, MilestoneDictItem> milestone) 
+    private TimeSpan? calcDuration(KeyValuePair<int, MilestoneDictItem> milestone)
     {
         TimeSpan? res = TimeSpan.Zero;
         if (milestone.Value.isStart) return null;
-                
-        return calcDeadline(milestone) - calcProjectedStartDate(milestone) ;
+
+        return calcDeadline(milestone) - calcProjectedStartDate(milestone);
     }
 
     /// <summary>
@@ -328,13 +328,14 @@ internal class MilestoneImplementation : IMilestone
     private DateTime? calcDeadline(KeyValuePair<int, MilestoneDictItem> milestone)
     {
         if (milestone.Value.isStart) return null;
-        DateTime? res = DateTime.MaxValue;
+        DateTime? res = DateTime.MinValue;
         foreach (var id in milestone.Value.milestoneDef)
         {
-            if (_dal.Task.Read(id).Deadline != null && _dal.Task.Read(id).Deadline < res)
-                res = _dal.Task.Read(id).Deadline;
+            DateTime? dLine = _dal.Task.Read(id).Deadline;
+            if ( dLine != null && dLine > res)
+                res = dLine;
         }
-        if (res ==  DateTime.MaxValue) return null;
+        if (res == DateTime.MaxValue) return null;
         return res;
     }
 
@@ -349,8 +350,9 @@ internal class MilestoneImplementation : IMilestone
         DateTime? res = DateTime.MaxValue;
         foreach (var id in milestone.Value.milestoneDef)
         {
-            if (_dal.Task.Read(id).ProjectedStartDate != null && _dal.Task.Read(id).ProjectedStartDate < res)
-                res = _dal.Task.Read(id).ProjectedStartDate;
+            DateTime? pDate = _dal.Task.Read(id).ProjectedStartDate;
+            if (pDate != null && pDate < res)
+                res = pDate;
         }
         if (res == DateTime.MaxValue) return null;
         return res;
@@ -367,8 +369,9 @@ internal class MilestoneImplementation : IMilestone
         DateTime? res = DateTime.MinValue;
         foreach (var id in milestone.Value.milestoneDef)
         {
-            if (_dal.Task.Read(id).ActualEndDate != null && _dal.Task.Read(id).ActualEndDate > res)
-                res = _dal.Task.Read(id).ActualEndDate;
+            DateTime? eDate = _dal.Task.Read(id).ActualEndDate;
+            if (eDate != null && eDate > res)
+                res = eDate;
         }
         if (res == DateTime.MinValue) return null;
         return res;
@@ -385,8 +388,9 @@ internal class MilestoneImplementation : IMilestone
         DateTime? res = DateTime.MaxValue;
         foreach (var id in milestone.Value.milestoneDef)
         {
-            if (_dal.Task.Read(id).ActualStartDate != null && _dal.Task.Read(id).ActualStartDate < res)
-                res = _dal.Task.Read(id).ActualStartDate;
+            DateTime? sDate = _dal.Task.Read(id).ActualStartDate;
+            if (sDate != null && sDate < res)
+                res = sDate;
         }
         if (res == DateTime.MaxValue) return null;
         return res;
@@ -399,7 +403,7 @@ internal class MilestoneImplementation : IMilestone
     /// <returns></returns>
     private double calcCompletionPercent(List<TaskInList> tasks)
     {
-        if (tasks.Count == 0)   return 0;
+        if (tasks.Count == 0) return 0;
         double denominator = 4 * tasks.Count();
         double numerator = 0;
         foreach (var task in tasks)
@@ -423,27 +427,27 @@ internal class MilestoneImplementation : IMilestone
         InitMilestoneDict();
 
         TimeSpan? projectTimeSpan = TimeSpan.Zero;
-        foreach(var milestone in MilestoneDict)
+        foreach (var milestone in MilestoneDict)
         {
             var taskMilestone = _dal.Task.Read(milestone.Key);
             if (taskMilestone.Duration == null && !MilestoneDict[taskMilestone.Id].isStart) throw new BO.BlNullPropertyException("one of the milestone durations is null");
 
             if (taskMilestone.Duration > taskMilestone.Deadline - taskMilestone.ProjectedStartDate && !MilestoneDict[taskMilestone.Id].isStart)
                 throw new BO.BlBadInputDataException($"Milestone with id={taskMilestone.Id} has an impossible duration!");
-            
+
             if (!MilestoneDict[taskMilestone.Id].isStart)
             {
                 projectTimeSpan += taskMilestone.Duration;
             }
         }
-        if(projectTimeSpan > endDate - startDate)
+        if (projectTimeSpan > endDate - startDate)
             throw new BO.BlBadInputDataException("Project cannot fit within the given schedule!");
 
         ProjectDuration = (TimeSpan)projectTimeSpan;
 
         return "all milestones and the project fit within the schedule!";
     }
-    
+
     /// <summary>
     /// Getter for Project Duration
     /// </summary>
@@ -509,7 +513,7 @@ internal class MilestoneImplementation : IMilestone
     /// <returns>the updated Milestone</returns>
     /// <exception cref="BO.BlBadInputDataException"> Data doesn't work for Milestone</exception>
     /// <exception cref="BO.BlDoesNotExistException"> Milestone ID doesn't exist</exception>
-    public Milestone Update(int id, string name = "" , string description = "", string comments = "")
+    public Milestone Update(int id, string name = "", string description = "", string comments = "")
     {
         InitMilestoneDict();
 
@@ -533,7 +537,7 @@ internal class MilestoneImplementation : IMilestone
             ProjectedStartDate = task.ProjectedStartDate,
             Deadline = task.Deadline,
             ActualEndDate = task.ActualEndDate,
-            CompletionPercentage = calcCompletionPercent(taskList), 
+            CompletionPercentage = calcCompletionPercent(taskList),
             Remarks = comments,
             Dependencies = taskList,
         };
@@ -565,14 +569,14 @@ internal class MilestoneImplementation : IMilestone
         InitMilestoneDict();
 
         IEnumerable<MilestoneInList> milestones = from DO.Task m_task in _dal.Task.ReadAll(task => task.IsMilestone)
-                    select new BO.MilestoneInList
-                    {
-                        Id = m_task.Id,
-                        Description = m_task.Description,
-                        Alias = m_task.Alias,
-                        Status = classTools.StatusCalculator(m_task),
-                        CompletionPercentage = calcCompletionPercent(getTasks(MilestoneDict[m_task.Id].idList))
-                    };
+                                                  select new BO.MilestoneInList
+                                                  {
+                                                      Id = m_task.Id,
+                                                      Description = m_task.Description,
+                                                      Alias = m_task.Alias,
+                                                      Status = classTools.StatusCalculator(m_task),
+                                                      CompletionPercentage = calcCompletionPercent(getTasks(MilestoneDict[m_task.Id].idList))
+                                                  };
         if (filter != null)
         {
             milestones = milestones.Where(filter);
@@ -583,6 +587,35 @@ internal class MilestoneImplementation : IMilestone
 
     public void Reset()
     {
+        MilestoneDict = new Dictionary<int, MilestoneDictItem>();
+        initialized = false;
+    }
 
+    public List<int> getMilestoneDef(int id)
+    {
+        InitMilestoneDict();
+
+        if (!MilestoneDict.ContainsKey(id)) return new List<int>();
+        else return MilestoneDict[id].milestoneDef;
+    }
+
+    public List<int> getMilestoneIdList(int id)
+    {
+        InitMilestoneDict();
+
+        if (!MilestoneDict.ContainsKey(id)) return new List<int>();
+        else return MilestoneDict[id].idList;
+    }
+
+    public bool isStart(int id)
+    {
+        if (!MilestoneDict.ContainsKey(id)) { return false; }
+        return MilestoneDict[id].isStart;
+    }
+
+    public bool isEnd(int id)
+    {
+        if (!MilestoneDict.ContainsKey(id)) { return false; }
+        return MilestoneDict[id].isEnd;
     }
 }

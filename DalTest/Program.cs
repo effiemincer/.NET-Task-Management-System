@@ -67,31 +67,31 @@ internal class Program
                         string? input = Console.ReadLine();
                         string name = (input == "" || input is null) ? "Placeholder Name" : input;
 
-                        Console.WriteLine("Date Created (mm/dd/yyyy): ");
-                        input = Console.ReadLine();
-                        DateTime dateCreated = input == "" ? DateTime.Now : DateTime.Parse(input!);
+                        //Console.WriteLine("Date Created (mm/dd/yyyy): ");
+                        //input = Console.ReadLine();
+                        //DateTime dateCreated = input == "" ? DateTime.Now : DateTime.Parse(input!);
 
-                        Console.WriteLine("Enter description of task: ");
-                        input = Console.ReadLine();
-                        string description = input ?? "";
+                        //Console.WriteLine("Enter description of task: ");
+                        //input = Console.ReadLine();
+                        //string description = input ?? "";
                             
 
-                        Console.WriteLine("Enter duration of task (hours, hit enter then put minutes and press enter): ");
-                        input = Console.ReadLine();
-                        TimeSpan? duration = null;
-                        int hours, mins;
+                        //Console.WriteLine("Enter duration of task (hours, hit enter then put minutes and press enter): ");
+                        //input = Console.ReadLine();
+                        //TimeSpan? duration = null;
+                        //int hours, mins;
 
-                        if (input != "" && input is not null)
-                        {
-                            hours = Convert.ToInt32(input);
+                        //if (input != "" && input is not null)
+                        //{
+                        //    hours = Convert.ToInt32(input);
 
-                            input = Console.ReadLine();
-                            if (input != "" && input is not null)
-                            {
-                                mins = Convert.ToInt32(input);
-                                duration = new TimeSpan(hours, mins, 0);
-                            }
-                        }
+                        //    input = Console.ReadLine();
+                        //    if (input != "" && input is not null)
+                        //    {
+                        //        mins = Convert.ToInt32(input);
+                        //        duration = new TimeSpan(hours, mins, 0);
+                        //    }
+                        //}
 
                         Console.WriteLine("Enter deadline of task (mm/dd/yyyy): ");
                         input = Console.ReadLine();
@@ -101,54 +101,55 @@ internal class Program
                         input = Console.ReadLine();
                         DateTime? projectedStart = (input == "" ? null : DateTime.Parse(input!));
 
-                        Console.WriteLine("Enter difficulty of task (0-4): ");
-                        //list of enums and variables 
-                        Enums.EngineerExperience[] allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
-                        Enums.EngineerExperience? difficulty;
+                        //Console.WriteLine("Enter difficulty of task (0-4): ");
+                        ////list of enums and variables 
+                        //Enums.EngineerExperience[] allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
+                        //Enums.EngineerExperience? difficulty;
 
-                        //user input
-                        input = Console.ReadLine();
+                        ////user input
+                        //input = Console.ReadLine();
 
-                        if (input == "") difficulty = null;
-                        else difficulty = allDifficulties[Convert.ToInt32(input)];
+                        //if (input == "") difficulty = null;
+                        //else difficulty = allDifficulties[Convert.ToInt32(input)];
 
               
                         //DO WE NEED TO check if the engineer is in our list of engineers?
-                        Console.WriteLine("Enter ID of assigned Enginner of task: ");
-                        input = Console.ReadLine();
-                        int? assignedEng;
+                        //Console.WriteLine("Enter ID of assigned Enginner of task: ");
+                        //input = Console.ReadLine();
+                        //int? assignedEng;
 
-                        if (input == "") assignedEng = null;
-                        else assignedEng = Convert.ToInt32(input);
+                        //if (input == "") assignedEng = null;
+                        //else assignedEng = Convert.ToInt32(input);
 
-                        Console.WriteLine("Enter actual end date of task (mm/dd/yyyy): ");
-                        input = Console.ReadLine();
-                        DateTime? actualEnd = (input == "" ? null : DateTime.Parse(input!));
+                        //Console.WriteLine("Enter actual end date of task (mm/dd/yyyy): ");
+                        //input = Console.ReadLine();
+                        //DateTime? actualEnd = (input == "" ? null : DateTime.Parse(input!));
 
-                        Console.WriteLine("Enter whether task is a milestone (Y/N): ");
-                        input = Console.ReadLine();
-                        bool isMilestone = (input! == "Y");
+                        //Console.WriteLine("Enter whether task is a milestone (Y/N): ");
+                        //input = Console.ReadLine();
+                        //bool isMilestone = (input! == "Y");
 
 
-                        Console.WriteLine("Enter actaul start date of task (mm/dd/yyyy): ");
-                        input = Console.ReadLine();
-                        DateTime? actualStart = (input == "" ? null : DateTime.Parse(input!));
+                        //Console.WriteLine("Enter actaul start date of task (mm/dd/yyyy): ");
+                        //input = Console.ReadLine();
+                        //DateTime? actualStart = (input == "" ? null : DateTime.Parse(input!));
 
-                        Console.WriteLine("Enter if task is deliverable (Y/N): ");
-                        bool deliverable = (input! == "Y");
+                        //Console.WriteLine("Enter if task is deliverable (Y/N): ");
+                        //bool deliverable = (input! == "Y");
 
-                        Console.WriteLine("Enter notes for the task: ");
-                        string? notes = Console.ReadLine();
+                        //Console.WriteLine("Enter notes for the task: ");
+                        //string? notes = Console.ReadLine();
 
-                        Console.WriteLine("Enter whether task is inactive (Y/N): ");
-                        input = Console.ReadLine();
-                        bool inactive = (input! == "Y");
+                        //Console.WriteLine("Enter whether task is inactive (Y/N): ");
+                        //input = Console.ReadLine();
+                        //bool inactive = (input! == "Y");
 
-                        try
+                        
+                        try //changed this to make testing a bit shorter
                         {
-                            DO.Task task = new DO.Task(0, name, dateCreated, description, duration, deadline,
-                                projectedStart, difficulty, assignedEng, actualEnd,
-                                isMilestone, actualStart, deliverable, notes!, inactive);
+                            DO.Task task = new DO.Task(0, name, (DateTime)projectedStart, name, deadline - projectedStart, deadline,
+                                projectedStart, Enums.EngineerExperience.Novice, 0, deadline,
+                                false, projectedStart, false, name, false);
                             s_dal!.Task.Create(task);
                         }
                         catch   (Exception ex) { 
@@ -202,117 +203,117 @@ internal class Program
                         break;
 
         //------------------ Update task ----------------------
-                    case "e":  //update
-                        Console.WriteLine("Enter task ID to update: "); 
-                        stringId = Console.ReadLine();
+                    //case "e":  //update
+                    //    Console.WriteLine("Enter task ID to update: "); 
+                    //    stringId = Console.ReadLine();
 
-                        //checks not empty string
-                        if (stringId != "")
-                        {
-                            int intId = Convert.ToInt32(stringId);
+                    //    //checks not empty string
+                    //    if (stringId != "")
+                    //    {
+                    //        int intId = Convert.ToInt32(stringId);
                             
-                            try
-                            {
-                                DO.Task? task = s_dal!.Task.Read(intId) ?? null;
+                    //        try
+                    //        {
+                    //            DO.Task? task = s_dal!.Task.Read(intId) ?? null;
 
-                                //print out object
-                                Console.WriteLine(task);
-                                Console.WriteLine("\nEnter updated information below:\n");
+                    //            //print out object
+                    //            Console.WriteLine(task);
+                    //            Console.WriteLine("\nEnter updated information below:\n");
 
-                                //Collects Updated information from User - if input is blank then do not change
-                                Console.WriteLine("Enter name of task: ");
-                                input = Console.ReadLine();
-                                name = (input == "" || input is null) ? task!.Alias : input;
+                    //            //Collects Updated information from User - if input is blank then do not change
+                    //            Console.WriteLine("Enter name of task: ");
+                    //            input = Console.ReadLine();
+                    //            name = (input == "" || input is null) ? task!.Alias : input;
 
-                                Console.WriteLine("Date Created (mm/dd/yyyy): ");
-                                input = Console.ReadLine();
-                                dateCreated = input == "" ? task!.DateCreated : DateTime.Parse(input!);
+                    //            Console.WriteLine("Date Created (mm/dd/yyyy): ");
+                    //            input = Console.ReadLine();
+                    //            dateCreated = input == "" ? task!.DateCreated : DateTime.Parse(input!);
 
-                                Console.WriteLine("Enter description of task: ");
-                                input = Console.ReadLine();
-                                description = (input == "" || input is null) ? task!.Description : input;
+                    //            Console.WriteLine("Enter description of task: ");
+                    //            input = Console.ReadLine();
+                    //            description = (input == "" || input is null) ? task!.Description : input;
 
-                                Console.WriteLine("Enter duration of task (hours, hit enter then put minutes and press enter): ");
-                                input = Console.ReadLine();
-                                duration = task!.Duration;
+                    //            Console.WriteLine("Enter duration of task (hours, hit enter then put minutes and press enter): ");
+                    //            input = Console.ReadLine();
+                    //            duration = task!.Duration;
 
-                                if (input != "" && input is not null)
-                                {
-                                    hours = Convert.ToInt32(input);
+                    //            if (input != "" && input is not null)
+                    //            {
+                    //                hours = Convert.ToInt32(input);
 
-                                    input = Console.ReadLine();
-                                    if (input != "" && input is not null)
-                                    {
-                                        mins = Convert.ToInt32(input);
-                                        duration = new TimeSpan(hours, mins, 0);
-                                    }
-                                }
+                    //                input = Console.ReadLine();
+                    //                if (input != "" && input is not null)
+                    //                {
+                    //                    mins = Convert.ToInt32(input);
+                    //                    duration = new TimeSpan(hours, mins, 0);
+                    //                }
+                    //            }
 
-                                Console.WriteLine("Enter deadline of task (mm/dd/yyyy): ");
-                                input = Console.ReadLine();
-                                deadline = (input == "" ? task!.Deadline : DateTime.Parse(input!));
+                    //            Console.WriteLine("Enter deadline of task (mm/dd/yyyy): ");
+                    //            input = Console.ReadLine();
+                    //            deadline = (input == "" ? task!.Deadline : DateTime.Parse(input!));
 
-                                Console.WriteLine("Enter projected start date of task (mm/dd/yyyy): ");
-                                input = Console.ReadLine();
-                                projectedStart = (input == "" ? task!.ProjectedStartDate : DateTime.Parse(input!));
+                    //            Console.WriteLine("Enter projected start date of task (mm/dd/yyyy): ");
+                    //            input = Console.ReadLine();
+                    //            projectedStart = (input == "" ? task!.ProjectedStartDate : DateTime.Parse(input!));
 
-                                Console.WriteLine("Enter difficulty of task (0-4): ");
-                                //list of enums and variables 
-                                allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
+                    //            Console.WriteLine("Enter difficulty of task (0-4): ");
+                    //            //list of enums and variables 
+                    //            allDifficulties = (Enums.EngineerExperience[])Enum.GetValues(typeof(Enums.EngineerExperience));
 
-                                //user input
-                                input = Console.ReadLine();
+                    //            //user input
+                    //            input = Console.ReadLine();
 
-                                if (input == "") difficulty = task!.DegreeOfDifficulty;
-                                else difficulty = allDifficulties[Convert.ToInt32(input)];
+                    //            if (input == "") difficulty = task!.DegreeOfDifficulty;
+                    //            else difficulty = allDifficulties[Convert.ToInt32(input)];
 
-                                //DO WE NEED TO check if the engineer is in our list of engineers?
-                                Console.WriteLine("Enter ID of assigned Enginner of task: ");
-                                input = Console.ReadLine();
+                    //            //DO WE NEED TO check if the engineer is in our list of engineers?
+                    //            Console.WriteLine("Enter ID of assigned Enginner of task: ");
+                    //            input = Console.ReadLine();
 
-                                if (input == "") assignedEng = task!.AssignedEngineerId;
-                                else assignedEng = Convert.ToInt32(input);
+                    //            if (input == "") assignedEng = task!.AssignedEngineerId;
+                    //            else assignedEng = Convert.ToInt32(input);
 
-                                Console.WriteLine("Enter actual end date of task (mm/dd/yyyy): ");
-                                input = Console.ReadLine();
-                                actualEnd = (input == "" ? task!.ActualEndDate : DateTime.Parse(input!));
+                    //            Console.WriteLine("Enter actual end date of task (mm/dd/yyyy): ");
+                    //            input = Console.ReadLine();
+                    //            actualEnd = (input == "" ? task!.ActualEndDate : DateTime.Parse(input!));
 
-                                Console.WriteLine("Enter whether task is a milestone (Y/N): ");
-                                input = Console.ReadLine();
-                                isMilestone = ((input! == "") ? task!.IsMilestone : (input! == "Y"));   //if input is blank then leave as previous value otherwise based on new input
+                    //            Console.WriteLine("Enter whether task is a milestone (Y/N): ");
+                    //            input = Console.ReadLine();
+                    //            isMilestone = ((input! == "") ? task!.IsMilestone : (input! == "Y"));   //if input is blank then leave as previous value otherwise based on new input
 
 
-                                Console.WriteLine("Enter actaul start date of task (mm/dd/yyyy): ");
-                                input = Console.ReadLine();
-                                actualStart = (input == "" ? task!.ActualStartDate : DateTime.Parse(input!));
+                    //            Console.WriteLine("Enter actaul start date of task (mm/dd/yyyy): ");
+                    //            input = Console.ReadLine();
+                    //            actualStart = (input == "" ? task!.ActualStartDate : DateTime.Parse(input!));
 
-                                Console.WriteLine("Enter if task is deliverable (Y/N): ");
-                                input = Console.ReadLine();
-                                deliverable = ((input! == "") ? task!.IsMilestone : (input! == "Y"));
+                    //            Console.WriteLine("Enter if task is deliverable (Y/N): ");
+                    //            input = Console.ReadLine();
+                    //            deliverable = ((input! == "") ? task!.IsMilestone : (input! == "Y"));
 
-                                Console.WriteLine("Enter notes for the task: ");
-                                input = Console.ReadLine();
-                                notes = (input == "" || input is null) ? task!.Notes : input;
+                    //            Console.WriteLine("Enter notes for the task: ");
+                    //            input = Console.ReadLine();
+                    //            notes = (input == "" || input is null) ? task!.Notes : input;
 
-                                Console.WriteLine("Enter whether task is inactive (Y/N): ");
-                                input = Console.ReadLine();
-                                inactive = ((input! == "") ? task!.Inactive : (input! == "Y"));
+                    //            Console.WriteLine("Enter whether task is inactive (Y/N): ");
+                    //            input = Console.ReadLine();
+                    //            inactive = ((input! == "") ? task!.Inactive : (input! == "Y"));
 
-                                DO.Task updatedTask = new DO.Task(task!.Id, name, dateCreated, description, duration, deadline,
-                                                        projectedStart, difficulty, assignedEng, actualEnd,
-                                                        isMilestone, actualStart, deliverable!, notes!, inactive);
+                    //            DO.Task updatedTask = new DO.Task(task!.Id, name, dateCreated, description, duration, deadline,
+                    //                                    projectedStart, difficulty, assignedEng, actualEnd,
+                    //                                    isMilestone, actualStart, deliverable!, notes!, inactive);
                             
-                                s_dal!.Task.Update(updatedTask);
+                    //            s_dal!.Task.Update(updatedTask);
 
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex);
-                            }
-                        }
-                        else Console.WriteLine("No ID entered.");
+                    //        }
+                    //        catch (Exception ex)
+                    //        {
+                    //            Console.WriteLine(ex);
+                    //        }
+                    //    }
+                    //    else Console.WriteLine("No ID entered.");
 
-                        break;
+                    //    break;
 
         //--------------------- Delete Task ---------------------
                     case "f":   //delete

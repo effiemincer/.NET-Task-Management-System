@@ -42,4 +42,12 @@ public interface IMilestone
     public TimeSpan getProjectDuration();
 
     public void Reset();
+
+    public List<int> getMilestoneDef(int id);
+
+    public List<int> getMilestoneIdList(int id);
+
+    public bool isStart(int id);
+
+    public bool isEnd(int id);
 }

@@ -299,7 +299,7 @@
     <DegreeOfDifficulty>Expert</DegreeOfDifficulty>
     <AssignedEngineerId xsi:nil="true" />
     <ActualEndDate xsi:nil="true" />
-    <IsMilestone>false</IsMilestone>
+    <IsMilestone>true</IsMilestone>
     <ActualStartDate xsi:nil="true" />
     <Deliverable>false</Deliverable>
     <Inactive>false</Inactive>

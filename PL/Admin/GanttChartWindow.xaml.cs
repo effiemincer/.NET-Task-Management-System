@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -20,8 +22,25 @@ namespace PL.Admin;
 /// </summary>
 public partial class GanttChartWindow : Window
 {
+    private class ganttTask
+    {
+        public ganttTask(BO.Task _t, bool m) 
+        { 
+            t = _t;
+            isMilestone = m;
+        }
+        public BO.Task t { get; set; }
+        public bool isMilestone { get; set; }
+    }
+
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
     private IEnumerable<BO.TaskInList> taskList = s_bl.Task.ReadAll();
+    private IEnumerable<BO.MilestoneInList> milestoneList = s_bl.Milestone.ReadAll();
+
+    private Dictionary<int, ganttTask> taskArr = new Dictionary<int, ganttTask>();
+    private int[] rowcheck;
+
+    private BO.Enums.Mode mode = BO.Enums.Mode.day;
 
     private DateTime startDate;
     private DateTime endDate;
@@ -36,8 +55,29 @@ public partial class GanttChartWindow : Window
 
     private void CreateGanttChart()
     {      
-        int numOfTasks = taskList.Count();
+        int numOfTasks = taskList.Count() + milestoneList.Count();
         int numOfDays = (endDate - startDate).Days;
+
+        int numOfCols = calsNumOfCols((endDate - startDate).Days);
+
+        rowcheck = new int[numOfTasks + 1];
+
+        Dictionary<int, BO.Task> taskDict = new Dictionary<int, BO.Task>();
+
+        int j = 0;
+        foreach (BO.MilestoneInList milestone in milestoneList)
+        {
+            taskArr[j] = new ganttTask(s_bl.Task.Read(milestone.Id), true);
+            rowcheck[j] = 0;
+            ++j;
+        }
+        foreach (BO.TaskInList task in taskList)
+        {
+            taskArr[j] = new ganttTask(s_bl.Task.Read(task.Id), false);
+            rowcheck[j] = 0;
+            ++j;
+        }
+
 
         AddDynamicRowsAndColumns(numOfTasks + 1, numOfDays + 1);
 
@@ -64,68 +104,208 @@ public partial class GanttChartWindow : Window
         // Populate cells with content (optional)
         for (int i = 0; i < rowCount; i++)
         {
-            for (int j = 0; j < columnCount; j++)
+            if (rowcheck[i] == 0)
             {
-                // Exclude populating cell (0,0)
-                if (i != 0 || j != 0)
+                for (int j = 0; j < columnCount; j++)
                 {
-                    if (i == 0) // first row
+                    if (rowcheck[i] == 0)
                     {
-                        Border border = new Border();
-                        border.BorderBrush = Brushes.Black;
-                        border.BorderThickness = new Thickness(1);
+                        if (i != 0 || j != 0)
+                        {
+                            dynamicGrid.Children.Add(fillCell(i, j));
+                        }
 
-                        // Add content to the cell
-
-                        DateTime d = startDate.AddDays(j - 1);
-
-                        TextBlock textBlock = new TextBlock();
-                        textBlock.Text = $"{dayString(d)}";
-                        textBlock.TextAlignment = TextAlignment.Center;
-                        border.Child = textBlock;
-
-                        // Set cell position
-                        Grid.SetRow(border, i);
-                        Grid.SetColumn(border, j);
-
-                        // Add the border to the grid
-                        dynamicGrid.Children.Add(border);
                     }
-                    else if (j == 0) // first column
-                    {
-                        Border border = new Border();
-                        border.BorderBrush = Brushes.Black;
-                        border.BorderThickness = new Thickness(1);
 
-                        BO.TaskInList task = taskList.ElementAtOrDefault(i - 1);
-                        // Add content to the cell
-                        TextBlock textBlock = new TextBlock();
-                        textBlock.Text = $"TaskID: {task.Id.ToString()}" +
-                            $"\n" +
-                            $"Task Name: {task.Alias}";
-                        textBlock.TextAlignment = TextAlignment.Center;
-                        textBlock.Padding = new Thickness(20, 5, 20, 5);
-                        border.Child = textBlock;
-
-                        // Set cell position
-                        Grid.SetRow(border, i);
-                        Grid.SetColumn(border, j);
-
-                        // Add the border to the grid
-                        dynamicGrid.Children.Add(border);
-                    }
-                    // Add content directly for other cells
-                    else
-                    {
-                        TextBlock textBlock = new TextBlock();
-                        textBlock.Text = $"Row {i}, Column {j}";
-                        Grid.SetRow(textBlock, i);
-                        Grid.SetColumn(textBlock, j);
-                        dynamicGrid.Children.Add(textBlock);
-                    }
                 }
             }
         }
+    }
+
+    private UIElement fillCell(int row, int col)
+    {
+        DateTime d = new DateTime();
+        if (mode == BO.Enums.Mode.day)
+            d = startDate.AddDays(col - 1);
+        else if (mode == BO.Enums.Mode.week)
+            d = addWeeks(startDate, col - 1);
+        else
+            d = startDate.AddMonths(col - 1);
+
+        //column headers
+        if (row == 0)
+        {
+            return fillColHead(row, col, d);
+            
+        }
+
+        // row headers
+        else if (col == 0)
+        {
+            return fillRowStart(row, col);
+           
+        }
+
+        // gantt rectangles 
+        else
+        {
+            return fillGanttRect(row, col, d);
+        }
+        
+    }
+
+    private UIElement fillColHead(int row, int col, DateTime d)
+    {
+        Border border = new Border();
+        border.BorderBrush = Brushes.Black;
+        border.BorderThickness = new Thickness(1);
+
+        TextBlock colText = new TextBlock();
+
+        if (mode == BO.Enums.Mode.day)
+            colText.Text = $"{dayString(d)}";
+
+        if (mode == BO.Enums.Mode.week)
+            colText.Text = $"{weekString(d)}";
+
+        if (mode == BO.Enums.Mode.month)
+            colText.Text = $"{d.ToString("MMMM yyyy")}";
+
+        colText.TextAlignment = TextAlignment.Center;
+        border.Child = colText;
+
+        // Set cell position
+        Grid.SetRow(border, row);
+        Grid.SetColumn(border, col);
+
+        return border;
+    }
+
+    private UIElement fillRowStart(int row, int col)
+    {
+        BO.Task task = taskArr[row - 1].t;
+        Border border = new Border();
+        border.BorderBrush = Brushes.Black;
+        border.BorderThickness = new Thickness(1);
+        
+        // Add content to the cell
+        TextBlock rowText = new TextBlock();
+        rowText.Text = $"TaskID: {task.Id.ToString()}" +
+            $"\n" +
+            $"Task Name: {task.Alias}";
+        rowText.TextAlignment = TextAlignment.Center;
+        rowText.Padding = new Thickness(20, 5, 20, 5);
+        border.Child = rowText;
+         
+        // Set cell position
+        Grid.SetRow(border, row);
+        Grid.SetColumn(border, col);
+
+        return border;
+    }
+
+    private UIElement fillGanttRect(int row, int col, DateTime d)
+    {
+        BO.Task task = taskArr[row - 1].t;
+
+        Rectangle rect = new Rectangle();
+        rect.Width = 100;
+
+        if (mode == BO.Enums.Mode.day)
+        {
+            if (task.ProjectedStartDate <= d)
+            {
+                // Create a LinearGradientBrush with two gradient stops
+
+                if (!taskArr[row - 1].isMilestone)
+                    rect.Fill = Brushes.Black;
+                else
+                    rect.Fill = Brushes.Blue;
+
+                if (HaveSameDate((DateTime)task.Deadline, d)) rowcheck[row] = 1;
+            }
+            else
+            {
+                rect.Fill = Brushes.White;
+            }
+        }
+
+        else
+        {
+            rect.Fill = calcColor(task, row, col, d);
+        }
+        
+
+        Grid.SetRow(rect, row);
+        Grid.SetColumn(rect, col);
+
+        return rect;
+    }
+
+    private LinearGradientBrush calcColor(BO.Task task, int row, int col, DateTime d)
+    {
+        LinearGradientBrush brush = new LinearGradientBrush();
+
+        brush.StartPoint = new Point(0, 0);
+        brush.EndPoint = new Point(1, 0);
+
+        // 4 cases
+
+        // Case 1: task start date within week/month
+        if (isDateWithin((DateTime)task.ProjectedStartDate, d))
+        {
+            double percent;
+            if (mode == BO.Enums.Mode.week)
+            {
+                percent = calcPercentWeek((DateTime)task.ProjectedStartDate);
+            }
+            else
+            {
+                percent = calcPercentMonth((DateTime)task.ProjectedStartDate);
+            }
+
+            brush.GradientStops.Add(new GradientStop(Colors.White, 0));
+            brush.GradientStops.Add(new GradientStop(Colors.White, percent));
+
+            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, percent));
+            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, 1));
+        }
+
+        // Case 2: task end date witin week/month
+        else if (isDateWithin((DateTime)task.Deadline, d))
+        {
+            double percent;
+            if (mode == BO.Enums.Mode.week)
+            {
+                percent = calcPercentWeek((DateTime)task.Deadline);
+            }
+            else
+            {
+                percent = calcPercentMonth((DateTime)task.Deadline);
+            }
+
+            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, 0));
+            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, percent));
+
+            brush.GradientStops.Add(new GradientStop(Colors.White, percent));
+            brush.GradientStops.Add(new GradientStop(Colors.White, 1));
+        }
+
+        // Case 3: task range not within week/month
+        else if(!isRangeWithin(task, d))
+        {
+            brush.GradientStops.Add(new GradientStop(Colors.White, 0));
+            brush.GradientStops.Add(new GradientStop(Colors.White, 1));
+        }
+
+        // Case 4: task start/end not within week/month but range is 
+        else
+        {
+            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, 0));
+            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, 1));
+        }
+
+        return brush;
     }
 
     private void taskListOrdered()
@@ -139,5 +319,115 @@ public partial class GanttChartWindow : Window
         string formattedDate = d.ToString("ddd M/d/yy");
         return formattedDate;
     }
+
+    private string weekString( DateTime d) // TODO implement
+    {
+        // Find the date of the Sunday of the week
+        DateTime sundayDate = d.AddDays(-(int)d.DayOfWeek);
+
+        // Calculate the date of the Saturday of the week (Sunday + 6 days)
+        DateTime saturdayDate = sundayDate.AddDays(6);
+
+        // Format the dates in the required format
+        string sundayString = sundayDate.ToString("ddd MM/dd/yy");
+        string saturdayString = saturdayDate.ToString("ddd MM/dd/yy");
+
+        // Concatenate the formatted dates with a hyphen
+        string weekString = $"{sundayString} - {saturdayString}";
+
+        return weekString;
+    }
+
+    private static bool HaveSameDate(DateTime dateTime1, DateTime dateTime2)
+    {
+        return dateTime1.Year == dateTime2.Year &&
+               dateTime1.Month == dateTime2.Month &&
+               dateTime1.Day == dateTime2.Day;
+    }
+
+    private int calsNumOfCols(int numOfDays)
+    {
+        if (numOfDays > 60 && numOfDays < 180) // go into week mode
+        {
+            mode = BO.Enums.Mode.week;
+            return getNumberOfWeeks(numOfDays);
+        }
+        else if (numOfDays > 180) // go into month mode
+        {
+            mode = BO.Enums.Mode.month;
+            return getTotalMonths();
+        }
+        else 
+            return numOfDays;
+    }
+
+    private int getTotalMonths()
+    {
+        int totalMonths = ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month + 1;
+
+        return totalMonths;
+    }
+
+    private int getNumberOfWeeks(int numOfDays)
+    {
+        int totalDays = 0;
+        int numberOfWeeks = 0;
+
+        while (totalDays < numOfDays)
+        {
+            int daysInCurrentWeek = 7 - (int)startDate.DayOfWeek; // Days remaining in the current week
+            int daysToAdd = Math.Min(numOfDays - totalDays, daysInCurrentWeek); // Days to add in the current week
+            totalDays += daysToAdd; // Add days to the total
+            numberOfWeeks++; // Increment the number of weeks
+            startDate = startDate.AddDays(daysToAdd); // Move to the next week
+        }
+
+        return numberOfWeeks;
+    }
+
+    private DateTime addWeeks(DateTime d, int numOfWeeks)
+    {
+        TimeSpan duration = TimeSpan.FromDays(numOfWeeks * 7); // Convert weeks to days
+        return  d + duration;
+    }
+
+    private bool isDateWithin(DateTime dateToCheck, DateTime rangeHolder)
+    {
+        if (mode == BO.Enums.Mode.week)
+        {
+            // Check if the dates fall within the same week
+            return dateToCheck.Date >= rangeHolder.Date.AddDays(-(int)rangeHolder.DayOfWeek) &&
+                   dateToCheck.Date <= rangeHolder.Date.AddDays(6 - (int)rangeHolder.DayOfWeek);
+        }
+        else if (mode == BO.Enums.Mode.month)
+        {
+            // Check if the dates fall within the same month
+            return dateToCheck.Year == rangeHolder.Year && dateToCheck.Month == rangeHolder.Month;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool isRangeWithin(BO.Task task, DateTime d)
+    {
+        return d >= task.ProjectedStartDate && d <= task.Deadline;
+    }
+
+    private double calcPercentWeek(DateTime dateToCheck)
+    {
+        return (double)(dateToCheck.DayOfWeek + 1) / 7.0;
+    }
+    private double calcPercentMonth(DateTime dateToCheck)
+    {
+        // Get the total number of days in the month
+        int totalDaysInMonth = DateTime.DaysInMonth(dateToCheck.Year, dateToCheck.Month);
+
+        // Calculate the equivalent fraction for the day of the month
+        double percentMonth = (double)dateToCheck.Day / (double)totalDaysInMonth;
+
+        return percentMonth;
+     }
 
 }
