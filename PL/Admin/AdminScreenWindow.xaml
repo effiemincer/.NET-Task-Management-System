@@ -12,10 +12,17 @@
         <Button Content="Manage Tasks" HorizontalAlignment="Left" Margin="128,158,0,0" VerticalAlignment="Top" Height="54" Width="128" Click="Manage_Tasks_Click"/>
         <Button Content="Manage Engineers" HorizontalAlignment="Center" Margin="0,158,0,0" VerticalAlignment="Top" Height="54" Width="128" Click="Manage_Engineers_Click"/>
         <Button x:Name="_milestones" Content="Manage Milesones" HorizontalAlignment="Left" Margin="534,158,0,0" VerticalAlignment="Top" Height="54" Width="128" Click="Manage_Milestones_Click"/>
-        <Button x:Name="_gantt" Content="Gantt Chart" HorizontalAlignment="Left" Margin="333,0,0,138" VerticalAlignment="Bottom" Height="54" Width="128" Click="Gantt_Chart_Click"/>
         <Button Content="Add Engineer" HorizontalAlignment="Center" VerticalAlignment="Center" Height="54" Width="128" Click="Add_Engineer_Click"/>
         <Button x:Name="_generate" Content="Generate Schedule" HorizontalAlignment="Left" VerticalAlignment="Center" Height="54" Width="128" Click="Generate_Schedule_Terminate_Project_Click" Margin="534,0,0,0"/>
         <Button x:Name="_terminate" Content="Terminate Schedule" HorizontalAlignment="Left" VerticalAlignment="Center" Height="54" Width="128" Click="Generate_Schedule_Terminate_Project_Click" Margin="128,0,0,0"/>
+        <Button x:Name="_gantt" Content="Gantt Chart" HorizontalAlignment="Left" Margin="333,0,0,138" VerticalAlignment="Bottom" Height="54" Width="128" Click="Gantt_Chart_Click"/>
+        <Button x:Name="_setProjectDates" HorizontalAlignment="Left" Margin="128,0,0,138" VerticalAlignment="Bottom" Height="54" Width="128" Click="Set_Project_Dates_Click">
+            <StackPanel>
+            <TextBlock Text="Set Project Start"/>
+            <TextBlock Text="and End Dates"/>
+            </StackPanel>
+            
+            </Button>
 
         <!-- Current Date and Hour-->
         <Label Content="{Binding Date}" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="110" Margin="540,273,0,0" FontSize="12"/>

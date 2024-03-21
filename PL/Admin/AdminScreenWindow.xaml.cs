@@ -166,10 +166,29 @@ public partial class AdminScreenWindow : Window
             _gantt.IsEnabled = false;
             _milestones.IsEnabled = false;
 
+            s_bl.Milestone.Reset();
+
             MessageBox.Show("Schedule has been terminated.", "TerminationSuccess", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         
 
+    }
+
+    private void Set_Project_Dates_Click(object sender, RoutedEventArgs e)
+    {
+        //if (ScheduleCreated is null)
+        //{
+        //    MessageBox.Show("You must initialize data.", "NoIsScheduleGeneratedInXML", MessageBoxButton.OK, MessageBoxImage.Error);
+        //}
+        //else if ((bool)ScheduleCreated)
+        //{
+        //    new ProjectDatesWindow().ShowDialog();
+        //}
+        //else
+        //{
+        //    MessageBox.Show("You must generate a schedule first in order to set project dates.", "NoScheduleGenerated", MessageBoxButton.OK, MessageBoxImage.Error);
+        //}
+        return;
     }
 
     private void Travel_Forwards_Day_Click(object sender, RoutedEventArgs e)

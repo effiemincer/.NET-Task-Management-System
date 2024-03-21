@@ -28,7 +28,7 @@
                 <TextBox x:Name="_alias" Text="{Binding Alias, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
                 <TextBlock Text="Date Created:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding DateCreated, Mode=OneTime, StringFormat=dd/MM/yy}" />
+                <TextBlock x:Name="_dateCreated" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding DateCreated, Mode=OneTime, StringFormat=dd/MM/yy}" />
                 <!-- <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/> -->
 
                 <TextBlock Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Left"/>

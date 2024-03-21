@@ -42,7 +42,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Height="35" Width="70" Click="btnAddTask_Click" Margin="0,15,0,0" />
+        <Button x:Name="addButton" Content="Add" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Height="35" Width="70" Click="btnAddTask_Click" Margin="0,15,0,0" />
         <!-- Button for adding a new task -->
     </Grid>
 </Window>

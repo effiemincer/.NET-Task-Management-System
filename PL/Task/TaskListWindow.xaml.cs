@@ -47,6 +47,16 @@ public partial class TaskListWindow : Window
         TaskList = s_bl?.Task.ReadAll(); // Reads all tasks from the data source.
         InitializeComponent();
         this.isAdmin = isAdmin; // Sets the isAdmin flag.
+        bool? isScheduleGenerated = s_bl.Config.GetIsScheduleGenerated();
+
+        if (isScheduleGenerated is null || !(bool)isScheduleGenerated!)
+        {
+            addButton.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            addButton.Visibility = Visibility.Collapsed;
+        }
     }
 
     // Property to bind a list of tasks to a UI element.

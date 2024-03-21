@@ -60,18 +60,41 @@ namespace Task
             //allowing adding depenedencies
             if (isAdd)
             {
-                if (scheduleCreated is null) {
-                    _dependenciesListDisplayTextBlock.IsEnabled = true;
-                }
-                else if ( !(bool)scheduleCreated)
+                _dateCreated.Text = DateTime.Now.ToString("dd/MM/yyyy");
+                if (scheduleCreated is null || !(bool)scheduleCreated)
                 {
                     _dependenciesListDisplayTextBlock.IsEnabled = true;
+                    _deadline.IsEnabled = true;
+                    _projectedStart.IsEnabled = true;
+                    _requiredEffort.IsEnabled = true;
                 }
                 else
                 {
                     _dependenciesListDisplayTextBlock.IsEnabled = false;
+                    _deadline.IsEnabled = false;
+                    _projectedStart.IsEnabled = false;
+                    _requiredEffort.IsEnabled = false;
                 }
             }
+            //changing the screen layout depending on if the scheudle has been created or not
+            else
+            {
+                if (scheduleCreated is null || !(bool)scheduleCreated)
+                {
+                    _dependenciesListDisplayTextBlock.IsEnabled = false;
+                    _deadline.IsEnabled = true;
+                    _projectedStart.IsEnabled = true;
+                    _requiredEffort.IsEnabled = true;
+                }
+                else
+                {
+                    _dependenciesListDisplayTextBlock.IsEnabled = false;
+                    _deadline.IsEnabled = false;
+                    _projectedStart.IsEnabled = false;
+                    _requiredEffort.IsEnabled = false;
+                }
+            }
+
         }
 
         // TextChanged event handler for TextBox (currently not used)
@@ -88,7 +111,11 @@ namespace Task
             //add
             if (isAdd)
             {
-                try { s_bl?.Task.Create(CurrentTask); }
+                try { 
+                    //allow for adding dependencies
+                    s_bl?.Task.Create(CurrentTask); 
+                
+                }
                 catch(BlNullPropertyException ex)
                 {
                     MessageBox.Show(ex.Message, "BadDataInput", MessageBoxButton.OK, MessageBoxImage.Error); 
@@ -101,34 +128,72 @@ namespace Task
             else
             {
 
-                try
+                //update with the schedule not yet created
+                bool? isScheduleGenerated = s_bl.Config.GetIsScheduleGenerated();
+                if (isScheduleGenerated is null || !(bool)isScheduleGenerated)
                 {
-                    TimeSpan? timeSpan = TimeSpan.Parse(_requiredEffort.Text);
-                    BO.Task updatedTask = new BO.Task
+                    try
                     {
-                        Id = CurrentTask!.Id,
-                        Alias = _alias.Text,
-                        Description = _description.Text,
-                        Deadline = _deadline.SelectedDate,
-                        Status = CurrentTask!.Status,
-                        Engineer = CurrentTask!.Engineer,
-                        DateCreated = CurrentTask!.DateCreated,
-                        ActualEndDate = _actualEndDate.SelectedDate,
-                        ActualStartDate = _actualStartDate.SelectedDate,
-                        Complexity = (BO.Enums.EngineerExperience?)Complexity_ComboBox.SelectedValue,
-                        Deliverable = (bool)_deliverable.IsChecked!,
-                        Dependencies = CurrentTask!.Dependencies,
-                        Milestone = CurrentTask!.Milestone,
-                        ProjectedStartDate = _projectedStart.SelectedDate,
-                        Remarks = _remarks.Text,
-                        RequiredEffortTime = timeSpan
-                    };
-                    s_bl?.Task.Update(updatedTask);
+                        BO.Task updatedTask = new BO.Task
+                        {
+                            Id = CurrentTask!.Id,
+                            Alias = _alias.Text,
+                            Description = _description.Text,
+                            Deadline = _deadline.SelectedDate,
+                            Status = CurrentTask!.Status,
+                            Engineer = CurrentTask!.Engineer,
+                            DateCreated = CurrentTask!.DateCreated,
+                            ActualEndDate = _actualEndDate.SelectedDate,
+                            ActualStartDate = _actualStartDate.SelectedDate,
+                            Complexity = (BO.Enums.EngineerExperience?)Complexity_ComboBox.SelectedValue,
+                            Deliverable = (bool)_deliverable.IsChecked!,
+                            Dependencies = CurrentTask!.Dependencies,
+                            Milestone = CurrentTask!.Milestone,
+                            ProjectedStartDate = CurrentTask!.ProjectedStartDate,
+                            Remarks = _remarks.Text,
+                            RequiredEffortTime = CurrentTask!.RequiredEffortTime
+                        };
+                        s_bl?.Task.Update(updatedTask);
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Invalid time format. Please enter time in the format HH:MM:SS", "Invalid Time Format", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                 }
-                catch (Exception)
+
+                //update after the schedule was created
+                else
                 {
-                    MessageBox.Show("Invalid time format. Please enter time in the format HH:MM:SS", "Invalid Time Format", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    try
+                    {
+                        TimeSpan? timeSpan = TimeSpan.Parse(_requiredEffort.Text);
+                        BO.Task updatedTask = new BO.Task
+                        {
+                            Id = CurrentTask!.Id,
+                            Alias = _alias.Text,
+                            Description = _description.Text,
+                            Deadline = CurrentTask!.Deadline,
+                            Status = CurrentTask!.Status,
+                            Engineer = CurrentTask!.Engineer,
+                            DateCreated = CurrentTask!.DateCreated,
+                            ActualEndDate = _actualEndDate.SelectedDate,
+                            ActualStartDate = _actualStartDate.SelectedDate,
+                            Complexity = (BO.Enums.EngineerExperience?)Complexity_ComboBox.SelectedValue,
+                            Deliverable = (bool)_deliverable.IsChecked!,
+                            Dependencies = CurrentTask!.Dependencies,
+                            Milestone = CurrentTask!.Milestone,
+                            ProjectedStartDate = _projectedStart.SelectedDate,
+                            Remarks = _remarks.Text,
+                            RequiredEffortTime = timeSpan
+                        };
+                        s_bl?.Task.Update(updatedTask);
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Invalid time format. Please enter time in the format HH:MM:SS", "Invalid Time Format", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                 }
                 
             }
