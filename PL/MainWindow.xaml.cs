@@ -106,7 +106,7 @@ public partial class MainWindow : Window
             s_bl!.Config.Reset();
             s_bl.Milestone.Reset();
             dataInitialized = false;
-            MessageBox.Show("Reset complete!", "Reset Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Reset complete!", "ResetSuccessful", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 

@@ -40,6 +40,7 @@ static public class DalTest
 
             //number of total dependencies
             int totalNumDependencies = 40, dependecyCount = 0;
+            DateTime? previousDate = s_dal?.Config.GetProjectStartDate();
 
             foreach (string var_task in TaskNames)
             {
@@ -50,13 +51,13 @@ static public class DalTest
                 string _description = "This is the description for task " + var_task;
 
 
-                int hours = s_random.Next(0, 100);
+                int hours = s_random.Next(0, 72);
                 int mins = s_random.Next(0, 60);
                 int secs = s_random.Next(0, 60);
                 TimeSpan _duration = new TimeSpan(hours, mins, secs);
 
-                DateTime? _startDate = s_dal?.Config.GetProjectStartDate() + TimeSpan.FromDays(s_random.Next(0,10));     //sets projected start date less than deadline
-
+                DateTime? _startDate =  previousDate + TimeSpan.FromDays(s_random.Next(3,5));     //sets projected start date less than deadline
+                previousDate = _startDate;
                 DateTime? _deadline = _startDate + _duration;            
 
               // _deadline.AddDays(_deadlineAddition);               //sets deadline in the future
@@ -208,8 +209,8 @@ static public class DalTest
 
         private static void createStartAndEndDateForProject()
         {
-            int startDateAdd = s_random.Next(1, 365);
-            int endDateAdd = s_random.Next(29, 31); 
+            int startDateAdd = s_random.Next(0, 365);
+            int endDateAdd = s_random.Next(29, 364); 
 
             DateTime startDate = DateTime.Now.AddDays(startDateAdd);  
             DateTime endDate = DateTime.Now.AddDays(endDateAdd+startDateAdd);

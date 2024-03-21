@@ -132,7 +132,7 @@ public partial class AdminScreenWindow : Window
         }
 
         //generate schedule
-        else if (ScheduleCreated is null || (bool)ScheduleCreated )
+        else if (ScheduleCreated is null || !(bool)ScheduleCreated )
         {   
             //generates schedule and locks certain modifcations 
             try
