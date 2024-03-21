@@ -24,4 +24,11 @@ public class Enums
         Done,
         None
     }
+
+    public enum Mode
+    {
+        day,
+        week,
+        month
+    }
 }

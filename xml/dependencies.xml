@@ -1,2 +1,57 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfDependency xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDependency xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Dependency>
+    <Id>713</Id>
+    <DependentTaskId>8023</DependentTaskId>
+    <RequisiteID>8021</RequisiteID>
+    <Inactive>false</Inactive>
+  </Dependency>
+  <Dependency>
+    <Id>714</Id>
+    <DependentTaskId>8023</DependentTaskId>
+    <RequisiteID>8022</RequisiteID>
+    <Inactive>false</Inactive>
+  </Dependency>
+  <Dependency>
+    <Id>715</Id>
+    <DependentTaskId>8024</DependentTaskId>
+    <RequisiteID>8021</RequisiteID>
+    <Inactive>false</Inactive>
+  </Dependency>
+  <Dependency>
+    <Id>716</Id>
+    <DependentTaskId>8024</DependentTaskId>
+    <RequisiteID>8022</RequisiteID>
+    <Inactive>false</Inactive>
+  </Dependency>
+  <Dependency>
+    <Id>717</Id>
+    <DependentTaskId>8025</DependentTaskId>
+    <RequisiteID>8021</RequisiteID>
+    <Inactive>false</Inactive>
+  </Dependency>
+  <Dependency>
+    <Id>718</Id>
+    <DependentTaskId>8026</DependentTaskId>
+    <RequisiteID>8023</RequisiteID>
+    <Inactive>false</Inactive>
+  </Dependency>
+  <Dependency>
+    <Id>719</Id>
+    <DependentTaskId>8026</DependentTaskId>
+    <RequisiteID>8024</RequisiteID>
+    <Inactive>false</Inactive>
+  </Dependency>
+  <Dependency>
+    <Id>720</Id>
+    <DependentTaskId>8027</DependentTaskId>
+    <RequisiteID>8024</RequisiteID>
+    <Inactive>false</Inactive>
+  </Dependency>
+  <Dependency>
+    <Id>721</Id>
+    <DependentTaskId>8027</DependentTaskId>
+    <RequisiteID>8026</RequisiteID>
+    <Inactive>false</Inactive>
+  </Dependency>
+</ArrayOfDependency>

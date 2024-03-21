@@ -17,3 +17,4 @@ internal class StatusCollection : System.Collections.IEnumerable
     static readonly IEnumerable<BO.Enums.Status> s_enums = (Enum.GetValues(typeof(BO.Enums.Status)) as IEnumerable<BO.Enums.Status>)!;
     public System.Collections.IEnumerator GetEnumerator() => s_enums.GetEnumerator();
 }
+
