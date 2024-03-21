@@ -39,7 +39,7 @@
                 <!--<ComboBox x:Name="Status_ComboBox" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="False" SelectedIndex="5"/>-->
 
                 <TextBlock Text="Dependencies:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock x:Name="_dependenciesListDisplayTextBlock" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
+                <TextBox x:Name="_dependenciesListDisplayTextBlock" VerticalAlignment="Bottom"  Margin="0,0,0,5" IsEnabled="False" />
 
                 <TextBlock Text="Milestone:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBlock Text="{Binding Milestone.Id}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
