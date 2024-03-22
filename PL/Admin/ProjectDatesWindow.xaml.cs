@@ -46,9 +46,15 @@ public partial class ProjectDatesWindow : Window
                 MessageBox.Show("Project start date must be before project end date", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            if (projectStart.Day < s_bl.Clock.Day+1 && projectStart.Month < s_bl.Clock.Month && projectStart.Year <  s_bl.Clock.Year)
+            {
+                MessageBox.Show("Project start date must be after the current clock date", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             s_bl.Config.SetProjectStartDate(projectStart);
             s_bl.Config.SetProjectEndDate(projectEnd);
             MessageBox.Show("Project dates saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            Close();
         }
         else
         {

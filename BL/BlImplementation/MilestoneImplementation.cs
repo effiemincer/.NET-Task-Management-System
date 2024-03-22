@@ -274,7 +274,7 @@ internal class MilestoneImplementation : IMilestone
 
         foreach (var id in list) {
             DO.Task? task = _dal.Task.Read(id);
-            if (task == null) throw new BO.BlDoesNotExistException("task does not exist");
+            if (task == null) { continue; }// throw new BO.BlDoesNotExistException("task does not exist"); }
             res.Add(new TaskInList() {
                 Id = task.Id,
                 Description = task.Description,

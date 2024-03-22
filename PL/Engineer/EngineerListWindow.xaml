@@ -34,13 +34,6 @@
         </Grid>
         <ListView Margin="5"  Grid.Row="1" ItemsSource="{Binding EngineerList}"  MouseDoubleClick="doubleClickEvent_UpdateEngineer">
             <!-- ListView for displaying engineer list -->
-            <ListView.View>
-                <GridView>
-                    <!-- View as grid -->
-                    <GridViewColumn/>
-                    <!-- Placeholder column -->
-                </GridView>
-            </ListView.View>
         </ListView>
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="btnAddEngineer_Click"/>
         <!-- Button for adding a new engineer -->

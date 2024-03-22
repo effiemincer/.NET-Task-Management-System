@@ -52,32 +52,38 @@ namespace BlImplementation
 
             // Check if the Task can be completed within the deadline and end date
             if (boTask.Deadline < boTask.ProjectedStartDate + boTask.RequiredEffortTime && boTask.ProjectedStartDate < _bl.Config.GetProjectEndDate() && boTask.ProjectedStartDate + boTask.RequiredEffortTime < _bl.Config.GetProjectEndDate())
-                throw new BO.BlBadInputDataException("Task with ID=" + boTask.Id + " cannot be completed within the deadline");
+                throw new BO.BlBadInputDataException("Task cannot be completed within the deadline");
+
+            if (boTask.ProjectedStartDate < _bl.Clock)
+                throw new BO.BlBadInputDataException("Task cannot have a projected start date in the past");
+
+
+            if (boTask.Deadline < _bl.Clock)
+                throw new BO.BlBadInputDataException("Task cannot have a deadline in the past");
+
+            if (boTask.ProjectedStartDate < _bl.Config.GetProjectStartDate())
+                throw new BO.BlBadInputDataException("Task cannot have a projected start date before the project start date");
+
+            if (boTask.Deadline > _bl.Config.GetProjectEndDate())
+                throw new BO.BlBadInputDataException("Task cannot have a deadline after the project end date");
+
+            if (boTask.ProjectedStartDate > boTask.Deadline)
+                throw new BO.BlBadInputDataException("Task cannot have a projected start date after the deadline");
+
+            if (boTask.ProjectedStartDate > _bl.Config.GetProjectEndDate())
+                throw new BO.BlBadInputDataException("Task cannot have a projected start date after the project end date");
+
+            if (boTask.RequiredEffortTime < TimeSpan.Zero)
+                throw new BO.BlBadInputDataException("Task cannot have a negative required effort time");
+
+            if (boTask.Deadline > _bl.Config.GetProjectEndDate())
+                throw new BO.BlBadInputDataException("Task cannot have a deadline after the project end date");
+
+            if (boTask.Deadline < _bl.Config.GetProjectStartDate())
+                throw new BO.BlBadInputDataException("Task cannot have a deadline before the project start date");
 
             try
             {
-                // Check and create dependencies if any
-                if (boTask.Dependencies is not null && boTask.Dependencies.Count() > 0)
-                {
-                    foreach (BO.TaskInList dep in boTask.Dependencies)
-                    {
-                        if (_dal.Task.Read(dep.Id) is null)
-                            throw new BO.BlBadInputDataException($"Task with ID={dep.Id} does not exist");
-
-                        //if (IsCircularDep(dep.Id, boTask.Id, 40))
-                        //    throw new BO.BlBadInputDataException($"Task with ID={dep.Id} has a circular dependency");
-                    }
-
-                    foreach (BO.TaskInList dep in boTask.Dependencies)
-                    {
-                        DO.Dependency doDep = new DO.Dependency
-                        {
-                            DependentTaskId = boTask.Id,
-                            RequisiteID = dep.Id
-                        };
-                        _dal.Dependency.Create(doDep);
-                    }
-                }
 
                 // Create the Task in the data access layer
                 DO.Task doTask = new DO.Task
@@ -97,7 +103,31 @@ namespace BlImplementation
                     boTask.Deliverable,
                     boTask.Remarks
                 );
+
                 int idTask = _dal.Task.Create(doTask);
+
+                // Check and create dependencies if any
+                if (boTask.Dependencies is not null && boTask.Dependencies.Count() > 0)
+                {
+                    foreach (BO.TaskInList dep in boTask.Dependencies)
+                    {
+                        if (_dal.Task.Read(dep.Id) is null)
+                            throw new BO.BlBadInputDataException($"Task with ID={dep.Id} does not exist");
+
+                        //if (IsCircularDep(dep.Id, boTask.Id, 40))
+                        //    throw new BO.BlBadInputDataException($"Task with ID={dep.Id} has a circular dependency");
+                    }
+
+                    foreach (BO.TaskInList dep in boTask.Dependencies)
+                    {
+                        DO.Dependency doDep = new DO.Dependency
+                        {
+                            DependentTaskId = idTask,
+                            RequisiteID = dep.Id
+                        };
+                        _dal.Dependency.Create(doDep);
+                    }
+                }
                 return idTask;
             }
             catch (DO.DalAlreadyExistsException ex)

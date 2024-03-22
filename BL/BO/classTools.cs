@@ -52,9 +52,14 @@ public static class classTools
         if (task.ActualEndDate is not null)
             return BO.Enums.Status.Done;
         else if (task.ActualStartDate is null && task.ProjectedStartDate is null)
+        {
             return BO.Enums.Status.Unscheduled;
+        }
+            
         else if (task.ActualStartDate is null && task.ProjectedStartDate is not null)
+        {
             return BO.Enums.Status.Scheduled;
+        } 
         else if (task.ActualStartDate is not null && (task.ActualStartDate + task.Duration) <= task.Deadline)
             return BO.Enums.Status.OnTrack;
         else if (task.ActualStartDate is not null && (task.ActualStartDate + task.Duration) > task.Deadline)
@@ -63,6 +68,9 @@ public static class classTools
             return BO.Enums.Status.OnTrack;
         else
             throw new BlBadInputDataException("Status could not be calculated for task with ID=" + task.Id);
+
+
+
     }
 
     /// <summary>
