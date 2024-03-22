@@ -1,4 +1,5 @@
 ﻿using DalApi;
+using PL.Admin;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,8 +39,23 @@ public partial class MainWindow : Window
 
     private void Admin_Button_Click(object sender, RoutedEventArgs e)
     { 
-        new AdminScreenWindow().Show();
-        Close();
+        if (s_bl.Config.GetProjectStartDate() is null || s_bl.Config.GetProjectEndDate() is null)
+        {
+            new ProjectDatesWindow().ShowDialog();
+        } 
+
+        //checks if both start and end dates are set
+        if (s_bl.Config.GetProjectStartDate() is not null && s_bl.Config.GetProjectEndDate() is not null)
+        {
+            new AdminScreenWindow().Show();
+            Close();
+        }
+        else
+        {
+            MessageBox.Show("Please set the project start and end dates first", "DatesNotSet", MessageBoxButton.OK, MessageBoxImage.Error);
+        
+        }
+
     }
 
     private void Engineer_Button_Click(object sender, RoutedEventArgs e)
