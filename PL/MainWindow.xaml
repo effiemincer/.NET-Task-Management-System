@@ -6,23 +6,139 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
-        DataContext="{Binding CurrentTime, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
+        DataContext="{Binding CurrentTime, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
+        Background="#181735"
+        >
     <Grid>
-        <Button Content="Admin Page" HorizontalAlignment="Left" VerticalAlignment="Center" Height="39" Width="91" Click="Admin_Button_Click" Margin="100,-200,0,0"/>
-        <Label Content="Enter engineer ID below:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="350,-315,0,0"/>
-        <TextBox x:Name="engineerID" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="375,-275,0,0" Width="91" Height="20"/>
-        <Button Content="Engineer Page" HorizontalAlignment="Left" Margin="375,-200,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Engineer_Button_Click"/>
-        <Button Content="Reset All Data" HorizontalAlignment="Left" Margin="100,0,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Reset_Data_Button_Click"/>
-        <Button x:Name="initializeDataButton"  Content="Initialize Data" HorizontalAlignment="Left" Margin="375,0,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Initialize_Data_Button_Click"/>
+
+        <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Welcome to Task Tracker!" HorizontalAlignment="Center" Margin="10" FontSize="25"/>
+        <Grid HorizontalAlignment="Center" Margin="0, 25, 0 ,0">
+            <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="Admin Page" HorizontalAlignment="Left" VerticalAlignment="Center" Height="39" Width="91" Click="Admin_Button_Click" Margin="50,-200,0,0">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10">
+                            <!-- This specifies the roundness -->
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Label Foreground="LightBlue" FontFamily="Comic Sans MS" Content="Enter engineer ID below:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="350,-315,0,5"/>
+            <TextBox Background="LightBlue" x:Name="engineerID" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="375,-275,0,0" Width="91" Height="20"/>
+            <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="Engineer Page" HorizontalAlignment="Left" Margin="375,-200,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Engineer_Button_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10">
+                            <!-- This specifies the roundness -->
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="Reset All Data" HorizontalAlignment="Left" Margin="50,0,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Reset_Data_Button_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+            BorderBrush="{TemplateBinding BorderBrush}" 
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="10">
+                            <!-- This specifies the roundness -->
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" x:Name="initializeDataButton"  Content="Initialize Data" HorizontalAlignment="Left" Margin="375,0,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Initialize_Data_Button_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+            BorderBrush="{TemplateBinding BorderBrush}" 
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="10">
+                            <!-- This specifies the roundness -->
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+        </Grid>
+        
 
         <!-- Current Date and Hour-->
-        <Label Content="{Binding Date}" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="110" Margin="540,273,0,0" FontSize="12"/>
-        <Label Content="{Binding Hour}" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="110" Margin="540,325,0,0" FontSize="12"/>
-        <Button Content="+1 Day" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="54" Click="Travel_Forwards_Day_Click" Margin="650,273,0,0"/>
-        <Button Content="+1 Hour" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="54" Click="Travel_Forwards_Hour_Click" Margin="650,325,0,0"/>
-        <Button Content="-1 Day" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="55" Click="Travel_Backwards_Day_Click" Margin="704,273,0,0"/>
-        <Button Content="-1 Hour" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="55" Click="Travel_Backwards_Hour_Click" Margin="704,325,0,0"/>
-        <Button Content="Reset Time" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="128" Click="Reset_Clock_Click" Margin="523,377,0,0"/>
+        <Label Foreground="LightBlue" FontFamily="Comic Sans MS" Content="{Binding Date}" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="110" Margin="540,273,0,0" FontSize="12"/>
+        <Label Foreground="LightBlue" FontFamily="Comic Sans MS" Content="{Binding Hour}" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="110" Margin="540,325,0,0" FontSize="12"/>
+        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="+1 Day" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="54" Click="Travel_Forwards_Day_Click" Margin="650,273,0,0">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="10,0,0,0">
+                        <!-- Only top-left corner rounded -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="+1 Hour" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="54" Click="Travel_Forwards_Hour_Click" Margin="650,325,0,0">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="0,0,0,10">
+                        <!-- Only top-left corner rounded -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="-1 Day" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="55" Click="Travel_Backwards_Day_Click" Margin="704,273,0,0">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="0,10,0,0">
+                        <!-- Only top-left corner rounded -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="-1 Hour" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="55" Click="Travel_Backwards_Hour_Click" Margin="704,325,0,0">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="0,0,10,0">
+                        <!-- Only top-left corner rounded -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="Reset Time" HorizontalAlignment="Left" VerticalAlignment="Center" Height="27" Width="128" Click="Reset_Clock_Click" Margin="523,377,0,0">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}"
+CornerRadius="10">
+                        <!-- This specifies the roundness -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
 
     </Grid>
 </Window>

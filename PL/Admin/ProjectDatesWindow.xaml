@@ -5,16 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Admin"
         mc:Ignorable="d"
-        Title="ProjectDatesWindow" Height="250" Width="500">
+        Title="ProjectDatesWindow" Height="250" Width="500"
+        Background="#181735"
+        >
     <Grid>
-        <Label Content="Please set project start and end dates:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-150,0,0" FontWeight="Bold" FontSize="22" />
-        <TextBlock Text="Project Start Date:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-200,-50,0,0"/>
-        <DatePicker x:Name="_projectStartDate" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-200,0,0,0"/>
+        <Label Foreground="LightBlue" FontFamily="Comic Sans MS" Content="Please set project start and end dates:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-150,0,0" FontWeight="Bold" FontSize="22" />
+        <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Project Start Date:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-200,-50,0,0"/>
+        <DatePicker Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" x:Name="_projectStartDate" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-200,0,0,0"/>
 
-        <TextBlock Text="Project End Date:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="200,-50,0,0"/>
-        <DatePicker x:Name="_projectEndDate" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="200,0,0,0"/>
+        <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Project End Date:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="200,-50,0,0"/>
+        <DatePicker Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" x:Name="_projectEndDate" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="200,0,0,0"/>
 
-        <Button Content="Save" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" Click="_saveButton_Click" Width="60"/>
+        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="Save" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" Click="_saveButton_Click" Width="60">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+            BorderBrush="{TemplateBinding BorderBrush}" 
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="10">
+                        <!-- This specifies the roundness -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
 
     </Grid>
 </Window>

@@ -372,5 +372,19 @@ namespace BlImplementation
 
             return false;
         }
+
+        public List<int> findDependants(int id)
+        {
+            var deps = _dal.Dependency.ReadAll();
+            
+            List<int> res = new List<int>();
+            
+            foreach (var dep in deps) {
+                if (dep.RequisiteID == id)
+                    res.Add((int)dep.DependentTaskId);
+            }
+
+            return res;
+        }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BO;
+using DO;
+using Milestone;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
+using Task;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PL.Admin;
@@ -40,6 +44,7 @@ public partial class GanttChartWindow : Window
 
     private Dictionary<int, ganttTask> taskArr = new Dictionary<int, ganttTask>();
     private int[] rowcheck;
+    private Dictionary<int, bool> isRed = new Dictionary<int, bool>();
 
     private BO.Enums.Mode mode = BO.Enums.Mode.day;
 
@@ -67,8 +72,14 @@ public partial class GanttChartWindow : Window
 
         foreach(BO.TaskInList taskIn in taskList)
         {
-            taskDict[taskIn.Id] = s_bl.Task.Read(taskIn.Id);
+            BO.Task currTask = s_bl.Task.Read(taskIn.Id);
+            taskDict[taskIn.Id] = currTask;
+            if (!isRed.ContainsKey(taskIn.Id)) 
+            {
+                calcRed(currTask);
+            }
         }
+
 
         var sortedMilestones = milestoneList.OrderBy(milestone => milestone.Deadline);
 
@@ -212,6 +223,14 @@ public partial class GanttChartWindow : Window
             $"Task Name: {task.Alias}";
         rowText.TextAlignment = TextAlignment.Center;
         rowText.Padding = new Thickness(20, 5, 20, 5);
+        if (taskArr[row -1].isMilestone)
+        {
+            rowText.MouseDown += (sender, e) => RowText_MouseDown_Milestone(sender, e, task.Id);
+        }
+        else
+        {
+            rowText.MouseDown += (sender, e) => RowText_MouseDown_Task(sender, e, task.Id);
+        }
         border.Child = rowText;
          
         // Set cell position
@@ -219,6 +238,16 @@ public partial class GanttChartWindow : Window
         Grid.SetColumn(border, col);
 
         return border;
+    }
+
+    private void RowText_MouseDown_Milestone(object sender, MouseButtonEventArgs e, int id)
+    {
+        new MilestoneSingleWindow(s_bl.Milestone.Read(id), false).ShowDialog();
+    }
+
+    private void RowText_MouseDown_Task(object sender, MouseButtonEventArgs e, int id)
+    {
+        new TaskWindow(s_bl.Task.Read(id)!, false).ShowDialog();
     }
 
     private UIElement fillGanttRect(int row, int col, DateTime d)
@@ -268,9 +297,18 @@ public partial class GanttChartWindow : Window
                 // Create a LinearGradientBrush with two gradient stops
 
                 if (!taskArr[row - 1].isMilestone)
-                    rect.Fill = Brushes.Black;
+                {
+                    if (isRed[task.Id])
+                        rect.Fill = Brushes.Red;
+                    else
+                        rect.Fill = Brushes.Black;
+                }
+                    
                 else
-                    rect.Fill = Brushes.Blue;
+                {
+                  rect.Fill = Brushes.Blue;  
+                }
+                    
 
                 if (HaveSameDate((DateTime)task.Deadline, d)) rowcheck[row] = 1;
             }
@@ -300,6 +338,17 @@ public partial class GanttChartWindow : Window
         brush.StartPoint = new Point(0, 0);
         brush.EndPoint = new Point(1, 0);
 
+        Color color;
+
+        if (taskArr[row - 1].isMilestone)
+            color = Colors.Blue;
+
+        else
+        {
+            if (isRed[task.Id]) color = Colors.Red;
+            else color = Colors.Black;
+        }
+
         // 5 cases
 
         // Case 0: task start date and end date within week/month 
@@ -322,8 +371,8 @@ public partial class GanttChartWindow : Window
             brush.GradientStops.Add(new GradientStop(Colors.White, 0));
             brush.GradientStops.Add(new GradientStop(Colors.White, percentStart));
 
-            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, percentStart));
-            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, percentEnd));
+            brush.GradientStops.Add(new GradientStop(color, percentStart));
+            brush.GradientStops.Add(new GradientStop(color, percentEnd));
 
             brush.GradientStops.Add(new GradientStop(Colors.White, percentEnd));
             brush.GradientStops.Add(new GradientStop(Colors.White, 1));
@@ -348,8 +397,8 @@ public partial class GanttChartWindow : Window
             brush.GradientStops.Add(new GradientStop(Colors.White, 0));
             brush.GradientStops.Add(new GradientStop(Colors.White, percent));
 
-            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, percent));
-            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, 1));
+            brush.GradientStops.Add(new GradientStop(color, percent));
+            brush.GradientStops.Add(new GradientStop(color, 1));
         }
 
         // Case 2: task end date witin week/month
@@ -365,8 +414,8 @@ public partial class GanttChartWindow : Window
                 percent = calcPercentMonth((DateTime)task.Deadline);
             }
 
-            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, 0));
-            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, percent));
+            brush.GradientStops.Add(new GradientStop(color, 0));
+            brush.GradientStops.Add(new GradientStop(color, percent));
 
             brush.GradientStops.Add(new GradientStop(Colors.White, percent));
             brush.GradientStops.Add(new GradientStop(Colors.White, 1));
@@ -384,8 +433,8 @@ public partial class GanttChartWindow : Window
         // Case 4: task start/end not within week/month but range is 
         else
         {
-            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, 0));
-            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, 1));
+            brush.GradientStops.Add(new GradientStop(color, 0));
+            brush.GradientStops.Add(new GradientStop(color, 1));
         }
 
         return brush;
@@ -505,5 +554,30 @@ public partial class GanttChartWindow : Window
 
         return percentMonth;
      }
+
+    private void calcRed(BO.Task task)
+    {
+        if (task.Status != BO.Enums.Status.Done && task.Deadline < s_bl.Clock)
+        {
+            setRed(task.Id);
+        }
+        else
+        {
+            isRed[task.Id] = false;
+        }
+    }
+
+    private void setRed(int id)
+    {
+        isRed[id] = true;
+        List<int> deps = s_bl.Task.findDependants(id);
+        if (deps != null)
+        {
+            foreach (int depId in deps)
+            {
+                setRed(depId);
+            }
+        }
+    }
 
 }
