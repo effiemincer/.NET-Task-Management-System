@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.Pkcs;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,7 +36,7 @@ public partial class GanttChartWindow : Window
 
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
     private IEnumerable<BO.TaskInList> taskList = s_bl.Task.ReadAll();
-    private IEnumerable<BO.MilestoneInList> milestoneList = s_bl.Milestone.ReadAll();
+    private IEnumerable<BO.Milestone> milestoneList = s_bl.Milestone.ReadAllMilestone();
 
     private Dictionary<int, ganttTask> taskArr = new Dictionary<int, ganttTask>();
     private int[] rowcheck;
@@ -64,22 +65,34 @@ public partial class GanttChartWindow : Window
 
         Dictionary<int, BO.Task> taskDict = new Dictionary<int, BO.Task>();
 
-        int j = 0;
-        foreach (BO.MilestoneInList milestone in milestoneList)
+        foreach(BO.TaskInList taskIn in taskList)
         {
+            taskDict[taskIn.Id] = s_bl.Task.Read(taskIn.Id);
+        }
+
+        var sortedMilestones = milestoneList.OrderBy(milestone => milestone.Deadline);
+
+
+        int j = 0;
+        foreach (BO.Milestone milestone in sortedMilestones)
+        {
+            foreach(int id in s_bl.Milestone.getMilestoneDef(milestone.Id))
+            {
+                if (taskDict.ContainsKey(id))
+                {
+                    taskArr[j] = new ganttTask(taskDict[id], false);
+                    rowcheck[j] = 0;
+                    ++j;
+                    taskDict.Remove(id);
+                }
+            }
+
             taskArr[j] = new ganttTask(s_bl.Task.Read(milestone.Id), true);
             rowcheck[j] = 0;
             ++j;
         }
-        foreach (BO.TaskInList task in taskList)
-        {
-            taskArr[j] = new ganttTask(s_bl.Task.Read(task.Id), false);
-            rowcheck[j] = 0;
-            ++j;
-        }
 
-
-        AddDynamicRowsAndColumns(numOfTasks + 1, numOfDays + 1);
+        AddDynamicRowsAndColumns(numOfTasks + 1, numOfCols + 1);
 
     }
 
@@ -211,6 +224,39 @@ public partial class GanttChartWindow : Window
         Rectangle rect = new Rectangle();
         rect.Width = 100;
 
+        if (s_bl.Milestone.isStart(task.Id) || s_bl.Milestone.isEnd(task.Id))
+        {
+            rect.Fill = Brushes.LightBlue;
+            rect.Stroke = Brushes.Black;
+            rect.StrokeThickness = 1;
+
+            TextBlock textBlock = new TextBlock();
+            textBlock.Text = s_bl.Milestone.isStart(task.Id) ? "START" : "END";
+            textBlock.HorizontalAlignment = HorizontalAlignment.Center;
+            textBlock.VerticalAlignment = VerticalAlignment.Center;
+
+            double textLeft = (rect.Width - textBlock.ActualWidth) / 2; // Center horizontally
+            double textTop = (rect.Height - textBlock.ActualHeight) / 2; // Center vertically
+
+            // Position the TextBlock within the Canvas
+            Canvas.SetLeft(textBlock, textLeft);
+            Canvas.SetTop(textBlock, textTop);
+
+            // Create a Canvas to contain both the Rectangle and the TextBlock
+            Canvas canvas = new Canvas();
+            canvas.Children.Add(rect);
+            canvas.Children.Add(textBlock);
+
+            BindingOperations.SetBinding(rect, Rectangle.WidthProperty, new Binding("ActualWidth") { Source = canvas });
+            BindingOperations.SetBinding(rect, Rectangle.HeightProperty, new Binding("ActualHeight") { Source = canvas });
+
+            Grid.SetRow(canvas, row);
+            Grid.SetColumn(canvas, col);
+
+            return canvas;
+
+        }
+
         if (mode == BO.Enums.Mode.day)
         {
             if (task.ProjectedStartDate <= d)
@@ -296,6 +342,8 @@ public partial class GanttChartWindow : Window
         {
             brush.GradientStops.Add(new GradientStop(Colors.White, 0));
             brush.GradientStops.Add(new GradientStop(Colors.White, 1));
+
+            if (d >= task.Deadline) rowcheck[row] = 1;
         }
 
         // Case 4: task start/end not within week/month but range is 
@@ -306,12 +354,6 @@ public partial class GanttChartWindow : Window
         }
 
         return brush;
-    }
-
-    private void taskListOrdered()
-    {
-        //add functionality fr order of milestones and tasks later
-        return;
     }
 
     private string dayString( DateTime d)
@@ -379,7 +421,6 @@ public partial class GanttChartWindow : Window
             int daysToAdd = Math.Min(numOfDays - totalDays, daysInCurrentWeek); // Days to add in the current week
             totalDays += daysToAdd; // Add days to the total
             numberOfWeeks++; // Increment the number of weeks
-            startDate = startDate.AddDays(daysToAdd); // Move to the next week
         }
 
         return numberOfWeeks;
@@ -417,7 +458,7 @@ public partial class GanttChartWindow : Window
 
     private double calcPercentWeek(DateTime dateToCheck)
     {
-        return (double)(dateToCheck.DayOfWeek + 1) / 7.0;
+        return (double)(dateToCheck.DayOfWeek + 1) / 7.0; //to do not 7/7
     }
     private double calcPercentMonth(DateTime dateToCheck)
     {

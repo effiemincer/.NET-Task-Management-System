@@ -4,6 +4,7 @@ using BlApi;
 using BO;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 /// <summary>
 /// MilestoneImplementation class implements IMilestone interface and is responsible for the logic of the Milestone entity
@@ -576,6 +577,33 @@ internal class MilestoneImplementation : IMilestone
                                                       Alias = m_task.Alias,
                                                       Status = classTools.StatusCalculator(m_task),
                                                       CompletionPercentage = calcCompletionPercent(getTasks(MilestoneDict[m_task.Id].idList))
+                                                  };
+        if (filter != null)
+        {
+            milestones = milestones.Where(filter);
+        }
+
+        return milestones;
+    }
+
+    public IEnumerable<Milestone> ReadAllMilestone(Func<BO.Milestone, bool>? filter = null)
+    {
+        InitMilestoneDict();
+
+        IEnumerable<Milestone> milestones = from DO.Task m_task in _dal.Task.ReadAll(task => task.IsMilestone)
+                                                  select new BO.Milestone
+                                                  {
+                                                      Id = m_task.Id,
+                                                      Description = m_task.Description,
+                                                      Alias = m_task.Alias,
+                                                      DateCreated = m_task.DateCreated,
+                                                      Status = classTools.StatusCalculator(m_task),
+                                                      ProjectedStartDate = m_task.ProjectedStartDate,
+                                                      Deadline = m_task.Deadline,
+                                                      ActualEndDate = m_task.ActualEndDate,
+                                                      CompletionPercentage = calcCompletionPercent(getTasks(MilestoneDict[m_task.Id].milestoneDef)),
+                                                      Remarks = m_task.Notes,
+                                                      Dependencies = getTasks(MilestoneDict[m_task.Id].milestoneDef),
                                                   };
         if (filter != null)
         {
