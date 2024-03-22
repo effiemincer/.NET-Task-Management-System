@@ -1,0 +1,20 @@
+﻿<Window x:Class="PL.Admin.ProjectDatesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.Admin"
+        mc:Ignorable="d"
+        Title="ProjectDatesWindow" Height="250" Width="500">
+    <Grid>
+        <Label Content="Please set project start and end dates:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-150,0,0" FontWeight="Bold" FontSize="22" />
+        <TextBlock Text="Project Start Date:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-200,-50,0,0"/>
+        <DatePicker x:Name="_projectStartDate" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-200,0,0,0"/>
+
+        <TextBlock Text="Project End Date:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="200,-50,0,0"/>
+        <DatePicker x:Name="_projectEndDate" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="200,0,0,0"/>
+
+        <Button Content="Save" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" Click="_saveButton_Click" Width="60"/>
+
+    </Grid>
+</Window>

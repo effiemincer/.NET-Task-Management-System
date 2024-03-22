@@ -126,7 +126,7 @@ public partial class AdminScreenWindow : Window
 
         //Button button = sender as Button;
         IEnumerable<BO.TaskInList?> taskInLists = s_bl.Task.ReadAll();
-        if (taskInLists is null)
+        if (taskInLists is null || s_bl.Config.GetProjectStartDate() is null || s_bl.Config.GetProjectEndDate() is null)
         {
             MessageBox.Show("You must initialize data.", "NoIsScheduleGeneratedInXML", MessageBoxButton.OK, MessageBoxImage.Error);
         }
@@ -176,19 +176,20 @@ public partial class AdminScreenWindow : Window
 
     private void Set_Project_Dates_Click(object sender, RoutedEventArgs e)
     {
-        //if (ScheduleCreated is null)
-        //{
-        //    MessageBox.Show("You must initialize data.", "NoIsScheduleGeneratedInXML", MessageBoxButton.OK, MessageBoxImage.Error);
-        //}
-        //else if ((bool)ScheduleCreated)
-        //{
-        //    new ProjectDatesWindow().ShowDialog();
-        //}
-        //else
-        //{
-        //    MessageBox.Show("You must generate a schedule first in order to set project dates.", "NoScheduleGenerated", MessageBoxButton.OK, MessageBoxImage.Error);
-        //}
-        return;
+        MessageBoxResult res = MessageBox.Show("By changing the Project Start and End Dates you will reset all data. Are you sure you want to reset all the data?", "ResetConfirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+        if (res == MessageBoxResult.Yes)
+        {
+            _milestones.IsEnabled = false;
+            _gantt.IsEnabled = false;
+            _generate.IsEnabled = true;
+            _terminate.IsEnabled = false;
+            s_bl.Config.Reset();
+            s_bl.Milestone.Reset();
+            //dataInitialized = false;
+            MessageBox.Show("Data was reset. You may now change project start and end dates.", "ResetSuccessful", MessageBoxButton.OK, MessageBoxImage.Information);
+            new ProjectDatesWindow().ShowDialog();
+        }
+        
     }
 
     private void Travel_Forwards_Day_Click(object sender, RoutedEventArgs e)

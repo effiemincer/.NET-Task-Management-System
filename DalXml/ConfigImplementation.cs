@@ -77,7 +77,8 @@ internal class ConfigImplementation : IConfig
         else
         {
             // Handle the case where the ProjectStartDate element is missing or not in the correct format
-            throw new InvalidOperationException("Unable to retrieve or parse ProjectStartDate from the XML.");
+            //throw new InvalidOperationException("Unable to retrieve or parse ProjectStartDate from the XML.");
+            return null;
         }
     }
 
@@ -97,7 +98,8 @@ internal class ConfigImplementation : IConfig
         else
         {
             // Handle the case where the ProjectStartDate element is missing or not in the correct format
-            throw new InvalidOperationException("Unable to retrieve or parse ProjectEndDate from the XML.");
+            //throw new InvalidOperationException("Unable to retrieve or parse ProjectEndDate from the XML.");
+            return null;
         }
     }
 
