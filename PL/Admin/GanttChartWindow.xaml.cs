@@ -172,6 +172,7 @@ public partial class GanttChartWindow : Window
         Border border = new Border();
         border.BorderBrush = Brushes.Black;
         border.BorderThickness = new Thickness(1);
+        border.Width = 100;
 
         TextBlock colText = new TextBlock();
 
@@ -179,7 +180,10 @@ public partial class GanttChartWindow : Window
             colText.Text = $"{dayString(d)}";
 
         if (mode == BO.Enums.Mode.week)
+        {
             colText.Text = $"{weekString(d)}";
+            border.Width = 200;
+        }   
 
         if (mode == BO.Enums.Mode.month)
             colText.Text = $"{d.ToString("MMMM yyyy")}";
@@ -278,6 +282,7 @@ public partial class GanttChartWindow : Window
 
         else
         {
+            if (mode == BO.Enums.Mode.week) rect.Width = 200;
             rect.Fill = calcColor(task, row, col, d);
         }
         
@@ -295,10 +300,40 @@ public partial class GanttChartWindow : Window
         brush.StartPoint = new Point(0, 0);
         brush.EndPoint = new Point(1, 0);
 
-        // 4 cases
+        // 5 cases
+
+        // Case 0: task start date and end date within week/month 
+        if (isDateWithin((DateTime)task.ProjectedStartDate, d) && isDateWithin((DateTime)task.Deadline, d))
+        {
+            double percentStart, percentEnd;
+            
+            if (mode == BO.Enums.Mode.week)
+            {
+                percentStart = calcPercentWeek((DateTime)task.ProjectedStartDate);
+                percentEnd = calcPercentWeek((DateTime)task.Deadline) + (1.0/ 7.0);
+
+            }
+            else
+            {
+                percentStart = calcPercentMonth((DateTime)task.ProjectedStartDate);
+                percentEnd = calcPercentMonth((DateTime)(task.Deadline));
+            }
+
+            brush.GradientStops.Add(new GradientStop(Colors.White, 0));
+            brush.GradientStops.Add(new GradientStop(Colors.White, percentStart));
+
+            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, percentStart));
+            brush.GradientStops.Add(new GradientStop(taskArr[row - 1].isMilestone ? Colors.Blue : Colors.Black, percentEnd));
+
+            brush.GradientStops.Add(new GradientStop(Colors.White, percentEnd));
+            brush.GradientStops.Add(new GradientStop(Colors.White, 1));
+
+
+
+        }
 
         // Case 1: task start date within week/month
-        if (isDateWithin((DateTime)task.ProjectedStartDate, d))
+        else if (isDateWithin((DateTime)task.ProjectedStartDate, d))
         {
             double percent;
             if (mode == BO.Enums.Mode.week)
@@ -323,7 +358,7 @@ public partial class GanttChartWindow : Window
             double percent;
             if (mode == BO.Enums.Mode.week)
             {
-                percent = calcPercentWeek((DateTime)task.Deadline);
+                percent = calcPercentWeek((DateTime)task.Deadline) + (1.0/7.0);
             }
             else
             {
@@ -458,7 +493,7 @@ public partial class GanttChartWindow : Window
 
     private double calcPercentWeek(DateTime dateToCheck)
     {
-        return (double)(dateToCheck.DayOfWeek + 1) / 7.0; //to do not 7/7
+        return (double)(dateToCheck.DayOfWeek) / 7.0; 
     }
     private double calcPercentMonth(DateTime dateToCheck)
     {
