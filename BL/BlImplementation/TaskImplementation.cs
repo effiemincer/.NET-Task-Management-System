@@ -52,7 +52,35 @@ namespace BlImplementation
 
             // Check if the Task can be completed within the deadline and end date
             if (boTask.Deadline < boTask.ProjectedStartDate + boTask.RequiredEffortTime && boTask.ProjectedStartDate < _bl.Config.GetProjectEndDate() && boTask.ProjectedStartDate + boTask.RequiredEffortTime < _bl.Config.GetProjectEndDate())
-                throw new BO.BlBadInputDataException("Task with ID=" + boTask.Id + " cannot be completed within the deadline");
+                throw new BO.BlBadInputDataException("Task cannot be completed within the deadline");
+
+            if (boTask.ProjectedStartDate < _bl.Clock)
+                throw new BO.BlBadInputDataException("Task cannot have a projected start date in the past");
+
+
+            if (boTask.Deadline < _bl.Clock)
+                throw new BO.BlBadInputDataException("Task cannot have a deadline in the past");
+
+            if (boTask.ProjectedStartDate < _bl.Config.GetProjectStartDate())
+                throw new BO.BlBadInputDataException("Task cannot have a projected start date before the project start date");
+
+            if (boTask.Deadline > _bl.Config.GetProjectEndDate())
+                throw new BO.BlBadInputDataException("Task cannot have a deadline after the project end date");
+
+            if (boTask.ProjectedStartDate > boTask.Deadline)
+                throw new BO.BlBadInputDataException("Task cannot have a projected start date after the deadline");
+
+            if (boTask.ProjectedStartDate > _bl.Config.GetProjectEndDate())
+                throw new BO.BlBadInputDataException("Task cannot have a projected start date after the project end date");
+
+            if (boTask.RequiredEffortTime < TimeSpan.Zero)
+                throw new BO.BlBadInputDataException("Task cannot have a negative required effort time");
+
+            if (boTask.Deadline > _bl.Config.GetProjectEndDate())
+                throw new BO.BlBadInputDataException("Task cannot have a deadline after the project end date");
+
+            if (boTask.Deadline < _bl.Config.GetProjectStartDate())
+                throw new BO.BlBadInputDataException("Task cannot have a deadline before the project start date");
 
             try
             {

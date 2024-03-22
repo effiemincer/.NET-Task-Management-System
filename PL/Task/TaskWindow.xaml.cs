@@ -111,12 +111,34 @@ namespace Task
             //add
             if (isAdd)
             {
-                try { 
+                try {
                     //allow for adding dependencies
-                    s_bl?.Task.Create(CurrentTask); 
+                    //put a constructor for a task here
+                    TimeSpan? timeSpan = TimeSpan.Parse(_requiredEffort.Text);
+                    BO.Task newTask = new BO.Task
+                    {
+                        Id = 0,
+                        Alias = _alias.Text,
+                        Description = _description.Text,
+                        Deadline = _deadline.SelectedDate,
+                        Status = CurrentTask!.Status,
+                        Engineer = CurrentTask!.Engineer,
+                        DateCreated = DateTime.Now,
+                        ActualEndDate = _actualEndDate.SelectedDate,
+                        ActualStartDate = _actualStartDate.SelectedDate,
+                        Complexity = (BO.Enums.EngineerExperience?)Complexity_ComboBox.SelectedValue,
+                        Deliverable = (bool)_deliverable.IsChecked!,
+                        Dependencies = CurrentTask!.Dependencies,   //change this to the dependencies list
+                        Milestone = CurrentTask!.Milestone,
+                        ProjectedStartDate = _projectedStart.SelectedDate,
+                        Remarks = _remarks.Text,
+                        RequiredEffortTime = timeSpan
+                    };
+
+                    s_bl?.Task.Create(newTask); 
                 
                 }
-                catch(BlNullPropertyException ex)
+                catch(Exception ex)
                 {
                     MessageBox.Show(ex.Message, "BadDataInput", MessageBoxButton.OK, MessageBoxImage.Error); 
                     return;
@@ -128,9 +150,9 @@ namespace Task
             else
             {
 
-                //update with the schedule not yet created
+                //update with the schedule created
                 bool? isScheduleGenerated = s_bl.Config.GetIsScheduleGenerated();
-                if (isScheduleGenerated is null || !(bool)isScheduleGenerated)
+                if (isScheduleGenerated is not null && (bool)isScheduleGenerated)
                 {
                     try
                     {
@@ -162,7 +184,7 @@ namespace Task
                     }
                 }
 
-                //update after the schedule was created
+                //update if the schedule was not yet created
                 else
                 {
                     try
