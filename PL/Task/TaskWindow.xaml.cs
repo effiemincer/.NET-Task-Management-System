@@ -115,6 +115,28 @@ namespace Task
                     //allow for adding dependencies
                     //put a constructor for a task here
                     TimeSpan? timeSpan = TimeSpan.Parse(_requiredEffort.Text);
+
+                    //public List<BO.TaskInList>? Dependencies { get; set; }
+                    string dependencies = _dependenciesListDisplayTextBlock.Text;
+
+                    List<BO.TaskInList> dependenciesList = new List<BO.TaskInList>();
+
+                    if (dependencies != "")
+                    {
+                        string[] dependenciesArray = dependencies.Split(", ");
+                        foreach (string dependency in dependenciesArray)
+                        {
+                            if (int.TryParse(dependency, out int id))
+                            {
+                                BO.TaskInList taskInList = new BO.TaskInList
+                                {
+                                    Id = id
+                                };
+                                dependenciesList.Add(taskInList);
+                            }
+                        }
+                    }
+
                     BO.Task newTask = new BO.Task
                     {
                         Id = 0,
@@ -128,7 +150,7 @@ namespace Task
                         ActualStartDate = _actualStartDate.SelectedDate,
                         Complexity = (BO.Enums.EngineerExperience?)Complexity_ComboBox.SelectedValue,
                         Deliverable = (bool)_deliverable.IsChecked!,
-                        Dependencies = CurrentTask!.Dependencies,   //change this to the dependencies list
+                        Dependencies = dependenciesList,   //change this to the dependencies list
                         Milestone = CurrentTask!.Milestone,
                         ProjectedStartDate = _projectedStart.SelectedDate,
                         Remarks = _remarks.Text,

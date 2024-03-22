@@ -84,28 +84,6 @@ namespace BlImplementation
 
             try
             {
-                // Check and create dependencies if any
-                if (boTask.Dependencies is not null && boTask.Dependencies.Count() > 0)
-                {
-                    foreach (BO.TaskInList dep in boTask.Dependencies)
-                    {
-                        if (_dal.Task.Read(dep.Id) is null)
-                            throw new BO.BlBadInputDataException($"Task with ID={dep.Id} does not exist");
-
-                        //if (IsCircularDep(dep.Id, boTask.Id, 40))
-                        //    throw new BO.BlBadInputDataException($"Task with ID={dep.Id} has a circular dependency");
-                    }
-
-                    foreach (BO.TaskInList dep in boTask.Dependencies)
-                    {
-                        DO.Dependency doDep = new DO.Dependency
-                        {
-                            DependentTaskId = boTask.Id,
-                            RequisiteID = dep.Id
-                        };
-                        _dal.Dependency.Create(doDep);
-                    }
-                }
 
                 // Create the Task in the data access layer
                 DO.Task doTask = new DO.Task
@@ -125,7 +103,31 @@ namespace BlImplementation
                     boTask.Deliverable,
                     boTask.Remarks
                 );
+
                 int idTask = _dal.Task.Create(doTask);
+
+                // Check and create dependencies if any
+                if (boTask.Dependencies is not null && boTask.Dependencies.Count() > 0)
+                {
+                    foreach (BO.TaskInList dep in boTask.Dependencies)
+                    {
+                        if (_dal.Task.Read(dep.Id) is null)
+                            throw new BO.BlBadInputDataException($"Task with ID={dep.Id} does not exist");
+
+                        //if (IsCircularDep(dep.Id, boTask.Id, 40))
+                        //    throw new BO.BlBadInputDataException($"Task with ID={dep.Id} has a circular dependency");
+                    }
+
+                    foreach (BO.TaskInList dep in boTask.Dependencies)
+                    {
+                        DO.Dependency doDep = new DO.Dependency
+                        {
+                            DependentTaskId = idTask,
+                            RequisiteID = dep.Id
+                        };
+                        _dal.Dependency.Create(doDep);
+                    }
+                }
                 return idTask;
             }
             catch (DO.DalAlreadyExistsException ex)
