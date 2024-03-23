@@ -12,39 +12,41 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace PL;
-
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
 public partial class MainWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Static reference to the business logic layer.
-    private bool dataInitialized = false;
+    private bool dataInitialized = false; // Flag to track if data is initialized.
 
-    // Dependency property for binding the current engineer.
+    // Dependency property for binding the current time.
     public static readonly DependencyProperty TimeProperty =
         DependencyProperty.Register("CurrentTime", typeof(DateTime), typeof(MainWindow), new PropertyMetadata(null));
 
-    // Property to get or set the current engineer.
+    // Property to get or set the current time.
     public DateTime CurrentTime
     {
         get { return (DateTime)GetValue(TimeProperty); }
         set { SetValue(TimeProperty, s_bl.Clock); }
     }
+
     public MainWindow()
     {
         InitializeComponent();
-        CurrentTime = s_bl.Clock;
+        CurrentTime = s_bl.Clock; // Sets the current time.
     }
 
+    // Event handler for Admin button click.
     private void Admin_Button_Click(object sender, RoutedEventArgs e)
-    { 
+    {
+        // Opens the ProjectDatesWindow if project start and end dates are not set.
         if (s_bl.Config.GetProjectStartDate() is null || s_bl.Config.GetProjectEndDate() is null)
         {
             new ProjectDatesWindow().ShowDialog();
-        } 
+        }
 
-        //checks if both start and end dates are set
+        // Checks if both start and end dates are set and opens the AdminScreenWindow.
         if (s_bl.Config.GetProjectStartDate() is not null && s_bl.Config.GetProjectEndDate() is not null)
         {
             new AdminScreenWindow().Show();
@@ -53,15 +55,15 @@ public partial class MainWindow : Window
         else
         {
             MessageBox.Show("Please set the project start and end dates first", "DatesNotSet", MessageBoxButton.OK, MessageBoxImage.Error);
-        
         }
-
     }
 
+    // Event handler for Engineer button click.
     private void Engineer_Button_Click(object sender, RoutedEventArgs e)
     {
         try
         {
+            // Validates engineer ID input.
             if (string.IsNullOrEmpty(engineerID.Text))
             {
                 MessageBox.Show("Please enter an ID", "EngNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -72,6 +74,8 @@ public partial class MainWindow : Window
                 MessageBox.Show("ID must be a number", "EngNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+            // Retrieves engineer information and opens EngineerScreenWindow.
             BO.Engineer eng = s_bl?.Engineer.Read(int.Parse(engineerID.Text));
             if (eng == null)
             {
@@ -80,7 +84,6 @@ public partial class MainWindow : Window
             }
             else
             {
-               // MessageBox.Show("Welcome " + eng.Name + "!", "Welcome", MessageBoxButton.OK);
                 new EngineerScreenWindow(eng.Id).Show();
                 Close();
             }
@@ -90,11 +93,12 @@ public partial class MainWindow : Window
             MessageBox.Show("Engineer not found", "EngNotFound", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             return;
         }
-    
     }
 
+    // Event handler for Initialize Data button click.
     private void Initialize_Data_Button_Click(object sender, RoutedEventArgs e)
     {
+        // Initializes data if not already initialized.
         if (!dataInitialized)
         {
             DalTest.DalTest.Initialization.Do();
@@ -106,17 +110,14 @@ public partial class MainWindow : Window
             MessageBox.Show("Data was already initialized.\n" +
                 "Reset all data in order to initialize it again.", "DataAlreadyInitialized", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
-        // Cast the sender to Button to access its properties
-        //Button button = sender as Button;
-
-        //// Set the visibility of the button to Collapsed
-        //button.Visibility = Visibility.Collapsed;
     }
 
+    // Event handler for Reset Data button click.
     private void Reset_Data_Button_Click(object sender, RoutedEventArgs e)
     {
         MessageBoxResult res = MessageBox.Show("Are you sure you want to reset all the data?", "Reset Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-        
+
+        // Resets all data if confirmed by the user.
         if (res == MessageBoxResult.Yes)
         {
             s_bl!.Config.Reset();
@@ -126,6 +127,7 @@ public partial class MainWindow : Window
         }
     }
 
+    // Event handlers for time travel buttons.
     private void Travel_Forwards_Day_Click(object sender, RoutedEventArgs e)
     {
         s_bl.travelForwardsDay();
@@ -150,6 +152,7 @@ public partial class MainWindow : Window
         CurrentTime = s_bl.Clock;
     }
 
+    // Event handler for resetting the clock.
     private void Reset_Clock_Click(object sender, RoutedEventArgs e)
     {
         s_bl.resetClock();

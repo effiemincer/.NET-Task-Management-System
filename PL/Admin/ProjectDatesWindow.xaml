@@ -9,21 +9,28 @@
         Background="#181735"
         >
     <Grid>
+        <!-- Label for prompting the user to set project start and end dates -->
         <Label Foreground="LightBlue" FontFamily="Comic Sans MS" Content="Please set project start and end dates:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-150,0,0" FontWeight="Bold" FontSize="22" />
+
+        <!-- TextBlock and DatePicker for selecting the project start date -->
         <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Project Start Date:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-200,-50,0,0"/>
         <DatePicker Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" x:Name="_projectStartDate" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-200,0,0,0"/>
 
+        <!-- TextBlock and DatePicker for selecting the project end date -->
         <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Project End Date:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="200,-50,0,0"/>
         <DatePicker Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" x:Name="_projectEndDate" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="200,0,0,0"/>
 
+        <!-- Button for saving the project dates -->
         <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="Save" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" Click="_saveButton_Click" Width="60">
+            <!-- Templating the button to customize appearance -->
             <Button.Template>
                 <ControlTemplate TargetType="Button">
+                    <!-- Border for button with specified roundness -->
                     <Border Background="{TemplateBinding Background}" 
             BorderBrush="{TemplateBinding BorderBrush}" 
             BorderThickness="{TemplateBinding BorderThickness}"
             CornerRadius="10">
-                        <!-- This specifies the roundness -->
+                        <!-- Content presenter to display button content -->
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>

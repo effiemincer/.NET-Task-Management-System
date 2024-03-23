@@ -70,42 +70,56 @@ public partial class MilestoneSingleWindow : Window
         Close(); // Closes the window.
     }
 
+    /// <summary>
+    /// Property to display the list of requisites for the current milestone.
+    /// </summary>
     public string RequisitesListDisplay
     {
         get
         {
-            StringBuilder sb = new StringBuilder();
-            List<int> requisiteIds = s_bl.Milestone.getMilestoneIdList(CurrentMilestone.Id);
-            int count = requisiteIds.Count;
+            StringBuilder sb = new StringBuilder(); // Initializes a StringBuilder to build the display string.
+            List<int> requisiteIds = s_bl.Milestone.getMilestoneIdList(CurrentMilestone.Id); // Retrieves the list of requisite IDs for the current milestone.
+            int count = requisiteIds.Count; // Gets the count of requisites.
+
+            // Iterates through each requisite ID.
             foreach (int ids in requisiteIds)
             {
-                sb.Append(ids);
-                if (--count > 0)
-                    sb.Append(", ");
+                sb.Append(ids); // Appends the ID to the StringBuilder.
+                if (--count > 0) // Checks if there are more requisites remaining.
+                    sb.Append(", "); // Appends a comma if there are more requisites.
+                if (count % 6 == 0) // Inserts a line break every 6th dependent for better readability.
+                {
+                    sb.Append("\n"); // Appends a line break.
+                }
             }
-            return sb.ToString();
-
+            return sb.ToString(); // Returns the string representation of the requisites list.
         }
     }
+
+    /// <summary>
+    /// Property to display the list of dependents for the current milestone.
+    /// </summary>
     public string DependentsListDisplay
     {
         get
         {
-            StringBuilder sb = new StringBuilder();
-            List<int> dependentIds = s_bl.Milestone.getMilestoneDef(CurrentMilestone.Id);
-            int count = dependentIds.Count;
+            StringBuilder sb = new StringBuilder(); // Initializes a StringBuilder to build the display string.
+            List<int> dependentIds = s_bl.Milestone.getMilestoneDef(CurrentMilestone.Id); // Retrieves the list of dependent IDs for the current milestone.
+            int count = dependentIds.Count; // Gets the count of dependents.
+
+            // Iterates through each dependent ID.
             foreach (int ids in dependentIds)
             {
-                sb.Append(ids);
-                if (--count > 0)
-                    sb.Append(", ");
-                if (count%6 == 0)
+                sb.Append(ids); // Appends the ID to the StringBuilder.
+                if (--count > 0) // Checks if there are more dependents remaining.
+                    sb.Append(", "); // Appends a comma if there are more dependents.
+                if (count % 6 == 0) // Inserts a line break every 6th dependent for better readability.
                 {
-                    sb.Append("\n");
+                    sb.Append("\n"); // Appends a line break.
                 }
             }
-            return sb.ToString();
-
+            return sb.ToString(); // Returns the string representation of the dependents list.
         }
     }
+
 }

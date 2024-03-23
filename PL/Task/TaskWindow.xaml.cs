@@ -284,22 +284,28 @@ public partial class TaskWindow : Window
 
     }
 
+    /// <summary>
+    /// Property to display the list of dependencies for the current task.
+    /// </summary>
     private string DependenciesListDisplay
     {
         get
         {
-            StringBuilder sb = new StringBuilder();
-            if (CurrentTask.Dependencies is null)
-                return "";
-            int count = CurrentTask.Dependencies.Count;
+            StringBuilder sb = new StringBuilder(); // Initializes a StringBuilder to build the display string.
+            if (CurrentTask.Dependencies is null) // Checks if the list of dependencies is null.
+                return ""; // Returns an empty string if there are no dependencies.
+
+            int count = CurrentTask.Dependencies.Count; // Gets the count of dependencies.
+
+            // Iterates through each dependent task.
             foreach (BO.TaskInList task in CurrentTask.Dependencies)
             {
-                sb.Append(task.Id.ToString());
-                if (--count > 0)
-                    sb.Append(", ");
+                sb.Append(task.Id.ToString()); // Appends the task ID to the StringBuilder.
+                if (--count > 0) // Checks if there are more dependencies remaining.
+                    sb.Append(", "); // Appends a comma if there are more dependencies.
             }
-            return sb.ToString();
-
+            return sb.ToString(); // Returns the string representation of the dependencies list.
         }
     }
+
 }
