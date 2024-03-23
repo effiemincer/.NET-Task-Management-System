@@ -427,24 +427,33 @@ internal class MilestoneImplementation : IMilestone
     {
         InitMilestoneDict();
 
-        TimeSpan? projectTimeSpan = TimeSpan.Zero;
+        DateTime earlyDate = DateTime.MaxValue;
+        DateTime lateDate = DateTime.MinValue;
+
         foreach (var milestone in MilestoneDict)
         {
             var taskMilestone = _dal.Task.Read(milestone.Key);
-            if (taskMilestone.Duration == null && !MilestoneDict[taskMilestone.Id].isStart) throw new BO.BlNullPropertyException("one of the milestone durations is null");
+
+            if (taskMilestone.Duration == null && !MilestoneDict[taskMilestone.Id].isStart) throw new BO.BlNullPropertyException("One of the milestones has no duration");
+
+            if (taskMilestone!.ProjectedStartDate == null && !MilestoneDict[taskMilestone.Id].isStart) throw new BO.BlNullPropertyException("One of the milestones has no Projected Start Date");
+            if (taskMilestone.Deadline == null && !MilestoneDict[taskMilestone.Id].isStart) throw new BO.BlNullPropertyException("One of the milestone has no Projected End Date");
 
             if (taskMilestone.Duration > taskMilestone.Deadline - taskMilestone.ProjectedStartDate && !MilestoneDict[taskMilestone.Id].isStart)
                 throw new BO.BlBadInputDataException($"Milestone with id={taskMilestone.Id} has an impossible duration!");
 
-            if (!MilestoneDict[taskMilestone.Id].isStart)
-            {
-                projectTimeSpan += taskMilestone.Duration;
-            }
+
+            if (!MilestoneDict[taskMilestone.Id].isStart && !MilestoneDict[taskMilestone.Id].isEnd && taskMilestone.ProjectedStartDate < earlyDate )
+                earlyDate = (DateTime)taskMilestone.ProjectedStartDate;
+
+            if (!MilestoneDict[taskMilestone.Id].isStart && !MilestoneDict[taskMilestone.Id].isEnd && taskMilestone.Deadline > lateDate)
+                lateDate = (DateTime)taskMilestone.Deadline;
         }
-        if (projectTimeSpan > endDate - startDate)
+
+        if (lateDate > endDate || earlyDate < startDate)
             throw new BO.BlBadInputDataException("Project cannot fit within the given schedule!");
 
-        ProjectDuration = (TimeSpan)projectTimeSpan;
+        ProjectDuration = endDate - startDate;
 
         return "all milestones and the project fit within the schedule!";
     }

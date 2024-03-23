@@ -48,7 +48,7 @@
                 <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Required Effort Time:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBox Background="LightBlue" FontFamily="Comic Sans MS" x:Name="_requiredEffort" Text="{Binding RequiredEffortTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
 
-                <TextBlock Text="Complexity:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS"  Text="Complexity:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <ComboBox Background="LightBlue" FontFamily="Comic Sans MS" x:Name="Complexity_ComboBox" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Complexity, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5">
                     <ComboBox.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightBlue" />

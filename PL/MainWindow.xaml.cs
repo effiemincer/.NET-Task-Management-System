@@ -122,6 +122,7 @@ public partial class MainWindow : Window
             DalTest.DalTest.Initialization.Do();
             MessageBox.Show("Data initialized", "Data initialized", MessageBoxButton.OK, MessageBoxImage.Information);
             dataInitialized = true;
+            s_bl.Milestone.Reset();
         }
         else
         {

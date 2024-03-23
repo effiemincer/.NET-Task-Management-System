@@ -40,20 +40,20 @@ public partial class AdminScreenWindow : Window
         ScheduleCreated = s_bl.Config.GetIsScheduleGenerated();
         if (ScheduleCreated is null)
         {
-            _milestones.IsEnabled = false;
-            _gantt.IsEnabled = false;
-            _generate.IsEnabled = true;
-            _terminate.IsEnabled = false;
+            _milestones.Visibility = Visibility.Collapsed;
+            _gantt.Visibility = Visibility.Collapsed;
+            _generate.Visibility = Visibility.Visible;
+            _terminate.Visibility = Visibility.Collapsed;
         }
         else if (!(bool)ScheduleCreated)
         {
-            _generate.IsEnabled = true;
-            _terminate.IsEnabled = false;
+            _generate.Visibility = Visibility.Visible;
+            _terminate.Visibility = Visibility.Collapsed;
         }
         else
         {
-            _generate.IsEnabled = false;
-            _terminate.IsEnabled = true;
+            _generate.Visibility = Visibility.Collapsed;
+            _terminate.Visibility = Visibility.Visible;
         }
     }
 
@@ -154,10 +154,10 @@ public partial class AdminScreenWindow : Window
                 s_bl.Milestone.CreateSchedule((DateTime)s_bl.Config.GetProjectStartDate()!, (DateTime)s_bl.Config.GetProjectEndDate()!);
                 ScheduleCreated = true;
                 s_bl.Config.SetIsScheduleGenerated(true);
-                _generate.IsEnabled = false;
-                _terminate.IsEnabled = true;
-                _gantt.IsEnabled = true;
-                _milestones.IsEnabled = true;
+                _generate.Visibility = Visibility.Collapsed;
+                _terminate.Visibility = Visibility.Visible;
+                _gantt.Visibility = Visibility.Visible;
+                _milestones.Visibility = Visibility.Visible;
 
                 MessageBox.Show("Schedule has been generated.", "GenerationSuccess", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -171,10 +171,10 @@ public partial class AdminScreenWindow : Window
             // Terminate program was pressed.
             ScheduleCreated = false;
             s_bl.Config.SetIsScheduleGenerated(false);
-            _generate.IsEnabled = true;
-            _terminate.IsEnabled = false;
-            _gantt.IsEnabled = false;
-            _milestones.IsEnabled = false;
+            _generate.Visibility = Visibility.Visible;
+            _terminate.Visibility = Visibility.Collapsed;
+            _gantt.Visibility = Visibility.Collapsed;
+            _milestones.Visibility = Visibility.Collapsed;
 
             s_bl.Milestone.Reset();
 
@@ -192,10 +192,10 @@ public partial class AdminScreenWindow : Window
         MessageBoxResult res = MessageBox.Show("By changing the Project Start and End Dates you will reset all data. Are you sure you want to reset all the data?", "ResetConfirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
         if (res == MessageBoxResult.Yes)
         {
-            _milestones.IsEnabled = false;
-            _gantt.IsEnabled = false;
-            _generate.IsEnabled = true;
-            _terminate.IsEnabled = false;
+            _milestones.Visibility = Visibility.Collapsed;
+            _gantt.Visibility = Visibility.Collapsed;
+            _generate.Visibility = Visibility.Visible;
+            _terminate.Visibility = Visibility.Collapsed;
             s_bl.Config.Reset();
             s_bl.Milestone.Reset();
             // DataInitialized = false;

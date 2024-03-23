@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
-  <NextTaskId>8036</NextTaskId>
-  <NextDependencyId>1827</NextDependencyId>
-  <ProjectStartDate>2024-03-28T17:02:03.5386353+02:00</ProjectStartDate>
-  <ProjectEndDate>2024-09-09T17:02:03.5386405+03:00</ProjectEndDate>
+  <NextTaskId>8037</NextTaskId>
+  <NextDependencyId>2282</NextDependencyId>
+  <ProjectStartDate>2024-03-25T22:54:17.8028499+02:00</ProjectStartDate>
+  <ProjectEndDate>2024-07-14T22:54:17.8028555+03:00</ProjectEndDate>
   <IsScheduleGenerated>true</IsScheduleGenerated>
 </config>
