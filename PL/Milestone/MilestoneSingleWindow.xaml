@@ -67,6 +67,9 @@
 
                 <TextBlock Text="Tasks that this milestone depends on:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBlock x:Name="_dependenciesListDisplayTextBlock" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+
+                <TextBlock Text="Tasks that depend on this milestone:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="_requisitesListDisplayTextBlock" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
                 <!-- Textbox for displaying Dependencies -->
 
             </UniformGrid>
