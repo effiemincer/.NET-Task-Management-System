@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Milestone"
         mc:Ignorable="d"
         Title="MilestoneSingleWindow" Height="525" Width="800"
-        DataContext="{Binding CurrentMilestone, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
+        DataContext="{Binding CurrentMilestone, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
+        Background="#181735">
     <!-- Sets the data context to CurrentMilestone for two-way binding. -->
     <Grid>
 
@@ -20,63 +21,81 @@
         </Grid.RowDefinitions>
 
         <!-- Grid with a Border -->
-        <Border BorderBrush="Black" Grid.Row="1" BorderThickness="2">
+        <Border BorderBrush="LightBlue" Grid.Row="1" BorderThickness="2">
             <UniformGrid Rows="14" Columns="2" Width="450">
                 <!-- Uniform grid for arranging content -->
 
                 <!-- Each row represents a data field -->
-                <TextBlock Text="Id:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Path=Id, Mode=OneTime}"  VerticalAlignment="Bottom"  Margin="0,0,0,5" />
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Id:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="{Binding Path=Id, Mode=OneTime}"  VerticalAlignment="Bottom"  Margin="0,0,0,5" />
                 <!-- Textbox for displaying Id, one-time binding and disabled for editing -->
 
-                <TextBlock Text="Alias:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox x:Name="_alias" Text="{Binding Path=Alias, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Alias:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="_alias" Text="{Binding Path=Alias, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
                 <!-- Textbox for displaying Alias -->
 
-                <TextBlock Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox x:Name="_description" Text="{Binding Path=Description, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="_description" Text="{Binding Path=Description, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
                 <!-- Textbox for displaying Description -->
 
-                <TextBlock Text="Date Created:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Path=DateCreated, Mode=OneTime, StringFormat='dd/MM/yy'}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Date Created:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="{Binding Path=DateCreated, Mode=OneTime, StringFormat='dd/MM/yy'}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
                 <!-- DatePicker for displaying DateCreated -->
 
-                <TextBlock Text="Status:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <ComboBox x:Name="Status_ComboBox" SelectionChanged="cbMilestoneStatus_SelectionChanged" SelectedValue="{Binding Path=Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Status:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <ComboBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="Status_ComboBox" SelectionChanged="cbMilestoneStatus_SelectionChanged" SelectedValue="{Binding Path=Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Left" IsEditable="True" SelectedIndex="5" Width="225">
+                    <ComboBox.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightBlue" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="LightBlue" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
+                    </ComboBox.Resources>
+                </ComboBox>
                 <!-- ComboBox for selecting Status -->
 
-                <TextBlock Text="Projected Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker Text="{Binding Path=ProjectedStartDate, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Projected Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <DatePicker Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" Text="{Binding Path=ProjectedStartDate, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
                 <!-- DatePicker for displaying ProjectedStartDate -->
 
-                <TextBlock Text="Deadline:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Path=Deadline, Mode=OneTime, StringFormat='dd/MM/yy'}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Deadline:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="{Binding Path=Deadline, Mode=OneTime, StringFormat='dd/MM/yy'}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
                 <!-- TextBlock for displaying Deadline -->
 
-                <TextBlock Text="Actual End Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Path=ActualEndDate, Mode=OneTime, StringFormat='dd/MM/yy'}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Actual End Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="{Binding Path=ActualEndDate, Mode=OneTime, StringFormat='dd/MM/yy'}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
                 <!-- TextBlock for displaying ActualEndDate -->
 
-                <TextBlock Text="Completion Percentage:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Path=CompletionPercentage, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Completion Percentage:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="{Binding Path=CompletionPercentage, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
                 <!-- Textbox for displaying CompletionPercentage -->
 
-                <TextBlock Text="Remarks:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox x:Name="_remarks" Text="{Binding Path=Remarks, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Remarks:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="_remarks" Text="{Binding Path=Remarks, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
                 <!-- Textbox for displaying Remarks -->
 
-                <TextBlock Text="Tasks that this milestone depends on:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,-30"/>
-                <TextBlock x:Name="_dependenciesListDisplayTextBlock" VerticalAlignment="Center"  Margin="0,0,0,-30"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Tasks that this milestone depends on:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" x:Name="_dependenciesListDisplayTextBlock" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
 
-                <TextBlock Text="Tasks that depend on this milestone:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,-45"/>
-                <TextBlock x:Name="_requisitesListDisplayTextBlock" VerticalAlignment="Center"  Margin="0,0,0,-45"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Tasks that depend on this milestone:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" x:Name="_requisitesListDisplayTextBlock" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
                 <!-- Textbox for displaying Dependencies -->
 
             </UniformGrid>
 
         </Border>
-        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Milestone Window" VerticalAlignment="Center" Height="20" Width="150" FontSize="16" FontWeight="Bold"/>
-        <Button Grid.Row="2" Content="Update" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Padding="5" Click="btnUpdate_Milestone" Height="43" Width="82" />
+        <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Milestone Window" VerticalAlignment="Center" Height="20" Width="150" FontSize="16" FontWeight="Bold"/>
+        <Button Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" Grid.Row="2" Content="Update" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Padding="5" Click="btnUpdate_Milestone" Height="43" Width="82" >
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}"
+CornerRadius="10">
+                        <!-- This specifies the roundness -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
         <!-- Header for the window -->
     </Grid>
 </Window>

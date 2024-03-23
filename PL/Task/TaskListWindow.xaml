@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:Task"
         mc:Ignorable="d"
         Title="TaskListWindow" Height="600" Width="800"
-        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+        Background="LightBlue"
+        >
     <!-- Sets the data context to itself for binding purposes. -->
     <Grid Margin="0,0,0,-16">
         <!-- Main grid layout -->
@@ -21,13 +23,30 @@
         <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
             <!-- Subgrid for filter controls -->
             <StackPanel Orientation="Horizontal" Margin="0,0,5,0">
-                <Label Content="Filter:" Margin="25,10,5,0"/>
-                <ComboBox x:Name="cmbFilterCategory1" Width="345" Margin="0,0,25,0" SelectionChanged="FilterSelectionChanged">
+                <Label Foreground="#181735" FontFamily="Comic Sans MS" Content="Filter:" Margin="25,10,5,0"/>
+                <ComboBox Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" x:Name="cmbFilterCategory1" Width="345" Margin="0,0,25,0" SelectionChanged="FilterSelectionChanged">
+                    <ComboBox.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightBlue" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="LightBlue" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
+                    </ComboBox.Resources>
                     <ComboBoxItem Content="Status"/>
                     <ComboBoxItem Content="Difficulty"/>
                 </ComboBox>
-                <ComboBox x:Name="cmbFilterCategory2" Width="345" Visibility="Visible" Margin="0,0,25,0" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=TaskStatus, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}"/>
-                <ComboBox x:Name="cmbFilterCategory3" Width="345" Visibility="Collapsed" Margin="0,0,25,0" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=TaskDifficulty, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}"/>
+                <ComboBox Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" x:Name="cmbFilterCategory2" Width="345" Visibility="Visible" Margin="0,0,25,0" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=TaskStatus, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}">
+                    <ComboBox.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightBlue" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="LightBlue" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
+                    </ComboBox.Resources>
+                </ComboBox>
+                <ComboBox Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" x:Name="cmbFilterCategory3" Width="345" Visibility="Collapsed" Margin="0,0,25,0" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=TaskDifficulty, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}">
+                    <ComboBox.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightBlue" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="LightBlue" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
+                    </ComboBox.Resources>
+                </ComboBox>
                 <!-- Add more categories as needed -->
 
 
@@ -36,10 +55,22 @@
             <!-- Placeholder label -->
             <!--<ComboBox  SelectionChanged="cbTaskStatus_SelectionChanged" "  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/> -->
         </Grid>
-        <ListView Margin="5,5,5,0"  Grid.Row="1" ItemsSource="{Binding TaskList}" MouseDoubleClick="doubleClickEvent_UpdateTask">
+        <ListView FontFamily="Comic Sans MS" Background="LightBlue" Foreground="#181735" Margin="5,5,5,0"  Grid.Row="1" ItemsSource="{Binding TaskList}" MouseDoubleClick="doubleClickEvent_UpdateTask">
             <!-- ListView for displaying task list -->
         </ListView>
-        <Button x:Name="addButton" Content="Add" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Height="35" Width="70" Click="btnAddTask_Click" Margin="0,15,0,0" />
+        <Button Background="#181735" Foreground="LightBlue" FontFamily="Comic Sans MS" x:Name="addButton" Content="Add" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Height="35" Width="70" Click="btnAddTask_Click" Margin="0,15,0,0">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}"
+CornerRadius="10">
+                        <!-- This specifies the roundness -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
         <!-- Button for adding a new task -->
     </Grid>
 </Window>

@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:Milestone"
         mc:Ignorable="d"
         Title="MilestoneListWindow" Height="500" Width="800"
-        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+        Background="LightBlue"
+        >
     <!-- Sets the data context to itself for binding purposes. -->
     <Grid Margin="0,0,0,-16">
         <!-- Main grid layout -->
@@ -24,15 +26,23 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Foreground="#181735" FontFamily="Comic Sans MS" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <!-- Placeholder label -->
             <ComboBox 
                 SelectionChanged="cbMilestoneStatus_SelectionChanged" 
                 SelectedValue="{Binding Path=MilestoneStatus, Mode=TwoWay}"
                 ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}"
-                Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS">
+
+                <ComboBox.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightBlue" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="LightBlue" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
+                </ComboBox.Resources>
+            </ComboBox>
         </Grid>
-        <ListView Margin="5"  Grid.Row="1" ItemsSource="{Binding MilestoneList}" MouseDoubleClick="doubleClickEvent_UpdateMilestone">
+        <ListView FontFamily="Comic Sans MS" Background="LightBlue" Foreground="#181735" Margin="5"  Grid.Row="1" ItemsSource="{Binding MilestoneList}" MouseDoubleClick="doubleClickEvent_UpdateMilestone">
             <!-- ListView for displaying milestone list -->
 
         </ListView>
