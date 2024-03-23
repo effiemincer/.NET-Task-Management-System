@@ -27,14 +27,18 @@ public partial class MilestoneListWindow : Window
     // Property to get or set the milestone status.
     public BO.Enums.Status MilestoneStatus { get; set; } = BO.Enums.Status.None;
 
-    // Constructor for MilestoneListWindow class.
+    /// <summary>
+    /// MilestoneListWindow constructor.
+    /// </summary>
     public MilestoneListWindow()
     {
         MilestoneList = s_bl?.Milestone.ReadAll(); // Reads all milestones from the data source.
         InitializeComponent();
     }
 
-    // Property to bind a list of milestones to a UI element.
+    /// <summary>
+    /// MilestoneList dependency property.
+    /// </summary>
     public IEnumerable<BO.MilestoneInList> MilestoneList
     {
         get { return (IEnumerable<BO.MilestoneInList>)GetValue(MilestoneListProperty); }
@@ -49,14 +53,22 @@ public partial class MilestoneListWindow : Window
             new PropertyMetadata(null)
         );
 
-    // Event handler for selection change in milestone status combo box.
+    /// <summary>
+    /// Event handler for the AddMilestone button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void cbMilestoneStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         // Updates the MilestoneList based on selected milestone status.
         MilestoneList = (MilestoneStatus == BO.Enums.Status.None) ? s_bl?.Milestone.ReadAll()! : s_bl?.Milestone.ReadAll(item => item.Status == MilestoneStatus)!;
     }
 
-    // Event handler for double-click event on the milestone list to view details of a milestone.
+   /// <summary>
+   /// Event handler for the AddMilestone button click event.
+   /// </summary>
+   /// <param name="sender"></param>
+   /// <param name="e"></param>
     private void doubleClickEvent_UpdateMilestone(object sender, MouseButtonEventArgs e)
     {
         // Gets the selected milestone and opens a new MilestoneSingleWindow to view its details.

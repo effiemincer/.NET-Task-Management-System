@@ -29,7 +29,9 @@ public partial class EngineerListWindow : Window
     // Property to get or set the engineer's experience level.
     public BO.Enums.EngineerExperience EngineerExperience { get; set; } = BO.Enums.EngineerExperience.None;
 
-    // Constructor for EngineerListWindow class.
+    /// <summary>
+    /// EngineerListWindow constructor
+    /// </summary>
     public EngineerListWindow()
     {
         // Reads all engineers from the data source and initializes the window.
@@ -37,7 +39,9 @@ public partial class EngineerListWindow : Window
         EngineerList = s_bl?.Engineer.ReadAll();
     }
 
-    // Property to bind a list of engineers to a UI element.
+    /// <summary>
+    /// EngineerList property to get or set the list of engineers.
+    /// </summary>
     public IEnumerable<BO.Engineer> EngineerList
     {
         get { return (IEnumerable<BO.Engineer>)GetValue(EngineerListProperty); }
@@ -52,7 +56,11 @@ public partial class EngineerListWindow : Window
             new PropertyMetadata(null)
         );
 
-    // Event handler for selection change in engineer experience combo box.
+    /// <summary>
+    /// Event handler for the EngineerExperience selection changed event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void cbEngineerExperience_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         // Updates the EngineerList based on selected experience level.
@@ -60,7 +68,11 @@ public partial class EngineerListWindow : Window
         return;
     }
 
-    // Event handler for adding a new engineer.
+    /// <summary>
+    /// Event handler for the Add Engineer button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void btnAddEngineer_Click(object sender, RoutedEventArgs e)
     {
         // Closes the current window and opens a new EngineerWindow to add a new engineer.
@@ -69,7 +81,11 @@ public partial class EngineerListWindow : Window
         EngineerList = s_bl?.Engineer.ReadAll();
     }
 
-    // Event handler for double-click event on the engineer list to update an engineer's details.
+    /// <summary>
+    /// Event handler for the Delete Engineer button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void doubleClickEvent_UpdateEngineer(object sender, MouseButtonEventArgs e)
     {
         // Gets the selected engineer and opens a new EngineerWindow to update their details.

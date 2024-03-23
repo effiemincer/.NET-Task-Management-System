@@ -44,7 +44,10 @@ public partial class TaskListWindow : Window
     // Property to get or set the task's status.
     public BO.Enums.EngineerExperience TaskDifficulty { get; set; } = BO.Enums.EngineerExperience.None;
 
-    // Constructor for TaskListWindow class.
+    /// <summary>
+    /// Constructor for the TaskListWindow class.
+    /// </summary>
+    /// <param name="isAdmin"></param>
     public TaskListWindow(bool isAdmin)
     {
         TaskList = s_bl?.Task.ReadAll(); // Reads all tasks from the data source.
@@ -62,8 +65,12 @@ public partial class TaskListWindow : Window
         }
     }
 
-    // Property to bind a list of tasks to a UI element.
-
+    
+    /// <summary>
+    /// Event handler for the AddTask button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void FilterSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var selection = cmbFilterCategory1.SelectedValue;
@@ -86,7 +93,11 @@ public partial class TaskListWindow : Window
     }
 
 
-    // Event handler for selection change in task status combo box.
+   /// <summary>
+   /// Event handler for the AddTask button click event.
+   /// </summary>
+   /// <param name="sender"></param>
+   /// <param name="e"></param>
     private void cbTaskStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         // Updates the TaskList based on selected status.
@@ -107,7 +118,11 @@ public partial class TaskListWindow : Window
         
     }
 
-    // Event handler for double-click event on the task list to update a task's details.
+    /// <summary>
+    /// Event handler for the AddTask button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void doubleClickEvent_UpdateTask(object sender, MouseButtonEventArgs e)
     {
         // Gets the selected task and opens a new TaskWindow to update its details.
@@ -119,7 +134,11 @@ public partial class TaskListWindow : Window
         TaskList = s_bl?.Task.ReadAll()!;
     }
 
-    // Event handler for add task button click.
+    /// <summary>
+    /// Event handler for the AddTask button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void btnAddTask_Click(object sender, RoutedEventArgs e)
     {
         // Closes the current window and opens a new TaskWindow to add a new task.

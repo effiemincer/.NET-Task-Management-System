@@ -22,12 +22,6 @@ namespace Task;
 /// </summary>
 public partial class TaskWindow : Window
 {
-    //public static readonly DependencyProperty TaskListProperty =
-    //    DependencyProperty.Register("TaskList",
-    //        typeof(IEnumerable<BO.TaskInList>),
-    //        typeof(TaskListWindow),
-    //        new PropertyMetadata(null)
-    //    );
 
     // Dependency property to bind a Task object
     public static readonly DependencyProperty TaskProperty =
@@ -48,7 +42,11 @@ public partial class TaskWindow : Window
 
     private bool? scheduleCreated = s_bl.Config.GetIsScheduleGenerated();
 
-    // Constructor
+    /// <summary>
+    /// Constructor for the TaskWindow class.
+    /// </summary>
+    /// <param name="task_"></param>
+    /// <param name="isAdd_"></param>
     public TaskWindow(BO.Task task_, bool isAdd_ = false)
     {
         InitializeComponent();
@@ -97,13 +95,21 @@ public partial class TaskWindow : Window
 
     }
 
-    // TextChanged event handler for TextBox (currently not used)
+    /// <summary>
+    /// Event handler for the AddTask button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         return;
     }
 
-    // Click event handler for Add/Update button
+   /// <summary>
+   /// Event handler for the AddTask button click event.
+   /// </summary>
+   /// <param name="sender"></param>
+   /// <param name="e"></param>
     private void btnAddUpdate_Click(object sender, RoutedEventArgs e)
     {
         // Add or update task based on isAdd flag
@@ -244,7 +250,11 @@ public partial class TaskWindow : Window
         Close();
     }
 
-    // SelectionChanged event handler for Task Status ComboBox (currently not used)
+    /// <summary>
+    /// Event handler for the AddTask button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void cbTaskStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         // Update TaskList based on selected task status
@@ -255,7 +265,11 @@ public partial class TaskWindow : Window
     // Flag to indicate if RadioButton was just checked
     private bool JustChecked;
 
-    // Checked event handler for RadioButton
+   /// <summary>
+   /// Event handler for RadioButton Checked event.
+   /// </summary>
+   /// <param name="sender"></param>
+   /// <param name="e"></param>
     private void RB_Checked(object sender, RoutedEventArgs e)
     {
         RadioButton s = sender as RadioButton;
@@ -269,7 +283,11 @@ public partial class TaskWindow : Window
         }
     }
 
-    // Clicked event handler for RadioButton
+    /// <summary>
+    /// Event handler for RadioButton Clicked event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void RB_Clicked(object sender, RoutedEventArgs e)
     {
         if (JustChecked)

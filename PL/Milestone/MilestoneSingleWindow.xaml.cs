@@ -40,7 +40,11 @@ public partial class MilestoneSingleWindow : Window
 
     private bool isAdd; // Flag to indicate whether it's adding a new milestone or updating an existing one.
 
-    // Constructor for MilestoneSingleWindow class.
+    /// <summary>
+    /// MilestoneSingleWindow constructor.
+    /// </summary>
+    /// <param name="CurrentMilestone_"></param>
+    /// <param name="isAdd_"></param>
     public MilestoneSingleWindow(BO.Milestone CurrentMilestone_, bool isAdd_)
     {
         InitializeComponent();
@@ -52,18 +56,31 @@ public partial class MilestoneSingleWindow : Window
     }
 
 
-    // Event handler for selection change in milestone status combo box.
+    /// <summary>
+    /// Event handler for the AddMilestone button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void cbMilestoneStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         return; // Placeholder, not implemented yet.
     }
 
-    // Event handler for text changed in text boxes.
+    /// <summary>
+    /// Event handler for the AddMilestone button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         return; // Placeholder, not implemented yet.
     }
 
+    /// <summary>
+    /// Event handler for the AddMilestone button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void btnUpdate_Milestone(object sender, RoutedEventArgs e)
     {
         s_bl?.Milestone.Update(CurrentMilestone.Id, _alias.Text, _description.Text, _remarks.Text); // Adds the milestone to the database.

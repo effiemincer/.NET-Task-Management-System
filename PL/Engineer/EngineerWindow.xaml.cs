@@ -36,7 +36,11 @@ public partial class EngineerWindow : Window
     }
     private bool isAdd; // Flag to indicate whether it's adding a new engineer or updating an existing one.
 
-    // Constructor for EngineerWindow class.
+   /// <summary>
+   /// EngineerWindow constructor
+   /// </summary>
+   /// <param name="CurrentEngineer_"></param>
+   /// <param name="isAdd_"></param>
     public EngineerWindow(BO.Engineer CurrentEngineer_, bool isAdd_)
     {
         InitializeComponent();
@@ -44,19 +48,31 @@ public partial class EngineerWindow : Window
         isAdd = isAdd_; // Sets the flag to indicate if it's adding or updating.
     }
 
-    // Event handler for text changed in text boxes.
+    /// <summary>
+    /// Event handler for the window loaded event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         return; // Placeholder, not implemented yet.
     }
 
-    // Event handler for selection change in engineer status combo box.
+    /// <summary>
+    /// Event handler for the EngineerExperience selection changed event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void cbEngineerStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         return; // Placeholder, not implemented yet.
     }
 
-    // Event handler for add/update engineer button click.
+    /// <summary>
+    /// Event handler for the Add/Update Engineer button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void btnAddUpdate_EngineerClick(object sender, RoutedEventArgs e)
     {
         // Checks if adding or updating an engineer.

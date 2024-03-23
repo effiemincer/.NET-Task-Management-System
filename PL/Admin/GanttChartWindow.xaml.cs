@@ -1,24 +1,13 @@
 ﻿using BO;
 using DO;
 using Milestone;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Security.Cryptography.Pkcs;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using Task;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PL.Admin;
 
@@ -341,6 +330,7 @@ public partial class GanttChartWindow : Window
 
         }
 
+        // Check if the task is a milestone
         if (mode == BO.Enums.Mode.day)
         {
             if (task.ProjectedStartDate <= d)
@@ -394,14 +384,17 @@ public partial class GanttChartWindow : Window
     {
         LinearGradientBrush brush = new LinearGradientBrush();
 
+        // Set the direction of the gradient brush
         brush.StartPoint = new Point(0, 0);
         brush.EndPoint = new Point(1, 0);
 
         Color color;
 
+        // Check if the task is a milestone
         if (taskArr[row - 1].isMilestone)
             color = Colors.Blue;
 
+        // Check if the task is overdue
         else
         {
             if (isRed[task.Id]) color = Colors.Red;
@@ -415,18 +408,21 @@ public partial class GanttChartWindow : Window
         {
             double percentStart, percentEnd;
             
+            // Calculate the percentage of the start and end dates within the week/month
             if (mode == BO.Enums.Mode.week)
             {
                 percentStart = calcPercentWeek((DateTime)task.ProjectedStartDate);
                 percentEnd = calcPercentWeek((DateTime)task.Deadline) + (1.0/ 7.0);
 
             }
+            // Calculate the percentage of the start and end dates within the week/month
             else
             {
                 percentStart = calcPercentMonth((DateTime)task.ProjectedStartDate);
                 percentEnd = calcPercentMonth((DateTime)(task.Deadline));
             }
 
+            // Add gradient stops to the brush
             brush.GradientStops.Add(new GradientStop(Colors.White, 0));
             brush.GradientStops.Add(new GradientStop(Colors.White, percentStart));
 
@@ -444,10 +440,12 @@ public partial class GanttChartWindow : Window
         else if (isDateWithin((DateTime)task.ProjectedStartDate, d))
         {
             double percent;
+            // Calculate the percentage of the start date within the week/month
             if (mode == BO.Enums.Mode.week)
             {
                 percent = calcPercentWeek((DateTime)task.ProjectedStartDate);
             }
+            // Calculate the percentage of the start date within the week/month
             else
             {
                 percent = calcPercentMonth((DateTime)task.ProjectedStartDate);
@@ -464,10 +462,12 @@ public partial class GanttChartWindow : Window
         else if (isDateWithin((DateTime)task.Deadline, d))
         {
             double percent;
+            // Calculate the percentage of the end date within the week/month
             if (mode == BO.Enums.Mode.week)
             {
                 percent = calcPercentWeek((DateTime)task.Deadline) + (1.0/7.0);
             }
+            // Calculate the percentage of the end date within the week/month
             else
             {
                 percent = calcPercentMonth((DateTime)task.Deadline);
@@ -523,6 +523,12 @@ public partial class GanttChartWindow : Window
         return weekString;
     }
 
+    /// <summary>
+    /// Helper method to check if two DateTime objects have the same date.
+    /// </summary>
+    /// <param name="dateTime1"></param>
+    /// <param name="dateTime2"></param>
+    /// <returns></returns>
     private static bool HaveSameDate(DateTime dateTime1, DateTime dateTime2)
     {
         return dateTime1.Year == dateTime2.Year &&
@@ -530,6 +536,11 @@ public partial class GanttChartWindow : Window
                dateTime1.Day == dateTime2.Day;
     }
 
+    /// <summary>
+    /// Calculates the number of columns to display based on the number of days in the project.
+    /// </summary>
+    /// <param name="numOfDays"></param>
+    /// <returns></returns>
     private int calsNumOfCols(int numOfDays)
     {
         if (numOfDays > 60 && numOfDays < 180) // go into week mode
@@ -546,6 +557,10 @@ public partial class GanttChartWindow : Window
             return numOfDays;
     }
 
+    /// <summary>
+    /// Gets the total number of months between the start and end dates.
+    /// </summary>
+    /// <returns></returns>
     private int getTotalMonths()
     {
         int totalMonths = ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month + 1;
@@ -553,6 +568,11 @@ public partial class GanttChartWindow : Window
         return totalMonths;
     }
 
+    /// <summary>
+    /// Gets the number of weeks between the start date and the end date.
+    /// </summary>
+    /// <param name="numOfDays"></param>
+    /// <returns></returns>
     private int getNumberOfWeeks(int numOfDays)
     {
         int totalDays = 0;
@@ -569,12 +589,24 @@ public partial class GanttChartWindow : Window
         return numberOfWeeks;
     }
 
+    /// <summary>
+    /// Adds a specified number of weeks to a given date.
+    /// </summary>
+    /// <param name="d"></param>
+    /// <param name="numOfWeeks"></param>
+    /// <returns></returns>
     private DateTime addWeeks(DateTime d, int numOfWeeks)
     {
         TimeSpan duration = TimeSpan.FromDays(numOfWeeks * 7); // Convert weeks to days
         return  d + duration;
     }
 
+    /// <summary>
+    /// Checks if a given date falls within the same week or month as a reference date.
+    /// </summary>
+    /// <param name="dateToCheck"></param>
+    /// <param name="rangeHolder"></param>
+    /// <returns></returns>
     private bool isDateWithin(DateTime dateToCheck, DateTime rangeHolder)
     {
         if (mode == BO.Enums.Mode.week)
@@ -594,15 +626,32 @@ public partial class GanttChartWindow : Window
         }
     }
 
+    /// <summary>
+    /// Indicates if a given date falls within a specified range.
+    /// </summary>
+    /// <param name="task"></param>
+    /// <param name="d"></param>
+    /// <returns></returns>
     private bool isRangeWithin(BO.Task task, DateTime d)
     {
         return d >= task.ProjectedStartDate && d <= task.Deadline;
     }
 
+    /// <summary>
+    /// Calculates the percentage of the day of the week or month.
+    /// </summary>
+    /// <param name="dateToCheck"></param>
+    /// <returns></returns>
     private double calcPercentWeek(DateTime dateToCheck)
     {
         return (double)(dateToCheck.DayOfWeek) / 7.0; 
     }
+
+    /// <summary>
+    /// Calculates the percentage of the day of the week or month.
+    /// </summary>
+    /// <param name="dateToCheck"></param>
+    /// <returns></returns>
     private double calcPercentMonth(DateTime dateToCheck)
     {
         // Get the total number of days in the month
@@ -614,6 +663,10 @@ public partial class GanttChartWindow : Window
         return percentMonth;
      }
 
+    /// <summary>
+    /// Calculates if a task is overdue and sets the isRed flag accordingly.
+    /// </summary>
+    /// <param name="task"></param>
     private void calcRed(BO.Task task)
     {
         if (task.Status != BO.Enums.Status.Done && task.Deadline < s_bl.Clock)
@@ -626,6 +679,11 @@ public partial class GanttChartWindow : Window
         }
     }
 
+    /// <summary>
+    /// Sets the isRed flag for a task and its dependants.
+    /// Sets the isRed flag for a task and its dependants.
+    /// </summary>
+    /// <param name="id"></param>
     private void setRed(int id)
     {
         isRed[id] = true;

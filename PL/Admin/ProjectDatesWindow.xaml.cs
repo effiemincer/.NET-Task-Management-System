@@ -21,6 +21,9 @@ public partial class ProjectDatesWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Reference to business logic instance
 
+    /// <summary>
+    /// ProjectDatesWindow constructor
+    /// </summary>
     public ProjectDatesWindow()
     {
         InitializeComponent();
@@ -40,7 +43,11 @@ public partial class ProjectDatesWindow : Window
         }
     }
 
-    // Event handler for the save button click
+    /// <summary>
+    /// Event handler for the save button click event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void _saveButton_Click(object sender, RoutedEventArgs e)
     {
         // Attempts to parse the input text boxes into DateTime objects

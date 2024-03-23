@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace PL;
+
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
@@ -24,20 +25,29 @@ public partial class MainWindow : Window
     public static readonly DependencyProperty TimeProperty =
         DependencyProperty.Register("CurrentTime", typeof(DateTime), typeof(MainWindow), new PropertyMetadata(null));
 
-    // Property to get or set the current time.
+   /// <summary>
+   /// DateTime property to get or set the current time.
+   /// </summary>
     public DateTime CurrentTime
     {
         get { return (DateTime)GetValue(TimeProperty); }
         set { SetValue(TimeProperty, s_bl.Clock); }
     }
 
+    /// <summary>
+    /// Constructor for the MainWindow class.
+    /// </summary>
     public MainWindow()
     {
         InitializeComponent();
         CurrentTime = s_bl.Clock; // Sets the current time.
     }
 
-    // Event handler for Admin button click.
+    /// <summary>
+    /// Event handler for the Admin button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Admin_Button_Click(object sender, RoutedEventArgs e)
     {
         // Opens the ProjectDatesWindow if project start and end dates are not set.
@@ -58,7 +68,11 @@ public partial class MainWindow : Window
         }
     }
 
-    // Event handler for Engineer button click.
+   /// <summary>
+   /// Event handler for the Engineer button click event.
+   /// </summary>
+   /// <param name="sender"></param>
+   /// <param name="e"></param>
     private void Engineer_Button_Click(object sender, RoutedEventArgs e)
     {
         try
@@ -95,7 +109,11 @@ public partial class MainWindow : Window
         }
     }
 
-    // Event handler for Initialize Data button click.
+    /// <summary>
+    /// Event handler for the Initialize Data button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Initialize_Data_Button_Click(object sender, RoutedEventArgs e)
     {
         // Initializes data if not already initialized.
@@ -112,7 +130,11 @@ public partial class MainWindow : Window
         }
     }
 
-    // Event handler for Reset Data button click.
+    /// <summary>
+    /// Event handler for the Reset Data button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Reset_Data_Button_Click(object sender, RoutedEventArgs e)
     {
         MessageBoxResult res = MessageBox.Show("Are you sure you want to reset all the data?", "Reset Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -127,32 +149,56 @@ public partial class MainWindow : Window
         }
     }
 
-    // Event handlers for time travel buttons.
+   /// <summary>
+   /// Event handler for the Travel Forwards Day button click event.
+   /// </summary>
+   /// <param name="sender"></param>
+   /// <param name="e"></param>
     private void Travel_Forwards_Day_Click(object sender, RoutedEventArgs e)
     {
         s_bl.travelForwardsDay();
         CurrentTime = s_bl.Clock;
     }
 
+    /// <summary>
+    /// Event handler for the Travel Forwards Hour button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Travel_Forwards_Hour_Click(object sender, RoutedEventArgs e)
     {
         s_bl.travelForwardsHour();
         CurrentTime = s_bl.Clock;
     }
 
+
+    /// <summary>
+    /// Event handler for the Travel Backwards Day button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Travel_Backwards_Day_Click(object sender, RoutedEventArgs e)
     {
         s_bl.travelBackwardDay();
         CurrentTime = s_bl.Clock;
     }
 
+    /// <summary>
+    /// Event handler for the Travel Backwards Hour button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Travel_Backwards_Hour_Click(object sender, RoutedEventArgs e)
     {
         s_bl.travelBackwardHour();
         CurrentTime = s_bl.Clock;
     }
 
-    // Event handler for resetting the clock.
+    /// <summary>
+    /// Event handler for the Reset Clock button click event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Reset_Clock_Click(object sender, RoutedEventArgs e)
     {
         s_bl.resetClock();
