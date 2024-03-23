@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="TaskWindow" Height="550" Width="800"
         DataContext="{Binding CurrentTask, Mode=TwoWay, RelativeSource={RelativeSource Mode=Self}}"
-
+        Background="#181735"
         >
     <Grid>
         <Grid.RowDefinitions>
@@ -18,67 +18,85 @@
         </Grid.RowDefinitions>
 
         <!-- Grid with a Border -->
-        <Border BorderBrush="Black" Grid.Row="1" BorderThickness="2">
+        <Border BorderBrush="LightBlue" Grid.Row="1" BorderThickness="2">
             <UniformGrid Rows="15" Columns="2" Width="750">
 
-                <TextBlock Text="Id:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Id, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Id:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="{Binding Id, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
 
-                <TextBlock Text="Alias:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox x:Name="_alias" Text="{Binding Alias, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Alias:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" x:Name="_alias" Text="{Binding Alias, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
-                <TextBlock Text="Date Created:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock x:Name="_dateCreated" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding DateCreated, Mode=OneTime, StringFormat=dd/MM/yy}" />
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Date Created:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" x:Name="_dateCreated" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding DateCreated, Mode=OneTime, StringFormat=dd/MM/yy}" />
                 <!-- <TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/> -->
 
-                <TextBlock Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox x:Name="_description" Text="{Binding Description, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" x:Name="_description" Text="{Binding Description, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
-                <TextBlock Text="Status:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Status}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Status:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="{Binding Status}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
                 <!--<ComboBox x:Name="Status_ComboBox" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="False" SelectedIndex="5"/>-->
 
-                <TextBlock Text="Dependencies (separated by a comma and a space, i.e. 8000, 8001...):" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox x:Name="_dependenciesListDisplayTextBlock" VerticalAlignment="Bottom"  Margin="0,0,0,5" IsEnabled="False" />
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Dependencies (separated by a comma and a space, i.e. 8000, 8001...):" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" x:Name="_dependenciesListDisplayTextBlock" VerticalAlignment="Bottom"  Margin="0,0,0,5" IsEnabled="False" />
 
-                <TextBlock Text="Milestone:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding Milestone.Id}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Milestone:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="{Binding Milestone.Id}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
                 <!-- do we change this to be choosing from the list of milestones in the BL? -->
 
-                <TextBlock Text="Required Effort Time:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox x:Name="_requiredEffort" Text="{Binding RequiredEffortTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Required Effort Time:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" x:Name="_requiredEffort" Text="{Binding RequiredEffortTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" />
 
                 <TextBlock Text="Complexity:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <ComboBox x:Name="Complexity_ComboBox" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Complexity, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5"/>
+                <ComboBox Background="LightBlue" FontFamily="Comic Sans MS" x:Name="Complexity_ComboBox" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Complexity, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" SelectedIndex="5">
+                    <ComboBox.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightBlue" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="LightBlue" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
+                    </ComboBox.Resources>
+                </ComboBox>
 
-                <TextBlock Text="Actual Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker x:Name="_actualStartDate" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding ActualStartDate}"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Actual Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <DatePicker Background="LightBlue" FontFamily="Comic Sans MS" x:Name="_actualStartDate" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding ActualStartDate}"/>
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
-                <TextBlock Text="Projected Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker x:Name="_projectedStart" VerticalAlignment="Bottom"  Margin="0,0,0,5"  Text="{Binding ProjectedStartDate}"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Projected Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <DatePicker Background="LightBlue" FontFamily="Comic Sans MS" x:Name="_projectedStart" VerticalAlignment="Bottom"  Margin="0,0,0,5"  Text="{Binding ProjectedStartDate}"/>
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
-                <TextBlock Text="Deadline:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker x:Name="_deadline" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding Deadline}" />
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Deadline:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <DatePicker Background="LightBlue" FontFamily="Comic Sans MS" x:Name="_deadline" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding Deadline}" />
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
-                <TextBlock Text="Actual End Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker x:Name="_actualEndDate" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding ActualEndDate}" />
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Actual End Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <DatePicker Background="LightBlue" FontFamily="Comic Sans MS" x:Name="_actualEndDate" VerticalAlignment="Bottom"  Margin="0,0,0,5" Text="{Binding ActualEndDate}" />
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
-                <TextBlock Text="Deliverable:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <RadioButton x:Name="_deliverable" Content="Yes/No" IsChecked="{Binding Deliverable, Mode=TwoWay}" Checked="RB_Checked" Click="RB_Clicked" />
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Deliverable:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <RadioButton Foreground="LightBlue" FontFamily="Comic Sans MS" x:Name="_deliverable" Content="Yes/No" IsChecked="{Binding Deliverable, Mode=TwoWay}" Checked="RB_Checked" Click="RB_Clicked" />
                 <!--<TextBox Text="Edit me" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>-->
 
-                <TextBlock Text="Remarks:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox x:Name="_remarks" Text="{Binding Remarks, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Remarks:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" x:Name="_remarks" Text="{Binding Remarks, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
 
             </UniformGrid>
 
         </Border>
-        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Task Window" VerticalAlignment="Center" Height="20" Width="110" FontSize="16" FontWeight="Bold"/>
-        <Button Grid.Row="2" Content="{Binding Id, Converter={StaticResource ConvertIdToContentKey}, Mode=OneTime}" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Padding="5" Click="btnAddUpdate_Click" Height="43" Width="82" />
+        <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Task Window" VerticalAlignment="Center" Height="20" Width="110" FontSize="16" FontWeight="Bold"/>
+        <Button Background="LightBlue" FontFamily="Comic Sans MS" Grid.Row="2" Content="{Binding Id, Converter={StaticResource ConvertIdToContentKey}, Mode=OneTime}" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Padding="5" Click="btnAddUpdate_Click" Height="43" Width="82" >
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}"
+CornerRadius="10">
+                        <!-- This specifies the roundness -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </Grid>
 
 </Window>

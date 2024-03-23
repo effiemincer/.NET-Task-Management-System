@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:Engineer"
         mc:Ignorable="d"
         Title="EngineerListWindow" Height="650" Width="800"
-        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+        Background="LightBlue"
+        >
     <!-- Sets the data context to itself for binding purposes. -->
     <Grid Margin="0,0,0,-16">
         <!-- Main grid layout -->
@@ -15,7 +17,7 @@
             <!-- First row for filter controls -->
             <RowDefinition Height="500*" />
             <!-- Second row for engineer list -->
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="100" />
             <!-- Third row for add button -->
         </Grid.RowDefinitions>
         <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
@@ -24,18 +26,38 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Foreground="#181735" FontFamily="Comic Sans MS" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <!-- Placeholder label -->
             <ComboBox
                 SelectionChanged="cbEngineerExperience_SelectionChanged"
                 SelectedValue="{Binding Path=EngineerExperience, Mode=TwoWay}"
                 ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}"
-                Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS"
+                >
+                <ComboBox.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightBlue" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="LightBlue" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
+                </ComboBox.Resources>
+            </ComboBox>
         </Grid>
-        <ListView Margin="5"  Grid.Row="1" ItemsSource="{Binding EngineerList}"  MouseDoubleClick="doubleClickEvent_UpdateEngineer">
+        <ListView Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Margin="5"  Grid.Row="1" ItemsSource="{Binding EngineerList}"  MouseDoubleClick="doubleClickEvent_UpdateEngineer">
             <!-- ListView for displaying engineer list -->
         </ListView>
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="btnAddEngineer_Click"/>
+        <Button Background="#181735" Foreground="LightBlue" FontFamily="Comic Sans MS" Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="btnAddEngineer_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}"
+CornerRadius="10">
+                        <!-- This specifies the roundness -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
         <!-- Button for adding a new engineer -->
     </Grid>
 </Window>
