@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -40,6 +41,8 @@ public partial class TaskListWindow : Window
 
     // Property to get or set the task's status.
     public BO.Enums.Status TaskStatus { get; set; } = BO.Enums.Status.None;
+    // Property to get or set the task's status.
+    public BO.Enums.EngineerExperience TaskDifficulty { get; set; } = BO.Enums.EngineerExperience.None;
 
     // Constructor for TaskListWindow class.
     public TaskListWindow(bool isAdmin)
@@ -61,12 +64,47 @@ public partial class TaskListWindow : Window
 
     // Property to bind a list of tasks to a UI element.
 
+    private void FilterSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var selection = cmbFilterCategory1.SelectedValue;
+        if (selection is not null)
+        {
+            string test = selection.ToString()!;
+            if (test == "Status")
+            {
+                TaskList = (TaskStatus == BO.Enums.Status.None) ? s_bl?.Task.ReadAll()! : s_bl?.Task.ReadAll(task => task.Status == TaskStatus)!;
+                cmbFilterCategory2.Visibility = Visibility.Visible;
+                cmbFilterCategory3.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                TaskList = (TaskDifficulty == BO.Enums.EngineerExperience.None) ? s_bl?.Task.ReadAll()! : s_bl?.Task.ReadAll(task => task.Complexity == TaskDifficulty)!;
+                cmbFilterCategory3.Visibility = Visibility.Visible;
+                cmbFilterCategory2.Visibility = Visibility.Collapsed;
+            }
+        }
+    }
+
 
     // Event handler for selection change in task status combo box.
     private void cbTaskStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         // Updates the TaskList based on selected status.
-        TaskList = (TaskStatus == BO.Enums.Status.None) ? s_bl?.Task.ReadAll()! : s_bl?.Task.ReadAll(task => task.Status == TaskStatus)!;
+        var selection = cmbFilterCategory1.SelectedValue;
+        if (selection is not null)
+        {
+            string test = selection.ToString()!;
+            if (test == "Status")
+            {
+                TaskList = (TaskStatus == BO.Enums.Status.None) ? s_bl?.Task.ReadAll()! : s_bl?.Task.ReadAll(task => task.Status == TaskStatus)!;
+            }
+            else
+            {
+                TaskList = (TaskDifficulty == BO.Enums.EngineerExperience.None) ? s_bl?.Task.ReadAll()! : s_bl?.Task.ReadAll(task => task.Complexity == TaskDifficulty)!;
+            }
+        }
+
+        
     }
 
     // Event handler for double-click event on the task list to update a task's details.

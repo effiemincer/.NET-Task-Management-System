@@ -209,7 +209,7 @@ static public class DalTest
 
         private static void createStartAndEndDateForProject()
         {
-            int startDateAdd = s_random.Next(0, 365);
+            int startDateAdd = s_random.Next(0, 7);
             int endDateAdd = s_random.Next(29, 364); 
 
             DateTime startDate = DateTime.Now.AddDays(startDateAdd);  

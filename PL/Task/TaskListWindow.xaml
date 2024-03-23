@@ -20,17 +20,21 @@
         </Grid.RowDefinitions>
         <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
             <!-- Subgrid for filter controls -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,5,0">
+                <Label Content="Filter:" Margin="25,10,5,0"/>
+                <ComboBox x:Name="cmbFilterCategory1" Width="345" Margin="0,0,25,0" SelectionChanged="FilterSelectionChanged">
+                    <ComboBoxItem Content="Status"/>
+                    <ComboBoxItem Content="Difficulty"/>
+                </ComboBox>
+                <ComboBox x:Name="cmbFilterCategory2" Width="345" Visibility="Visible" Margin="0,0,25,0" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=TaskStatus, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}"/>
+                <ComboBox x:Name="cmbFilterCategory3" Width="345" Visibility="Collapsed" Margin="0,0,25,0" SelectionChanged="cbTaskStatus_SelectionChanged" SelectedValue="{Binding Path=TaskDifficulty, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperienceCollectionKey}}"/>
+                <!-- Add more categories as needed -->
+
+
+            </StackPanel>
+            <!--<Label Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>-->
             <!-- Placeholder label -->
-            <ComboBox 
-                SelectionChanged="cbTaskStatus_SelectionChanged"
-                SelectedValue="{Binding Path=TaskStatus, Mode=TwoWay}"
-                ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}"
-                Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <!--<ComboBox  SelectionChanged="cbTaskStatus_SelectionChanged" "  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/> -->
         </Grid>
         <ListView Margin="5,5,5,0"  Grid.Row="1" ItemsSource="{Binding TaskList}" MouseDoubleClick="doubleClickEvent_UpdateTask">
             <!-- ListView for displaying task list -->
