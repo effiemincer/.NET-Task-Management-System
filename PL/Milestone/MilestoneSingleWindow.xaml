@@ -65,11 +65,11 @@
                 <TextBox x:Name="_remarks" Text="{Binding Path=Remarks, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
                 <!-- Textbox for displaying Remarks -->
 
-                <TextBlock Text="Tasks that this milestone depends on:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock x:Name="_dependenciesListDisplayTextBlock" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <TextBlock Text="Tasks that this milestone depends on:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,-30"/>
+                <TextBlock x:Name="_dependenciesListDisplayTextBlock" VerticalAlignment="Center"  Margin="0,0,0,-30"/>
 
-                <TextBlock Text="Tasks that depend on this milestone:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock x:Name="_requisitesListDisplayTextBlock" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <TextBlock Text="Tasks that depend on this milestone:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,-45"/>
+                <TextBlock x:Name="_requisitesListDisplayTextBlock" VerticalAlignment="Center"  Margin="0,0,0,-45"/>
                 <!-- Textbox for displaying Dependencies -->
 
             </UniformGrid>

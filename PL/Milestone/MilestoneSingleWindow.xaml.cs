@@ -46,8 +46,9 @@ public partial class MilestoneSingleWindow : Window
         InitializeComponent();
         CurrentMilestone = CurrentMilestone_; // Sets the current milestone.
         isAdd = isAdd_; // Sets the flag to indicate if it's adding or updating.
-        _requisitesListDisplayTextBlock.Text = RequisitesListDisplay;
+       
         _dependenciesListDisplayTextBlock.Text = DependentsListDisplay;
+        _requisitesListDisplayTextBlock.Text = RequisitesListDisplay;
     }
 
 
@@ -98,6 +99,10 @@ public partial class MilestoneSingleWindow : Window
                 sb.Append(ids);
                 if (--count > 0)
                     sb.Append(", ");
+                if (count%6 == 0)
+                {
+                    sb.Append("\n");
+                }
             }
             return sb.ToString();
 
