@@ -23,90 +23,115 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace PL.Admin;
 
 /// <summary>
-/// Interaction logic for GanttChartWindow.xaml
+/// Defines the interaction logic for the GanttChartWindow.
 /// </summary>
 public partial class GanttChartWindow : Window
 {
+    // Nested class representing a Gantt chart task
     private class ganttTask
     {
-        public ganttTask(BO.Task _t, bool m) 
-        { 
-            t = _t;
-            isMilestone = m;
+        public ganttTask(BO.Task _t, bool m)
+        {
+            t = _t; // The task itself
+            isMilestone = m; // Flag indicating if the task is a milestone
         }
-        public BO.Task t { get; set; }
-        public bool isMilestone { get; set; }
+        public BO.Task t { get; set; } // Task object
+        public bool isMilestone { get; set; } // Milestone flag
     }
 
+    // Static reference to the business layer interface
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
+    // Collections for tasks and milestones
     private IEnumerable<BO.TaskInList> taskList = s_bl.Task.ReadAll();
     private IEnumerable<BO.Milestone> milestoneList = s_bl.Milestone.ReadAllMilestone();
 
+    // Data structures for managing tasks and their properties
     private Dictionary<int, ganttTask> taskArr = new Dictionary<int, ganttTask>();
-    private int[] rowcheck;
-    private Dictionary<int, bool> isRed = new Dictionary<int, bool>();
+    private int[] rowcheck; // Array for tracking the filling of rows
+    private Dictionary<int, bool> isRed = new Dictionary<int, bool>(); // Tracks if a task is overdue (red)
 
+    // Default mode of the Gantt chart (daily)
     private BO.Enums.Mode mode = BO.Enums.Mode.day;
 
+    // Start and end dates of the project
     private DateTime startDate;
     private DateTime endDate;
+
+    // Constructor for GanttChartWindow
     public GanttChartWindow()
     {
-        InitializeComponent();
+        InitializeComponent(); // Initialize component from XAML
 
+        // Fetch project start and end dates from the configuration
         startDate = (DateTime)s_bl.Config.GetProjectStartDate();
         endDate = (DateTime)s_bl.Config.GetProjectEndDate();
-        CreateGanttChart();
+
+        CreateGanttChart(); // Method call to create the Gantt chart
     }
 
+    /// <summary>
+    /// Creates the Gantt chart by initializing and populating UI elements.
+    /// </summary>
     private void CreateGanttChart()
-    {      
+    {
+        // Calculate the number of tasks and days for sizing the chart
         int numOfTasks = taskList.Count() + milestoneList.Count();
         int numOfDays = (endDate - startDate).Days;
 
-        int numOfCols = calsNumOfCols((endDate - startDate).Days);
+        // Calculate the number of columns based on the date range
+        int numOfCols = calsNumOfCols(numOfDays);
 
-        rowcheck = new int[numOfTasks + 1];
+        rowcheck = new int[numOfTasks + 1]; // Initialize the row check array
 
+        // Dictionary to hold tasks for easier access by ID
         Dictionary<int, BO.Task> taskDict = new Dictionary<int, BO.Task>();
 
-        foreach(BO.TaskInList taskIn in taskList)
+        // Process each task in the task list
+        foreach (BO.TaskInList taskIn in taskList)
         {
             BO.Task currTask = s_bl.Task.Read(taskIn.Id);
             taskDict[taskIn.Id] = currTask;
-            if (!isRed.ContainsKey(taskIn.Id)) 
+            if (!isRed.ContainsKey(taskIn.Id))
             {
-                calcRed(currTask);
+                calcRed(currTask); // Determine if the task should be marked red
             }
         }
 
-
+        // Sort milestones by their deadlines
         var sortedMilestones = milestoneList.OrderBy(milestone => milestone.Deadline);
 
-
+        // Populate taskArr with tasks and milestones
         int j = 0;
         foreach (BO.Milestone milestone in sortedMilestones)
         {
-            foreach(int id in s_bl.Milestone.getMilestoneDef(milestone.Id))
+            foreach (int id in s_bl.Milestone.getMilestoneDef(milestone.Id))
             {
                 if (taskDict.ContainsKey(id))
                 {
+                    // Add task to the taskArr dictionary and set it as not a milestone
                     taskArr[j] = new ganttTask(taskDict[id], false);
-                    rowcheck[j] = 0;
-                    ++j;
-                    taskDict.Remove(id);
+                    rowcheck[j] = 0; // Initialize row check for this row
+                    ++j; // Increment the task index
+                    taskDict.Remove(id); // Remove the task from taskDict as it's now accounted for
                 }
             }
 
+            // Add the milestone to the taskArr dictionary, setting it as a milestone
             taskArr[j] = new ganttTask(s_bl.Task.Read(milestone.Id), true);
-            rowcheck[j] = 0;
-            ++j;
+            rowcheck[j] = 0; // Initialize row check for this row
+            ++j; // Increment the task index
         }
 
+        // Add dynamically generated rows and columns to the grid based on task and date counts
         AddDynamicRowsAndColumns(numOfTasks + 1, numOfCols + 1);
-
     }
 
+    /// <summary>
+    /// Dynamically adds rows and columns to the grid, populating it with UI elements.
+    /// </summary>
+    /// <param name="rowCount">The number of rows to add.</param>
+    /// <param name="columnCount">The number of columns to add.</param>
     private void AddDynamicRowsAndColumns(int rowCount, int columnCount)
     {
         // Clear existing rows and columns
@@ -125,17 +150,18 @@ public partial class GanttChartWindow : Window
             dynamicGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         }
 
-        // Populate cells with content (optional)
+        // Populate cells with content
         for (int i = 0; i < rowCount; i++)
         {
-            if (rowcheck[i] == 0)
+            if (rowcheck[i] == 0) // Check if the row needs to be filled
             {
                 for (int j = 0; j < columnCount; j++)
                 {
-                    if (rowcheck[i] == 0)
+                    if (rowcheck[i] == 0) // Check if the row needs to be filled
                     {
                         if (i != 0 || j != 0)
                         {
+                            // Add UIElement to the grid cell
                             dynamicGrid.Children.Add(fillCell(i, j));
                         }
 
@@ -146,84 +172,111 @@ public partial class GanttChartWindow : Window
         }
     }
 
+    /// <summary>
+    /// Fills a specific cell with appropriate UI elements based on its position.
+    /// </summary>
+    /// <param name="row">Row index of the cell.</param>
+    /// <param name="col">Column index of the cell.</param>
+    /// <returns>A UIElement that is either a header or a Gantt chart bar.</returns>
     private UIElement fillCell(int row, int col)
     {
+        // Initialize a new DateTime object to hold the date for the cell
         DateTime d = new DateTime();
+        // Determine the date for the cell based on the mode (day, week, month) and column index
         if (mode == BO.Enums.Mode.day)
-            d = startDate.AddDays(col - 1);
+            d = startDate.AddDays(col - 1); // Add days for day mode
         else if (mode == BO.Enums.Mode.week)
-            d = addWeeks(startDate, col - 1);
+            d = addWeeks(startDate, col - 1); // Add weeks for week mode
         else
-            d = startDate.AddMonths(col - 1);
+            d = startDate.AddMonths(col - 1); // Add months for month mode
 
-        //column headers
+        // If the cell is a column header (first row)
         if (row == 0)
         {
             return fillColHead(row, col, d);
-            
         }
-
-        // row headers
+        // If the cell is a row header (first column)
         else if (col == 0)
         {
             return fillRowStart(row, col);
-           
         }
-
-        // gantt rectangles 
+        // If the cell is part of the Gantt chart (task bars)
         else
         {
             return fillGanttRect(row, col, d);
         }
-        
     }
 
+    /// <summary>
+    /// Creates and returns a UIElement for column headers based on the provided date.
+    /// </summary>
+    /// <param name="row">The row index (should always be 0 for column headers).</param>
+    /// <param name="col">The column index.</param>
+    /// <param name="d">The date that the column represents.</param>
+    /// <returns>A UIElement configured as a column header.</returns>
     private UIElement fillColHead(int row, int col, DateTime d)
     {
-        Border border = new Border();
-        border.BorderBrush = Brushes.Black;
-        border.BorderThickness = new Thickness(1);
-        border.Width = 100;
-
-        TextBlock colText = new TextBlock();
-
-        if (mode == BO.Enums.Mode.day)
-            colText.Text = $"{dayString(d)}";
-
-        if (mode == BO.Enums.Mode.week)
+        Border border = new Border
         {
-            colText.Text = $"{weekString(d)}";
-            border.Width = 200;
-        }   
+            BorderBrush = Brushes.Black,
+            BorderThickness = new Thickness(1),
+            Width = 100 // Default width for day mode
+        };
 
-        if (mode == BO.Enums.Mode.month)
-            colText.Text = $"{d.ToString("MMMM yyyy")}";
+        TextBlock colText = new TextBlock
+        {
+            TextAlignment = TextAlignment.Center
+        };
 
-        colText.TextAlignment = TextAlignment.Center;
+        // Display different headers based on the current mode of the Gantt chart
+        switch (mode)
+        {
+            case BO.Enums.Mode.day:
+                colText.Text = dayString(d); // Format date for day mode
+                break;
+            case BO.Enums.Mode.week:
+                colText.Text = weekString(d); // Format date range for week mode
+                border.Width = 200; // Adjust width for week mode
+                break;
+            case BO.Enums.Mode.month:
+                colText.Text = d.ToString("MMMM yyyy"); // Format date for month mode
+                break;
+        }
+
         border.Child = colText;
 
-        // Set cell position
+        // Position the header in the grid
         Grid.SetRow(border, row);
         Grid.SetColumn(border, col);
 
         return border;
     }
 
+    /// <summary>
+    /// Creates and returns a UIElement for row headers, displaying task details.
+    /// </summary>
+    /// <param name="row">The row index.</param>
+    /// <param name="col">The column index (should always be 0 for row headers).</param>
+    /// <returns>A UIElement configured as a row header.</returns>
     private UIElement fillRowStart(int row, int col)
     {
-        BO.Task task = taskArr[row - 1].t;
-        Border border = new Border();
-        border.BorderBrush = Brushes.Black;
-        border.BorderThickness = new Thickness(1);
-        
-        // Add content to the cell
-        TextBlock rowText = new TextBlock();
-        rowText.Text = $"TaskID: {task.Id.ToString()}" +
-            $"\n" +
-            $"Task Name: {task.Alias}";
-        rowText.TextAlignment = TextAlignment.Center;
-        rowText.Padding = new Thickness(20, 5, 20, 5);
-        if (taskArr[row -1].isMilestone)
+        ganttTask gTask = taskArr[row - 1]; // Retrieve the task associated with this row
+        BO.Task task = gTask.t;
+        Border border = new Border
+        {
+            BorderBrush = Brushes.Black,
+            BorderThickness = new Thickness(1)
+        };
+
+        TextBlock rowText = new TextBlock
+        {
+            Text = $"TaskID: {task.Id}\nTask Name: {task.Alias}",
+            TextAlignment = TextAlignment.Center,
+            Padding = new Thickness(20, 5, 20, 5)
+        };
+
+        // Register click event handlers differently if the task is a milestone
+        if (gTask.isMilestone)
         {
             rowText.MouseDown += (sender, e) => RowText_MouseDown_Milestone(sender, e, task.Id);
         }
@@ -231,25 +284,23 @@ public partial class GanttChartWindow : Window
         {
             rowText.MouseDown += (sender, e) => RowText_MouseDown_Task(sender, e, task.Id);
         }
+
         border.Child = rowText;
-         
-        // Set cell position
+
+        // Position the header in the grid
         Grid.SetRow(border, row);
         Grid.SetColumn(border, col);
 
         return border;
     }
 
-    private void RowText_MouseDown_Milestone(object sender, MouseButtonEventArgs e, int id)
-    {
-        new MilestoneSingleWindow(s_bl.Milestone.Read(id), false).ShowDialog();
-    }
-
-    private void RowText_MouseDown_Task(object sender, MouseButtonEventArgs e, int id)
-    {
-        new TaskWindow(s_bl.Task.Read(id)!, false).ShowDialog();
-    }
-
+    /// <summary>
+    /// Creates and returns a UIElement (Rectangle) representing a task or milestone on the Gantt chart.
+    /// </summary>
+    /// <param name="row">The row index of the task or milestone.</param>
+    /// <param name="col">The column index representing the day, week, or month.</param>
+    /// <param name="d">The date represented by the column.</param>
+    /// <returns>A UIElement configured as a Gantt chart bar.</returns>
     private UIElement fillGanttRect(int row, int col, DateTime d)
     {
         BO.Task task = taskArr[row - 1].t;
@@ -331,6 +382,14 @@ public partial class GanttChartWindow : Window
         return rect;
     }
 
+    /// <summary>
+    /// Creates and returns a color for a rectangle in the grid.
+    /// </summary>
+    /// <param name="task">The task to check its dates for the current row</param>
+    /// <param name="row">The row index of the task or milestone.</param>
+    /// <param name="col">The column index representing the day, week, or month.</param>
+    /// <param name="d">The date represented by the column.</param>
+    /// <returns>A UIElement configured as a Gantt chart bar.</returns>
     private LinearGradientBrush calcColor(BO.Task task, int row, int col, DateTime d)
     {
         LinearGradientBrush brush = new LinearGradientBrush();
@@ -578,6 +637,30 @@ public partial class GanttChartWindow : Window
                 setRed(depId);
             }
         }
+    }
+
+    /// <summary>
+    /// Event handler for clicking on a task row header.
+    /// </summary>
+    /// <param name="sender">The sender object (not used).</param>
+    /// <param name="e">Event arguments (not used).</param>
+    /// <param name="id">The ID of the task clicked.</param>
+    private void RowText_MouseDown_Task(object sender, MouseButtonEventArgs e, int id)
+    {
+        // Open a window to display the task details
+        new TaskWindow(s_bl.Task.Read(id)!, false).ShowDialog();
+    }
+
+    /// <summary>
+    /// Event handler for clicking on a milestone row header.
+    /// </summary>
+    /// <param name="sender">The sender object (not used).</param>
+    /// <param name="e">Event arguments (not used).</param>
+    /// <param name="id">The ID of the milestone clicked.</param>
+    private void RowText_MouseDown_Milestone(object sender, MouseButtonEventArgs e, int id)
+    {
+        // Open a window to display the milestone details
+        new MilestoneSingleWindow(s_bl.Milestone.Read(id), false).ShowDialog();
     }
 
 }
