@@ -46,7 +46,8 @@ public partial class MilestoneSingleWindow : Window
         InitializeComponent();
         CurrentMilestone = CurrentMilestone_; // Sets the current milestone.
         isAdd = isAdd_; // Sets the flag to indicate if it's adding or updating.
-        _dependenciesListDisplayTextBlock.Text = DependenciesListDisplay;
+        _requisitesListDisplayTextBlock.Text = RequisitesListDisplay;
+        _dependenciesListDisplayTextBlock.Text = DependentsListDisplay;
     }
 
 
@@ -68,20 +69,38 @@ public partial class MilestoneSingleWindow : Window
         Close(); // Closes the window.
     }
 
-    public string DependenciesListDisplay
+    public string RequisitesListDisplay
     {
         get
         {
             StringBuilder sb = new StringBuilder();
-            int count = CurrentMilestone.Dependencies.Count;
-            foreach (BO.TaskInList task in CurrentMilestone.Dependencies)
+            List<int> requisiteIds = s_bl.Milestone.getMilestoneIdList(CurrentMilestone.Id);
+            int count = requisiteIds.Count;
+            foreach (int ids in requisiteIds)
             {
-                sb.Append(task.Id.ToString());
+                sb.Append(ids);
                 if (--count > 0)
                     sb.Append(", ");
             }
             return sb.ToString();
-            
+
+        }
+    }
+    public string DependentsListDisplay
+    {
+        get
+        {
+            StringBuilder sb = new StringBuilder();
+            List<int> dependentIds = s_bl.Milestone.getMilestoneDef(CurrentMilestone.Id);
+            int count = dependentIds.Count;
+            foreach (int ids in dependentIds)
+            {
+                sb.Append(ids);
+                if (--count > 0)
+                    sb.Append(", ");
+            }
+            return sb.ToString();
+
         }
     }
 }
