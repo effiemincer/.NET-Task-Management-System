@@ -72,11 +72,11 @@
                 <TextBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="_remarks" Text="{Binding Path=Remarks, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
                 <!-- Textbox for displaying Remarks -->
 
-                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Tasks that this milestone depends on:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" x:Name="_dependenciesListDisplayTextBlock" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Tasks that this milestone depends on:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,-45"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" x:Name="_dependenciesListDisplayTextBlock" VerticalAlignment="Center"  Margin="0,0,0,-45"/>
 
-                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Tasks that depend on this milestone:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" x:Name="_requisitesListDisplayTextBlock" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Tasks that depend on this milestone:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,-55"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" x:Name="_requisitesListDisplayTextBlock" VerticalAlignment="Center"  Margin="0,0,0,-55"/>
                 <!-- Textbox for displaying Dependencies -->
 
             </UniformGrid>
