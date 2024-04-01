@@ -199,7 +199,7 @@ internal class MilestoneImplementation : IMilestone
                 Deadline = calcDeadline(milestone),
                 ProjectedStartDate = calcProjectedStartDate(milestone),
                 DegreeOfDifficulty = null,
-                AssignedEngineerId = milestone.Key, // Store baseKey in MilestoneDict since this field is not necessary for milestones
+                AssignedEngineerId = milestone.Key, // Store baseKey in MilestoneDict since this field is not necessary for milestones //jank
                 ActualEndDate = calcActualEndDate(milestone),
                 IsMilestone = true,
                 ActualStartDate = calcActualStartDate(milestone),
@@ -441,7 +441,6 @@ internal class MilestoneImplementation : IMilestone
 
             if (taskMilestone.Duration > taskMilestone.Deadline - taskMilestone.ProjectedStartDate && !MilestoneDict[taskMilestone.Id].isStart)
                 throw new BO.BlBadInputDataException($"Milestone with id={taskMilestone.Id} has an impossible duration!");
-
 
             if (!MilestoneDict[taskMilestone.Id].isStart && !MilestoneDict[taskMilestone.Id].isEnd && taskMilestone.ProjectedStartDate < earlyDate )
                 earlyDate = (DateTime)taskMilestone.ProjectedStartDate;
