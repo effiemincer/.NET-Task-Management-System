@@ -403,6 +403,11 @@ namespace BlImplementation
             return false;
         }
 
+        /// <summary>
+        /// Find all dependants of a task
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<int> findDependants(int id)
         {
             var deps = _dal.Dependency.ReadAll();
