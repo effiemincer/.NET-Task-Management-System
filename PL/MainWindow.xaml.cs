@@ -117,12 +117,9 @@ public partial class MainWindow : Window
     private void Initialize_Data_Button_Click(object sender, RoutedEventArgs e)
     {
         // Initializes data if not already initialized.
-        if (!dataInitialized)
+        if (s_bl.Config.GetProjectEndDate() is null)
         {
-            DalTest.DalTest.Initialization.Do();
-            MessageBox.Show("Data initialized", "Data initialized", MessageBoxButton.OK, MessageBoxImage.Information);
-            dataInitialized = true;
-            s_bl.Milestone.Reset();
+            new ProjectSizeWindow().ShowDialog();
         }
         else
         {
@@ -145,7 +142,6 @@ public partial class MainWindow : Window
         {
             s_bl!.Config.Reset();
             s_bl.Milestone.Reset();
-            dataInitialized = false;
             MessageBox.Show("Reset complete!", "ResetSuccessful", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }

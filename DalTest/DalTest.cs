@@ -22,7 +22,7 @@ static public class DalTest
 
         private static readonly Random s_random = new Random();
 
-        private static void createTasksAndDependencies() {
+        private static void createTasksAndDependencies(int size) {
 
             XElement root = Dal.XMLTools.LoadListFromXMLElement("data-config");
             int nextId = root.ToIntNullable("NextTaskId") ?? throw new FormatException($"can't convert id.  data-config, NextTaskId");
@@ -50,15 +50,45 @@ static public class DalTest
 
                 string _description = "This is the description for task " + var_task;
 
+                int hours, mins, secs;
+                TimeSpan _duration;
+                DateTime? _startDate, _deadline;
 
-                int hours = s_random.Next(0, 72);
-                int mins = s_random.Next(0, 60);
-                int secs = s_random.Next(0, 60);
-                TimeSpan _duration = new TimeSpan(hours, mins, secs);
+                //small project
+                if (size == 0)
+                {
+                    hours = s_random.Next(1, 72);
+                    mins = s_random.Next(0, 60);
+                    secs = s_random.Next(0, 60);
+                    _duration = new TimeSpan(hours, mins, secs);
 
-                DateTime? _startDate =  previousDate + TimeSpan.FromDays(s_random.Next(3,5));     //sets projected start date less than deadline
-                previousDate = _startDate;
-                DateTime? _deadline = _startDate + _duration;            
+                    _startDate = previousDate + TimeSpan.FromDays(s_random.Next(1, 2));     //sets projected start date less than deadline
+                    previousDate = _startDate;
+                    _deadline = _startDate + _duration;
+                }
+                else if (size == 1)
+                {
+                    hours = s_random.Next(72, 168);
+                    mins = s_random.Next(0, 60);
+                    secs = s_random.Next(0, 60);
+                    _duration = new TimeSpan(hours, mins, secs);
+
+                    _startDate = previousDate + TimeSpan.FromDays(s_random.Next(3, 7));     //sets projected start date less than deadline
+                    previousDate = _startDate;
+                    _deadline = _startDate + _duration;
+                }
+                else
+                {
+                    hours = s_random.Next(600, 744);
+                    mins = s_random.Next(0, 60);
+                    secs = s_random.Next(0, 60);
+                    _duration = new TimeSpan(hours, mins, secs);
+
+                    _startDate = previousDate + TimeSpan.FromDays(s_random.Next(14, 21));     //sets projected start date less than deadline
+                    previousDate = _startDate;
+                    _deadline = _startDate + _duration;
+                }
+          
 
               // _deadline.AddDays(_deadlineAddition);               //sets deadline in the future
 
@@ -207,10 +237,31 @@ static public class DalTest
         }
 
 
-        private static void createStartAndEndDateForProject()
+        private static void createStartAndEndDateForProject(int size)
         {
-            int startDateAdd = s_random.Next(0, 7);
-            int endDateAdd = s_random.Next(29, 364); 
+            int startDateAdd=0;
+            int endDateAdd=0;
+
+            //small project
+            if (size == 0)
+            {
+                startDateAdd = s_random.Next(0, 7);
+                endDateAdd = s_random.Next(29, 35);
+            }
+            //medium project
+            else if (size == 1)
+            {
+                startDateAdd = s_random.Next(0, 7);
+                endDateAdd = s_random.Next(120, 150);
+            }
+            //large project
+            else
+            {
+                startDateAdd = s_random.Next(0, 7);
+                endDateAdd = s_random.Next(360, 364);
+            }
+
+
 
             DateTime startDate = DateTime.Now.AddDays(startDateAdd);  
             DateTime endDate = DateTime.Now.AddDays(endDateAdd+startDateAdd);
@@ -240,15 +291,15 @@ static public class DalTest
             s_dal!.Config.Reset();
         }
 
-        public static void Do()
+        public static void Do(int size)
         {
             s_dal = DalApi.Factory.Get;
             //s_dalConfig = dalConfig ?? throw new NullReferenceException("DAL cannot be null!");
 
             reset();
 
-            createStartAndEndDateForProject();
-            createTasksAndDependencies();
+            createStartAndEndDateForProject(size);
+            createTasksAndDependencies(size);
             createEngineers();
             //createDependencies();
         }
