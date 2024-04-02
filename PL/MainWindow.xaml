@@ -13,6 +13,9 @@
 
         <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Welcome to Task Tracker!" HorizontalAlignment="Center" Margin="10" FontSize="25"/>
         <Grid HorizontalAlignment="Center" Margin="0, 25, 0 ,0">
+
+            <Label Foreground="LightBlue" FontFamily="Comic Sans MS" Content="Enter the Admin password below:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,-315,0,5"/>
+            <TextBox Background="LightBlue" x:Name="adminPsswd" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,-275,0,0" Width="91" Height="20"/>
             <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="Admin Page" HorizontalAlignment="Left" VerticalAlignment="Center" Height="39" Width="91" Click="Admin_Button_Click" Margin="50,-200,0,0">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
@@ -26,6 +29,8 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+            
+            
             <Label Foreground="LightBlue" FontFamily="Comic Sans MS" Content="Enter engineer ID below:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="350,-315,0,5"/>
             <TextBox Background="LightBlue" x:Name="engineerID" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="375,-275,0,0" Width="91" Height="20"/>
             <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="Engineer Page" HorizontalAlignment="Left" Margin="375,-200,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Engineer_Button_Click">

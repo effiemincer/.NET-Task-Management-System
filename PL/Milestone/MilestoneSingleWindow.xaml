@@ -43,7 +43,7 @@
                 <!-- DatePicker for displaying DateCreated -->
 
                 <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Status:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <ComboBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="Status_ComboBox" SelectionChanged="cbMilestoneStatus_SelectionChanged" SelectedValue="{Binding Path=Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Left" IsEditable="True" SelectedIndex="5" Width="225">
+                <ComboBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="Status_ComboBox" SelectionChanged="cbMilestoneStatus_SelectionChanged" SelectedValue="{Binding Path=Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Left" IsEditable="False" SelectedIndex="5" Width="225" IsEnabled="False">
                     <ComboBox.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightBlue" />
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="LightBlue" />
@@ -53,7 +53,7 @@
                 <!-- ComboBox for selecting Status -->
 
                 <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Projected Start Date:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" Text="{Binding Path=ProjectedStartDate, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
+                <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="{Binding Path=ProjectedStartDate, Mode=OneTime, StringFormat='dd/MM/yy'}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
                 <!-- DatePicker for displaying ProjectedStartDate -->
 
                 <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Deadline:" VerticalAlignment="Center" HorizontalAlignment="Left"/>

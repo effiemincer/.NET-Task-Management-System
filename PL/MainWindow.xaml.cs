@@ -19,7 +19,6 @@ namespace PL;
 public partial class MainWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Static reference to the business logic layer.
-    private bool dataInitialized = false; // Flag to track if data is initialized.
 
     // Dependency property for binding the current time.
     public static readonly DependencyProperty TimeProperty =
@@ -50,6 +49,11 @@ public partial class MainWindow : Window
     /// <param name="e"></param>
     private void Admin_Button_Click(object sender, RoutedEventArgs e)
     {
+        if (adminPsswd.Text != "admin")
+        {
+            MessageBox.Show("Incorrect password", "WrongPassword", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
         // Opens the ProjectDatesWindow if project start and end dates are not set.
         if (s_bl.Config.GetProjectStartDate() is null || s_bl.Config.GetProjectEndDate() is null)
         {
