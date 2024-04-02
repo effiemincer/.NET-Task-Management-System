@@ -31,11 +31,11 @@
                 <!-- Textbox for displaying Id, one-time binding and disabled for editing -->
 
                 <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Alias:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="_alias" Text="{Binding Path=Alias, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="_alias" Text="{Binding Path=Alias, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
                 <!-- Textbox for displaying Alias -->
 
                 <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="_description" Text="{Binding Path=Description, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="_description" Text="{Binding Path=Description, Mode=TwoWay}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
                 <!-- Textbox for displaying Description -->
 
                 <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Date Created:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
@@ -43,7 +43,7 @@
                 <!-- DatePicker for displaying DateCreated -->
 
                 <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Status:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <ComboBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="Status_ComboBox" SelectionChanged="cbMilestoneStatus_SelectionChanged" SelectedValue="{Binding Path=Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Left" IsEditable="False" SelectedIndex="5" Width="225" IsEnabled="False">
+                <ComboBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="Status_ComboBox" SelectedValue="{Binding Path=Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Left" IsEditable="False" SelectedIndex="5" Width="225" IsEnabled="False">
                     <ComboBox.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightBlue" />
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="LightBlue" />
@@ -69,7 +69,7 @@
                 <!-- Textbox for displaying CompletionPercentage -->
 
                 <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Remarks:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="_remarks" Text="{Binding Path=Remarks, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
+                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="_remarks" Text="{Binding Path=Remarks, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5"/>
                 <!-- Textbox for displaying Remarks -->
 
                 <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Tasks that this milestone depends on:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,-45"/>

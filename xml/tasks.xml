@@ -340,7 +340,7 @@
     <Id>8021</Id>
     <Alias>m2</Alias>
     <DateCreated>2024-04-02T23:16:31.453446+03:00</DateCreated>
-    <Description />
+    <Description>test</Description>
     <Duration>P3DT15H22M8S</Duration>
     <Deadline>2024-04-23T14:39:00.3465116+03:00</Deadline>
     <ProjectedStartDate>2024-04-19T23:16:52.3465116+03:00</ProjectedStartDate>
@@ -350,6 +350,7 @@
     <IsMilestone>true</IsMilestone>
     <ActualStartDate xsi:nil="true" />
     <Deliverable>false</Deliverable>
+    <Notes />
     <Inactive>false</Inactive>
   </Task>
   <Task>
@@ -370,9 +371,9 @@
   </Task>
   <Task>
     <Id>8023</Id>
-    <Alias>m4</Alias>
+    <Alias>The fourth milestone</Alias>
     <DateCreated>2024-04-02T23:16:31.453446+03:00</DateCreated>
-    <Description />
+    <Description>test</Description>
     <Duration>P9DT19H56M9S</Duration>
     <Deadline>2024-05-03T19:13:01.3465116+03:00</Deadline>
     <ProjectedStartDate>2024-04-23T23:16:52.3465116+03:00</ProjectedStartDate>
@@ -382,6 +383,7 @@
     <IsMilestone>true</IsMilestone>
     <ActualStartDate xsi:nil="true" />
     <Deliverable>false</Deliverable>
+    <Notes>test</Notes>
     <Inactive>false</Inactive>
   </Task>
   <Task>
