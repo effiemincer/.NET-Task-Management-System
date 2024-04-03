@@ -362,6 +362,7 @@ public partial class TaskWindow : Window
             }
 
             s_bl.Task.assignEng(int.Parse(assignEngID.Text), CurrentTask.Id);
+            MessageBox.Show("Engineer assigned successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             assignEngID.Text = "";
         }
         catch (Exception ex)

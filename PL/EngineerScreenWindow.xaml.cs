@@ -101,6 +101,7 @@ public partial class EngineerScreenWindow : Window
         {
             s_bl.Task.finishTask(CurrentEng.Id, (int)CurrentEng.Task.Id);
             CurrentEng.Task = null;
+            MessageBox.Show("Task completed!! :D", "TaskDone", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

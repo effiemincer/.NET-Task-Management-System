@@ -46,6 +46,14 @@ public partial class EngineerWindow : Window
         InitializeComponent();
         CurrentEngineer = CurrentEngineer_; // Sets the current engineer.
         isAdd = isAdd_; // Sets the flag to indicate if it's adding or updating.
+        if (isAdd)
+        {
+            _Id.IsEnabled = true;
+        }
+        else
+        {
+            _Id.IsEnabled = false;
+        }
     }
 
     /// <summary>
@@ -78,13 +86,25 @@ public partial class EngineerWindow : Window
         // Checks if adding or updating an engineer.
         if (isAdd)
         {
-            // Calls the business logic layer to create the current engineer.
-            s_bl?.Engineer.Create(CurrentEngineer);
+            try
+            {
+                BO.Engineer newEng = new BO.Engineer { Id = int.Parse(_Id.Text), Name = _name.Text, EmailAddress = _email.Text, ExperienceLevel = (BO.Enums.EngineerExperience?)Status_ComboBox.SelectedValue, CostPerHour = int.Parse(_cost.Text), Task = null };
+
+                // Calls the business logic layer to create the current engineer.
+                s_bl?.Engineer.Create(newEng);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
         }
 
         //update engineer
         else
         {
+
             try
             {
                 if (_task.Text == "")

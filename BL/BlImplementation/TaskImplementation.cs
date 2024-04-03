@@ -105,7 +105,7 @@ namespace BlImplementation
                     boTask.Remarks
                 );
 
-                int idTask = _dal.Task.Create(doTask);
+                
 
                 // Check and create dependencies if any
                 if (boTask.Dependencies is not null && boTask.Dependencies.Count() > 0)
@@ -123,12 +123,14 @@ namespace BlImplementation
                     {
                         DO.Dependency doDep = new DO.Dependency
                         {
-                            DependentTaskId = idTask,
+                            DependentTaskId = doTask.Id,
                             RequisiteID = dep.Id
                         };
                         _dal.Dependency.Create(doDep);
                     }
                 }
+
+                int idTask = _dal.Task.Create(doTask);
                 return idTask;
             }
             catch (DO.DalAlreadyExistsException ex)
