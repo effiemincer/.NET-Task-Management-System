@@ -74,7 +74,7 @@ public partial class EngineerScreenWindow : Window
         }
         else
         {
-            new TaskWindow(s_bl!.Task.Read((int)CurrentEng.Task!.Id!)!).ShowDialog();
+            new TaskWindow(s_bl!.Task.Read((int)CurrentEng.Task!.Id!)!, engineerPage: true).ShowDialog();
         }
        
     }
@@ -88,5 +88,19 @@ public partial class EngineerScreenWindow : Window
     {
         new MainWindow().Show();
         Close();
+    }
+
+    private void Finish_Task_Click(object sender, RoutedEventArgs e)
+    {
+        // Opens the TaskWindow for a specific task 
+        if (CurrentEng.Task is null)
+        {
+            MessageBox.Show(CurrentEng.Name + " does not have any currently assigned Tasks.", "EngNoTask", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        else
+        {
+            s_bl.Task.finishTask(CurrentEng.Id, (int)CurrentEng.Task.Id);
+            CurrentEng.Task = null;
+        }
     }
 }

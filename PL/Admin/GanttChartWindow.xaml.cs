@@ -578,11 +578,14 @@ public partial class GanttChartWindow : Window
         int totalDays = 0;
         int numberOfWeeks = 0;
 
+        int daysInCurrentWeek = 7 - (int)startDate.DayOfWeek; // Days remaining in the current week
+        int daysToAdd = Math.Min(numOfDays - totalDays, daysInCurrentWeek); // Days to add in the current week
+        totalDays += daysToAdd; // Add days to the total
+        numberOfWeeks++; // Increment the number of weeks
+
         while (totalDays < numOfDays)
         {
-            int daysInCurrentWeek = 7 - (int)startDate.DayOfWeek; // Days remaining in the current week
-            int daysToAdd = Math.Min(numOfDays - totalDays, daysInCurrentWeek); // Days to add in the current week
-            totalDays += daysToAdd; // Add days to the total
+            totalDays += 7; // Add days to the total
             numberOfWeeks++; // Increment the number of weeks
         }
 

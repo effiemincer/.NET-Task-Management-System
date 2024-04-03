@@ -421,5 +421,16 @@ namespace BlImplementation
 
             return res;
         }
+
+        public void finishTask(int engID, int taskId)
+        {
+            BO.Task task = Read(taskId);
+
+            task.Engineer = null;
+            task.Status = Enums.Status.Done;
+            task.ActualEndDate = DateTime.Now;
+
+            Update(task);
+        }
     }
 }

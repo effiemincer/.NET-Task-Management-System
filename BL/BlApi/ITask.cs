@@ -51,4 +51,6 @@ public interface ITask
 
     public List<int> findDependants(int id);
 
+    public void finishTask(int engID, int taskId);
+
 }
