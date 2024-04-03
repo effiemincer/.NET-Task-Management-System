@@ -5,6 +5,6 @@
 * ToStringProperty - 1 point
 * Saving Project Clock - 1 Point
 * Milestone schedule building - 6 points
-* InJeporady automatic seetting - 1 point
+* InJeporady automatic setting - 1 point
 * logical deletion flag - 1 point
 * Graphics Shape 1 point
