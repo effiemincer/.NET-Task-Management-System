@@ -70,6 +70,7 @@ public partial class TaskWindow : Window
         if (isAdd)
         {
             deleteBtn.Visibility = Visibility.Collapsed;
+            assignBtn.Visibility = Visibility.Collapsed;
             _dateCreated.Text = DateTime.Now.ToString("dd/MM/yyyy");
             if (scheduleCreated is null || !(bool)scheduleCreated)
             {
