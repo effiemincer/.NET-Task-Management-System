@@ -37,6 +37,19 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="Finish Task" HorizontalAlignment="Left" Margin="473,300,0,0" VerticalAlignment="Top" Height="61" Width="109" Click="Finish_Task_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+    BorderBrush="{TemplateBinding BorderBrush}" 
+    BorderThickness="{TemplateBinding BorderThickness}"
+    CornerRadius="10">
+                        <!-- This specifies the roundness -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
         <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="Back" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="27" Width="55" Click="Back_Button_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -50,6 +63,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+        
 
     </Grid>
 </Window>

@@ -41,4 +41,6 @@ public interface IEngineer
     /// </summary>
     /// <param name="id"></param>
     public void Delete(int id);
+
+    public bool isEngineer(int id);
 }

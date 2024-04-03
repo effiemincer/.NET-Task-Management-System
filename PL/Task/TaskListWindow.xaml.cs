@@ -129,7 +129,7 @@ public partial class TaskListWindow : Window
         BO.TaskInList? taskInList = (sender as ListView)?.SelectedItem as BO.TaskInList;
         if (taskInList is null)
             return;
-        new TaskWindow(s_bl.Task.Read(taskInList.Id)!, false).ShowDialog();
+        new TaskWindow(s_bl.Task.Read(taskInList.Id)!, false, engineerPage: !isAdmin).ShowDialog();
         TaskList = null;
         TaskList = s_bl?.Task.ReadAll()!;
     }

@@ -1,4 +1,5 @@
 ﻿using BO;
+using DO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,14 +48,18 @@ public partial class TaskWindow : Window
     /// </summary>
     /// <param name="task_"></param>
     /// <param name="isAdd_"></param>
-    public TaskWindow(BO.Task task_, bool isAdd_ = false)
+    public TaskWindow(BO.Task task_, bool isAdd_ = false, bool engineerPage = false)
     {
         InitializeComponent();
         CurrentTask = task_; // Initialize current task
         isAdd = isAdd_; // Initialize flag for adding a task
         isDeliverableFirstRun = task_.Deliverable; // Initialize flag for deliverable property
         _dependenciesListDisplayTextBlock.Text = DependenciesListDisplay;
-
+        if (engineerPage)
+        {
+            assignEngID.Visibility = Visibility.Collapsed;
+            assignBtn.Visibility = Visibility.Collapsed;
+        }
         //allowing adding depenedencies
         if (isAdd)
         {
@@ -326,4 +331,24 @@ public partial class TaskWindow : Window
         }
     }
 
+    private void Assign_Engineer_Click(object sender, RoutedEventArgs e)
+    {
+        // Validates engineer ID input.
+        if (string.IsNullOrEmpty(assignEngID.Text))
+        {
+            MessageBox.Show("Please enter an ID", "EngNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+        if (!int.TryParse(assignEngID.Text, out _))
+        {
+            MessageBox.Show("ID must be a number", "EngNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+        if (!s_bl.Engineer.isEngineer(int.Parse(assignEngID.Text)))
+        {
+            MessageBox.Show("Engineer not found", "EngNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+    }
 }

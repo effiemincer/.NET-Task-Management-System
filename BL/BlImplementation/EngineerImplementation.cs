@@ -213,4 +213,9 @@ internal class EngineerImplementation : IEngineer
 
         return Regex.IsMatch(email, emailPattern);
     }
+
+    public bool isEngineer(int id)
+    {
+        return _dal.Engineer.ReadAll(engineer => engineer.Id == id).Count() > 1;
+    }
 }
