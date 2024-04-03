@@ -87,6 +87,38 @@ public partial class EngineerWindow : Window
         {
             try
             {
+                if (_task.Text == "")
+                {
+                    BO.Engineer engineer = s_bl?.Engineer.Read(CurrentEngineer.Id);
+                    BO.Task task1 = s_bl?.Task.Read((int)engineer!.Task!.Id);
+
+                    BO.Engineer updatedEng1 = new BO.Engineer { Id = CurrentEngineer.Id, Name = _name.Text, EmailAddress = _email.Text, ExperienceLevel = (BO.Enums.EngineerExperience?)Status_ComboBox.SelectedValue, CostPerHour = int.Parse(_cost.Text), Task = null };
+                    BO.Task updatedTask1 = new BO.Task
+                    {
+                        Id = task1!.Id,
+                        Alias = task1!.Alias,
+                        Description = task1!.Description,
+                        Deadline = task1!.Deadline,
+                        Status = task1!.Status,
+                        Engineer = null,
+                        DateCreated = task1!.DateCreated,
+                        ActualEndDate = task1!.ActualEndDate,
+                        ActualStartDate = task1!.ActualStartDate,
+                        Complexity = task1!.Complexity,
+                        Deliverable = task1!.Deliverable,
+                        Dependencies = task1!.Dependencies,
+                        Milestone = task1!.Milestone,
+                        ProjectedStartDate = task1!.ProjectedStartDate,
+                        Remarks = task1!.Remarks,
+                        RequiredEffortTime = task1!.RequiredEffortTime
+                    };
+                    // Calls the business logic layer to update the current engineer.
+                    s_bl?.Engineer.Update(updatedEng1);
+                    s_bl?.Task.Update(updatedTask1);
+                    Close();
+                    return;
+                }
+
                 BO.Task? task = s_bl?.Task.Read(int.Parse(_task.Text));
                 if (task == null)
                 {
@@ -94,59 +126,30 @@ public partial class EngineerWindow : Window
                     return;
                 }
 
-                if (_task.Text == "")
+                BO.Engineer updatedEng = new BO.Engineer { Id = CurrentEngineer.Id, Name = _name.Text, EmailAddress = _email.Text, ExperienceLevel = (BO.Enums.EngineerExperience?)Status_ComboBox.SelectedValue, CostPerHour = int.Parse(_cost.Text), Task = new BO.TaskInEngineer(task!.Id, task!.Alias) };
+                BO.Task updatedTask = new BO.Task
                 {
-
-                    BO.Engineer updatedEng = new BO.Engineer { Id = CurrentEngineer.Id, Name = _name.Text, EmailAddress = _email.Text, ExperienceLevel = (BO.Enums.EngineerExperience?)Status_ComboBox.SelectedValue, CostPerHour = int.Parse(_cost.Text), Task = null };
-                    BO.Task updatedTask = new BO.Task
-                    {
-                        Id = task!.Id,
-                        Alias = task!.Alias,
-                        Description = task!.Description,
-                        Deadline = task!.Deadline,
-                        Status = task!.Status,
-                        Engineer = null,
-                        DateCreated = task!.DateCreated,
-                        ActualEndDate = task!.ActualEndDate,
-                        ActualStartDate = task!.ActualStartDate,
-                        Complexity = task!.Complexity,
-                        Deliverable = task!.Deliverable,
-                        Dependencies = task!.Dependencies,
-                        Milestone = task!.Milestone,
-                        ProjectedStartDate = task!.ProjectedStartDate,
-                        Remarks = task!.Remarks,
-                        RequiredEffortTime = task!.RequiredEffortTime
-                    };
-                    // Calls the business logic layer to update the current engineer.
-                    s_bl?.Engineer.Update(updatedEng);
-                    s_bl?.Task.Update(updatedTask);
-                }
-                else
-                {
-                    BO.Engineer updatedEng = new BO.Engineer { Id = CurrentEngineer.Id, Name = _name.Text, EmailAddress = _email.Text, ExperienceLevel = (BO.Enums.EngineerExperience?)Status_ComboBox.SelectedValue, CostPerHour = int.Parse(_cost.Text), Task = new BO.TaskInEngineer(task!.Id, task!.Alias) };
-                    BO.Task updatedTask = new BO.Task
-                    {
-                        Id = task!.Id,
-                        Alias = task!.Alias,
-                        Description = task!.Description,
-                        Deadline = task!.Deadline,
-                        Status = task!.Status,
-                        Engineer = new BO.EngineerInTask(updatedEng.Id, updatedEng.Name),
-                        DateCreated = task!.DateCreated,
-                        ActualEndDate = task!.ActualEndDate,
-                        ActualStartDate = task!.ActualStartDate,
-                        Complexity = task!.Complexity,
-                        Deliverable = task!.Deliverable,
-                        Dependencies = task!.Dependencies,
-                        Milestone = task!.Milestone,
-                        ProjectedStartDate = task!.ProjectedStartDate,
-                        Remarks = task!.Remarks,
-                        RequiredEffortTime = task!.RequiredEffortTime
-                    };
-                    // Calls the business logic layer to update the current engineer.
-                    s_bl?.Engineer.Update(updatedEng);
-                    s_bl?.Task.Update(updatedTask);
-                }
+                    Id = task!.Id,
+                    Alias = task!.Alias,
+                    Description = task!.Description,
+                    Deadline = task!.Deadline,
+                    Status = task!.Status,
+                    Engineer = new BO.EngineerInTask(updatedEng.Id, updatedEng.Name),
+                    DateCreated = task!.DateCreated,
+                    ActualEndDate = task!.ActualEndDate,
+                    ActualStartDate = task!.ActualStartDate,
+                    Complexity = task!.Complexity,
+                    Deliverable = task!.Deliverable,
+                    Dependencies = task!.Dependencies,
+                    Milestone = task!.Milestone,
+                    ProjectedStartDate = task!.ProjectedStartDate,
+                    Remarks = task!.Remarks,
+                    RequiredEffortTime = task!.RequiredEffortTime
+                };
+                // Calls the business logic layer to update the current engineer.
+                s_bl?.Engineer.Update(updatedEng);
+                s_bl?.Task.Update(updatedTask);
+                
 
 
 
