@@ -48,6 +48,7 @@ public partial class EngineerWindow : Window
         isAdd = isAdd_; // Sets the flag to indicate if it's adding or updating.
         if (isAdd)
         {
+            deleteEngBtn.Visibility = Visibility.Collapsed;
             _Id.IsEnabled = true;
         }
         else
