@@ -20,7 +20,7 @@ internal class Program
         string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input"); //stage 3
         if (ans == "Y") //stage 3
             //DalTest.Initialization.Do(s_dal); // stage 2
-            DalTest.Initialization.Do(); // stage 4
+            DalTest.Initialization.Do(0); // stage 4
 
         string? userInput = null;
 

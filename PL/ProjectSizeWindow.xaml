@@ -1,0 +1,57 @@
+﻿<Window x:Class="PL.ProjectSizeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="ProjectSizeWindow" Height="300" Width="450"
+        Background="#181735">
+    <Grid>
+        <Label Content="Select the size of the project you want to create:" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontFamily="Comic Sans MS" FontSize="16" Foreground="LightBlue"/>
+        <Label Content="Small projects have a total duration of 1 week to 2 months." HorizontalAlignment="Center" Margin="0,50,0,0" VerticalAlignment="Top" FontFamily="Comic Sans MS" FontSize="12" Foreground="LightBlue"/>
+        <Label Content="Medium projects have a total duration of 2 to 6 months." HorizontalAlignment="Center" Margin="0,75,0,0" VerticalAlignment="Top" FontFamily="Comic Sans MS" FontSize="12" Foreground="LightBlue"/>
+        <Label Content="Large projects have a total duration of 6 months to 1 year." HorizontalAlignment="Center" Margin="0,100,0,0" VerticalAlignment="Top" FontFamily="Comic Sans MS" FontSize="12" Foreground="LightBlue"/>
+
+        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="Small Project" HorizontalAlignment="Left" Margin="30,100,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Initialize_Data_Small">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}"
+CornerRadius="10">
+                        <!-- This specifies the roundness -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="Medium Project" HorizontalAlignment="Left" Margin="175,100,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Initialize_Data_Medium">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}"
+CornerRadius="10">
+                        <!-- This specifies the roundness -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Content="Large Project" HorizontalAlignment="Left" Margin="315,100,0,0" VerticalAlignment="Center" Height="39" Width="91" Click="Initialize_Data_Large">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}"
+CornerRadius="10">
+                        <!-- This specifies the roundness -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</Window>

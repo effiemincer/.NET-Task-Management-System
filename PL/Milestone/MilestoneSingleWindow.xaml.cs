@@ -55,27 +55,6 @@ public partial class MilestoneSingleWindow : Window
         _requisitesListDisplayTextBlock.Text = RequisitesListDisplay;
     }
 
-
-    /// <summary>
-    /// Event handler for the AddMilestone button click event.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void cbMilestoneStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        return; // Placeholder, not implemented yet.
-    }
-
-    /// <summary>
-    /// Event handler for the AddMilestone button click event.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        return; // Placeholder, not implemented yet.
-    }
-
     /// <summary>
     /// Event handler for the AddMilestone button click event.
     /// </summary>

@@ -350,6 +350,7 @@
     <IsMilestone>true</IsMilestone>
     <ActualStartDate xsi:nil="true" />
     <Deliverable>false</Deliverable>
+    <Notes />
     <Inactive>false</Inactive>
   </Task>
   <Task>
@@ -382,6 +383,7 @@
     <IsMilestone>true</IsMilestone>
     <ActualStartDate xsi:nil="true" />
     <Deliverable>false</Deliverable>
+    <Notes>test</Notes>
     <Inactive>false</Inactive>
   </Task>
   <Task>

@@ -19,7 +19,6 @@ namespace PL;
 public partial class MainWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); // Static reference to the business logic layer.
-    private bool dataInitialized = false; // Flag to track if data is initialized.
 
     // Dependency property for binding the current time.
     public static readonly DependencyProperty TimeProperty =
@@ -50,6 +49,11 @@ public partial class MainWindow : Window
     /// <param name="e"></param>
     private void Admin_Button_Click(object sender, RoutedEventArgs e)
     {
+        if (adminPsswd.Text != "admin")
+        {
+            MessageBox.Show("Incorrect password", "WrongPassword", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
         // Opens the ProjectDatesWindow if project start and end dates are not set.
         if (s_bl.Config.GetProjectStartDate() is null || s_bl.Config.GetProjectEndDate() is null)
         {
@@ -117,12 +121,9 @@ public partial class MainWindow : Window
     private void Initialize_Data_Button_Click(object sender, RoutedEventArgs e)
     {
         // Initializes data if not already initialized.
-        if (!dataInitialized)
+        if (s_bl.Config.GetProjectEndDate() is null)
         {
-            DalTest.DalTest.Initialization.Do();
-            MessageBox.Show("Data initialized", "Data initialized", MessageBoxButton.OK, MessageBoxImage.Information);
-            dataInitialized = true;
-            s_bl.Milestone.Reset();
+            new ProjectSizeWindow().ShowDialog();
         }
         else
         {
@@ -145,7 +146,6 @@ public partial class MainWindow : Window
         {
             s_bl!.Config.Reset();
             s_bl.Milestone.Reset();
-            dataInitialized = false;
             MessageBox.Show("Reset complete!", "ResetSuccessful", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
