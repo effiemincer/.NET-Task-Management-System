@@ -216,6 +216,6 @@ internal class EngineerImplementation : IEngineer
 
     public bool isEngineer(int id)
     {
-        return _dal.Engineer.ReadAll(engineer => engineer.Id == id).Count() > 1;
+        return _dal.Engineer.Read(id) != null;
     }
 }

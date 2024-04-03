@@ -1,5 +1,6 @@
 ﻿using BlApi;
 using BO;
+using DO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -427,10 +428,38 @@ namespace BlImplementation
             BO.Task task = Read(taskId);
 
             task.Engineer = null;
-            task.Status = Enums.Status.Done;
+            task.Status = BO.Enums.Status.Done;
             task.ActualEndDate = DateTime.Now;
 
             Update(task);
+        }
+
+        public void assignEng(int engId, int taskId)
+        {
+            BO.Task task = Read(taskId);
+
+            DO.Task dTask = _dal.Task.Read(taskId);
+
+            if (dTask == null) throw new DalDoesNotExistException("task does not exist");
+
+            _dal.Task.Update(new DO.Task(
+                Id: dTask.Id,
+                Alias: dTask.Alias,
+                DateCreated: dTask.DateCreated,
+                Description: dTask.Description,
+                Duration: dTask.Duration,
+                Deadline: dTask.Deadline,
+                ProjectedStartDate: dTask.ProjectedStartDate,
+                DegreeOfDifficulty: dTask.DegreeOfDifficulty,
+                AssignedEngineerId: engId,
+                ActualEndDate: dTask.ActualEndDate,
+                IsMilestone: dTask.IsMilestone,
+                ActualStartDate: dTask.ActualStartDate,
+                Deliverable: dTask.Deliverable,
+                Notes: dTask.Notes,
+                Inactive: dTask.Inactive
+            ));
+
         }
     }
 }

@@ -350,5 +350,16 @@ public partial class TaskWindow : Window
             return;
         }
 
+        s_bl.Task.assignEng(int.Parse(assignEngID.Text), CurrentTask.Id);
+        assignEngID.Text = "";
+        //add success message
+    }
+
+    private void AssignEng_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            Assign_Engineer_Click(sender, e);
+        }
     }
 }

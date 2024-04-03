@@ -53,4 +53,6 @@ public interface ITask
 
     public void finishTask(int engID, int taskId);
 
+    public void assignEng(int engId, int taskId);
+
 }

@@ -110,7 +110,7 @@ CornerRadius="10">
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <TextBox x:Name="assignEngID" Grid.Row="2" Background="LightBlue" FontFamily="Comic Sans MS" Text="{}" VerticalAlignment="Bottom"  Margin="250,60,0,5" Width="100" />
+        <TextBox x:Name="assignEngID" Grid.Row="2" Background="LightBlue" FontFamily="Comic Sans MS" Text="{}" VerticalAlignment="Bottom"  Margin="250,60,0,5" Width="100" KeyDown="AssignEng_KeyDown" />
     </Grid>
 
 </Window>

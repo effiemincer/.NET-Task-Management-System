@@ -49,7 +49,7 @@ public partial class MainWindow : Window
     /// <param name="e"></param>
     private void Admin_Button_Click(object sender, RoutedEventArgs e)
     {
-        if (adminPsswd.Text != "admin")
+        if (adminPsswd.Password != "admin")
         {
             MessageBox.Show("Incorrect password", "WrongPassword", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
@@ -204,5 +204,21 @@ public partial class MainWindow : Window
     {
         s_bl.resetClock();
         CurrentTime = s_bl.Clock;
+    }
+
+    private void KeyDown_Passwd(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            Admin_Button_Click(sender, e);
+        }
+    }
+
+    private void KeyDown_EngId(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            Engineer_Button_Click(sender, e);
+        }
     }
 }
