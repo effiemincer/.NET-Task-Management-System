@@ -198,6 +198,7 @@ public partial class AdminScreenWindow : Window
             _terminate.Visibility = Visibility.Collapsed;
             s_bl.Config.Reset();
             s_bl.Config.SetIsScheduleGenerated(false);
+            ScheduleCreated = false;
             s_bl.Milestone.Reset();
             MessageBox.Show("Data was reset. You may now change project start and end dates.", "ResetSuccessful", MessageBoxButton.OK, MessageBoxImage.Information);
             new ProjectDatesWindow().ShowDialog();
