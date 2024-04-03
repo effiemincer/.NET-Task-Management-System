@@ -1,4 +1,5 @@
 ﻿using BO;
+using DalApi;
 using DO;
 using System;
 using System.Collections.Generic;
@@ -333,25 +334,41 @@ public partial class TaskWindow : Window
 
     private void Assign_Engineer_Click(object sender, RoutedEventArgs e)
     {
-        // Validates engineer ID input.
-        if (string.IsNullOrEmpty(assignEngID.Text))
+        try
         {
-            MessageBox.Show("Please enter an ID", "EngNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
-            return;
-        }
-        if (!int.TryParse(assignEngID.Text, out _))
-        {
-            MessageBox.Show("ID must be a number", "EngNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
-            return;
-        }
-        if (!s_bl.Engineer.isEngineer(int.Parse(assignEngID.Text)))
-        {
-            MessageBox.Show("Engineer not found", "EngNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
-            return;
-        }
 
-        s_bl.Task.assignEng(int.Parse(assignEngID.Text), CurrentTask.Id);
-        assignEngID.Text = "";
+            BO.Engineer engineer = s_bl.Engineer.Read(int.Parse(assignEngID.Text));
+            // Validates engineer ID input.
+            if (string.IsNullOrEmpty(assignEngID.Text))
+            {
+                MessageBox.Show("Please enter an ID", "EngNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (!int.TryParse(assignEngID.Text, out _))
+            {
+                MessageBox.Show("ID must be a number", "EngNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (!s_bl.Engineer.isEngineer(int.Parse(assignEngID.Text)))
+            {
+                MessageBox.Show("Engineer not found", "EngNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Check if Engineer is assigned to any task
+            if (engineer.Task is not null)
+            {
+                throw new Exception("Can't assign multiple tasks to an engineer");
+            }
+
+            s_bl.Task.assignEng(int.Parse(assignEngID.Text), CurrentTask.Id);
+            assignEngID.Text = "";
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Doesn't work", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
         //add success message
     }
 
