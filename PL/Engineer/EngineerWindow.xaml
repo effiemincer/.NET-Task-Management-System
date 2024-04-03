@@ -75,6 +75,20 @@ CornerRadius="10">
                 </ControlTemplate>
             </Button.Template>
         </Button>
+
+        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" Grid.Row="2" Content="Delete Engineer" HorizontalAlignment="Center" Margin="-250,10,0,0" VerticalAlignment="Top" Padding="5" Click="Delete_Engineer_Click" Height="43" Width="100" >
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}"
+CornerRadius="10">
+                        <!-- This specifies the roundness -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
         <!-- Button for adding or updating engineer -->
 
     </Grid>

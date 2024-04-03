@@ -645,13 +645,24 @@ internal class MilestoneImplementation : IMilestone
 
     public bool isStart(int id)
     {
+        InitMilestoneDict();
+
         if (!MilestoneDict.ContainsKey(id)) { return false; }
         return MilestoneDict[id].isStart;
     }
 
     public bool isEnd(int id)
     {
+        InitMilestoneDict();
+
         if (!MilestoneDict.ContainsKey(id)) { return false; }
         return MilestoneDict[id].isEnd;
+    }
+
+    public bool isMilestone(int id)
+    {
+        InitMilestoneDict();
+
+        return MilestoneDict.ContainsKey((int)id);
     }
 }

@@ -82,6 +82,12 @@ public partial class EngineerWindow : Window
             s_bl?.Engineer.Create(CurrentEngineer);
         }
 
+        else if (s_bl.Milestone.isMilestone(int.Parse(_task.Text)))
+        {
+            MessageBox.Show("Can't assign an Engineer to a milestone", "TaskNotFound", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
         //update engineer
         else
         {
@@ -161,6 +167,17 @@ public partial class EngineerWindow : Window
         }
         // Shows the EngineerListWindow and closes the current window.
         Close();
+    }
+
+    private void Delete_Engineer_Click(object sender, RoutedEventArgs e)
+    {
+        MessageBoxResult res = MessageBox.Show("Are you sure you want to delete this engineer?", "Delete Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+        // Resets all data if confirmed by the user.
+        if (res == MessageBoxResult.Yes)
+        {
+            s_bl!.Task.Delete(CurrentEngineer.Id); MessageBox.Show("Delete complete!", "DeleteSuccessful", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 
 }
