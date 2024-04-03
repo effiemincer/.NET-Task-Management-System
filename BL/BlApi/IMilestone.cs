@@ -54,4 +54,6 @@ public interface IMilestone
     public bool isEnd(int id);
 
     public bool isMilestone(int id);
+
+    public void DeleteMilestones();
 }

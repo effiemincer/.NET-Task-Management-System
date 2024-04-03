@@ -97,5 +97,10 @@ internal class EngineerImplementation : IEngineer
     {
         throw new NotImplementedException();
     }
+
+    void ICrud<Engineer>.PermanentDelete(int id)
+    {
+        throw new NotImplementedException();
+    }
 }
 

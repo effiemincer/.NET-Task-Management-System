@@ -150,7 +150,30 @@ namespace BlImplementation
             // Check if the Task is a requisite ID for some dependencies and therefore cannot be deleted
             IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dep => dep.RequisiteID == id);
             if (dependencies.Count() > 0)
-                throw new BO.BlBadInputDataException("Task with ID=" + id + " is a requisite ID for some dependencies and therefore cannot be deleted");
+            {
+                //throw new BO.BlBadInputDataException("Task with ID=" + id + " is a requisite ID for some dependencies and therefore cannot be deleted");
+
+
+                //delete dependencies with this task as the requisite ID
+                for (int i = 0; i < dependencies.Count(); i++)
+                {
+                    _dal.Dependency.Delete((int)dependencies.ElementAt(i)!.Id);
+                }
+            }
+            // Check if the Task is a requisite ID for some dependencies and therefore cannot be deleted
+            IEnumerable<DO.Dependency?> dependencies2 = _dal.Dependency.ReadAll(dep => dep.DependentTaskId == id);
+            if (dependencies2.Count() > 0)
+            {
+                //throw new BO.BlBadInputDataException("Task with ID=" + id + " is a requisite ID for some dependencies and therefore cannot be deleted");
+
+
+                //delete dependencies with this task as the requisite ID
+                for (int i = 0; i < dependencies2.Count(); i++)
+                {
+                    _dal.Dependency.Delete((int)dependencies2.ElementAt(i)!.Id);
+                }
+            }
+
 
             try
             {
@@ -371,7 +394,8 @@ namespace BlImplementation
         /// <param name="depId">ID of the dependent task</param>
         /// <param name="reqId">ID of the requisite task</param>
         /// <param name="n">Maximum depth of recursion</param>
-        /// <returns>True if a circular dependency exists, otherwise false</returns>
+        /// <returns>
+        /// if a circular dependency exists, otherwise false</returns>
         private bool IsCircularDep(int depId, int reqId, int n)
         {
             if (n == 0)

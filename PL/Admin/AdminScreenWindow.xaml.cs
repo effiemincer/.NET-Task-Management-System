@@ -139,47 +139,47 @@ public partial class AdminScreenWindow : Window
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void Generate_Schedule_Terminate_Project_Click(object sender, RoutedEventArgs e)
+    private void Generate_Schedule_Click(object sender, RoutedEventArgs e)
     {
         IEnumerable<BO.TaskInList?> taskInLists = s_bl.Task.ReadAll();
         if (taskInLists is null || s_bl.Config.GetProjectStartDate() is null || s_bl.Config.GetProjectEndDate() is null)
         {
             MessageBox.Show("You must initialize data.", "NoIsScheduleGeneratedInXML", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        else if (ScheduleCreated is null || !(bool)ScheduleCreated)
+        // Generates schedule and locks certain modifications.
+        try
         {
-            // Generates schedule and locks certain modifications.
-            try
-            {
-                s_bl.Milestone.CreateSchedule((DateTime)s_bl.Config.GetProjectStartDate()!, (DateTime)s_bl.Config.GetProjectEndDate()!);
-                ScheduleCreated = true;
-                s_bl.Config.SetIsScheduleGenerated(true);
-                _generate.Visibility = Visibility.Collapsed;
-                _terminate.Visibility = Visibility.Visible;
-                _gantt.Visibility = Visibility.Visible;
-                _milestones.Visibility = Visibility.Visible;
-
-                MessageBox.Show("Schedule has been generated.", "GenerationSuccess", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-        else
-        {
-            // Terminate program was pressed.
-            ScheduleCreated = false;
-            s_bl.Config.SetIsScheduleGenerated(false);
-            _generate.Visibility = Visibility.Visible;
-            _terminate.Visibility = Visibility.Collapsed;
-            _gantt.Visibility = Visibility.Collapsed;
-            _milestones.Visibility = Visibility.Collapsed;
-
             s_bl.Milestone.Reset();
+            s_bl.Milestone.CreateSchedule((DateTime)s_bl.Config.GetProjectStartDate()!, (DateTime)s_bl.Config.GetProjectEndDate()!);
+            ScheduleCreated = true;
+            s_bl.Config.SetIsScheduleGenerated(true);
+            _generate.Visibility = Visibility.Collapsed;
+            _terminate.Visibility = Visibility.Visible;
+            _gantt.Visibility = Visibility.Visible;
+            _milestones.Visibility = Visibility.Visible;
 
-            MessageBox.Show("Schedule has been terminated.", "TerminationSuccess", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Schedule has been generated.", "GenerationSuccess", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        
+    }
+
+    private void Terminate_Schedule_Click(object sender, RoutedEventArgs e)
+    {
+        // Terminate program was pressed.
+        ScheduleCreated = false;
+        s_bl.Config.SetIsScheduleGenerated(false);
+        _generate.Visibility = Visibility.Visible;
+        _terminate.Visibility = Visibility.Collapsed;
+        _gantt.Visibility = Visibility.Collapsed;
+        _milestones.Visibility = Visibility.Collapsed;
+
+        s_bl.Milestone.Reset();
+
+        MessageBox.Show("Schedule has been terminated.", "TerminationSuccess", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     /// <summary>

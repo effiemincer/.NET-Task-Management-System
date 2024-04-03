@@ -128,5 +128,10 @@ internal class DependencyImplementation : IDependency
     {
         throw new NotImplementedException();
     }
+
+    void ICrud<Dependency>.PermanentDelete(int id)
+    {
+        throw new NotImplementedException();
+    }
 }
 

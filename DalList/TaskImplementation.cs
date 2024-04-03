@@ -114,4 +114,16 @@ internal class TaskImplementation : ITask
     {
         throw new NotImplementedException();
     }
+
+
+    void ICrud<Task>.PermanentDelete(int id)
+    {
+        int index = DataSource.Tasks.FindIndex(t => t.Id == id);
+        if (index == -1)
+        {
+            throw new DalDoesNotExistException($"object of type Task with identifier {id} does not exist");
+        }
+
+        DataSource.Tasks.RemoveAt(index);
+    }
 }

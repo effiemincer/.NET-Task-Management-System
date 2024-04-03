@@ -199,8 +199,9 @@ public partial class EngineerWindow : Window
         // Resets all data if confirmed by the user.
         if (res == MessageBoxResult.Yes)
         {
-            s_bl!.Task.Delete(CurrentEngineer.Id); MessageBox.Show("Delete complete!", "DeleteSuccessful", MessageBoxButton.OK, MessageBoxImage.Information);
+            s_bl!.Engineer.Delete(CurrentEngineer.Id); MessageBox.Show("Delete complete!", "DeleteSuccessful", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+        Close();
     }
 
 }

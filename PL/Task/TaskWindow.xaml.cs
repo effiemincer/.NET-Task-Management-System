@@ -394,7 +394,19 @@ public partial class TaskWindow : Window
         // Resets all data if confirmed by the user.
         if (res == MessageBoxResult.Yes)
         {
-            s_bl!.Task.Delete(CurrentTask.Id); MessageBox.Show("Delete complete!", "DeleteSuccessful", MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                s_bl!.Task.Delete(CurrentTask.Id);
+                s_bl!.Milestone.DeleteMilestones();
+                MessageBox.Show("Delete complete!", "DeleteSuccessful", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "DeleteFailed", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+           
         }
+        Close();
     }
 }

@@ -165,4 +165,23 @@ internal class TaskImplementation : ITask
         // Save the updated list to XML
         XMLTools.SaveListToXMLSerializer<DO.Task>(Tasks, "tasks");
     }
+
+    void ICrud<DO.Task>.PermanentDelete(int id)
+    {
+        // Load existing tasks from XML
+        List<DO.Task> Tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>("tasks");
+
+        // Find the index of the Task to delete
+        int index = Tasks.FindIndex(t => t.Id == id);
+        if (index == -1)
+        {
+            throw new DalDoesNotExistException($"Object of type Task with identifier {id} does not exist");
+        }
+
+        // Remove the Task
+        Tasks.RemoveAt(index);
+
+        // Save the updated list to XML
+        XMLTools.SaveListToXMLSerializer<DO.Task>(Tasks, "tasks");  
+    }
 }

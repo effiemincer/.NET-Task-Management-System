@@ -78,7 +78,7 @@ internal class DependencyImplementation : IDependency
             .FirstOrDefault();
 
         // Set the Inactive attribute to true for soft deletion
-        selectedDependency?.Element("Inactive")?.SetValue(true.ToString());
+        selectedDependency?.Element("Inactive")?.SetValue("true");
 
         // Save the updated XML document
         XMLTools.SaveListToXMLElement(Dependencies, s_dependencies_xml);
@@ -214,5 +214,10 @@ internal class DependencyImplementation : IDependency
 
         // Save the updated XML document
         XMLTools.SaveListToXMLElement(Dependencies, s_dependencies_xml  );
+    }
+
+    void ICrud<Dependency>.PermanentDelete(int id)
+    {
+        throw new NotImplementedException();
     }
 }

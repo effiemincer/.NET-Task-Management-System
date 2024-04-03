@@ -64,7 +64,7 @@ CornerRadius="10">
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" x:Name="_generate" Content="Generate Schedule" HorizontalAlignment="Left" VerticalAlignment="Center" Height="54" Width="128" Click="Generate_Schedule_Terminate_Project_Click" Margin="534,0,0,0">
+        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" x:Name="_generate" Content="Generate Schedule" HorizontalAlignment="Left" VerticalAlignment="Center" Height="54" Width="128" Click="Generate_Schedule_Click" Margin="534,0,0,0">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}" 
@@ -77,7 +77,7 @@ CornerRadius="10">
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" x:Name="_terminate" Content="Terminate Schedule" HorizontalAlignment="Left" VerticalAlignment="Center" Height="54" Width="128" Click="Generate_Schedule_Terminate_Project_Click" Margin="128,0,0,0">
+        <Button Background="LightBlue" Foreground="#181735" FontFamily="Comic Sans MS" x:Name="_terminate" Content="Terminate Schedule" HorizontalAlignment="Left" VerticalAlignment="Center" Height="54" Width="128" Click="Terminate_Schedule_Click" Margin="128,0,0,0">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}" 

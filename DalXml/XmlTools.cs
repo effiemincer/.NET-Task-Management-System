@@ -85,8 +85,6 @@ public static class XMLTools
     public static List<T> LoadListFromXMLSerializer<T>(string entity) where T : class
     {
         string filePath = $"{s_xml_dir + entity}.xml";
-        //string filePath = $"{entity}.xml";
-        //string filePath = "tasks.xml";
         try
         {
             if (!File.Exists(filePath)) return new();

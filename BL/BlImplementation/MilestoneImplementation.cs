@@ -2,6 +2,7 @@
 namespace BlImplementation;
 using BlApi;
 using BO;
+using Dal;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml.Linq;
@@ -664,5 +665,16 @@ internal class MilestoneImplementation : IMilestone
         InitMilestoneDict();
 
         return MilestoneDict.ContainsKey((int)id);
+    }
+
+    public void DeleteMilestones()
+    {
+        var milestones = _dal.Task.ReadAll(task => task.IsMilestone);
+        if (milestones.Count() == 0) return;
+
+        foreach (var milestone in milestones)
+        {
+            _dal.Task.PermanentDelete(milestone!.Id);
+        }
     }
 }

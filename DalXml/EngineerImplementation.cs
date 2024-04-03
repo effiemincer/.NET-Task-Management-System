@@ -148,4 +148,9 @@ internal class EngineerImplementation : IEngineer
         // Save the updated list to XML
         XMLTools.SaveListToXMLSerializer<Engineer>(Engineers, "engineers");
     }
+
+    void ICrud<Engineer>.PermanentDelete(int id)
+    {
+        throw new NotImplementedException();
+    }
 }

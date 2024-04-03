@@ -20,6 +20,8 @@ public interface ICrud<T> where T : class
 
     void Delete(int id);
 
+    void PermanentDelete(int id); // stage 2
+
     IEnumerable<T?> ReadAll(Func<T, bool>? filter = null); // stage 2
 
     void Reset(); //erase all data values (in memory) and erase all data files (in xml)
