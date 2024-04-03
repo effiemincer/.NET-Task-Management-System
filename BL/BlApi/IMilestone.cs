@@ -52,4 +52,6 @@ public interface IMilestone
     public bool isStart(int id);
 
     public bool isEnd(int id);
+
+    public bool isMilestone(int id);
 }

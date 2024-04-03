@@ -60,10 +60,16 @@ public partial class TaskWindow : Window
         {
             assignEngID.Visibility = Visibility.Collapsed;
             assignBtn.Visibility = Visibility.Collapsed;
+            deleteBtn.Visibility = Visibility.Collapsed;
+        }
+        if (scheduleCreated == true) 
+        {
+            deleteBtn.Visibility = Visibility.Collapsed;
         }
         //allowing adding depenedencies
         if (isAdd)
         {
+            deleteBtn.Visibility = Visibility.Collapsed;
             _dateCreated.Text = DateTime.Now.ToString("dd/MM/yyyy");
             if (scheduleCreated is null || !(bool)scheduleCreated)
             {
@@ -378,6 +384,17 @@ public partial class TaskWindow : Window
         if (e.Key == Key.Enter)
         {
             Assign_Engineer_Click(sender, e);
+        }
+    }
+
+    private void Delete_Task_Click(object sender, RoutedEventArgs e)
+    {
+        MessageBoxResult res = MessageBox.Show("Are you sure you want to delete this task?", "Delete Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+        // Resets all data if confirmed by the user.
+        if (res == MessageBoxResult.Yes)
+        {
+            s_bl!.Task.Delete(CurrentTask.Id); MessageBox.Show("Delete complete!", "DeleteSuccessful", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
