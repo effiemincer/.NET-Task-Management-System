@@ -252,7 +252,7 @@ static public class DalTest
             else if (size == 1)
             {
                 startDateAdd = s_random.Next(0, 7);
-                endDateAdd = s_random.Next(120, 150);
+                endDateAdd = s_random.Next(105, 110);
             }
             //large project
             else

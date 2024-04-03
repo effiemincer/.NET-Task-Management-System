@@ -27,7 +27,7 @@
                 <!-- Grid layout for form elements -->
 
                 <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Id:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="_Id" Text="{Binding Path=Id, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged" IsEnabled="False"/>
+                <TextBox Background="LightBlue" FontFamily="Comic Sans MS" Foreground="#181735" x:Name="_Id" Text="{Binding Path=Id, Mode=OneTime}" VerticalAlignment="Bottom"  Margin="0,0,0,5" TextChanged="TextBox_TextChanged"/>
                 <!-- Text and TextBox for Engineer Id -->
 
                 <TextBlock Foreground="LightBlue" FontFamily="Comic Sans MS" Text="Name:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
